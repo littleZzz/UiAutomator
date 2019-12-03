@@ -44,17 +44,18 @@ public class Uitest extends TestCase {
                 /*随机数 进行判断 点击心或者滑动到下一个视频*/
                 if (number <= 20) {
                     // 点击设备返回按钮
-                    uiDevice.swipe(534, 802, 400, 1500, 1);
-                    Thread.sleep(20000);
+                    uiDevice.swipe(534, 802, 400, 1200, 2);
+                    Thread.sleep(2000);
                 } else if (number <= 70) {//50的几率下滑
                     // 点击设备返回按钮
-                    uiDevice.swipe(400, 1500, 534, 802, 1);
-                    Thread.sleep(35000);
+                    uiDevice.swipe(400, 1200, 534, 802, 2);
+                    Thread.sleep(5000);
                 } else {//30的几率点击心
                     UiObject uiHeart = new UiObject(new UiSelector().resourceId("com.jm.video:id/image_view"));
                     uiHeart.click();
                     Thread.sleep(5000);
                 }
+
             }
         } catch (InterruptedException e) {
             e.printStackTrace();
