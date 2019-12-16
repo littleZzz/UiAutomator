@@ -2,12 +2,12 @@ package com.littlez.uiautomator;
 
 import android.app.Instrumentation;
 import android.content.Context;
+import android.content.Intent;
+import android.text.TextUtils;
 
 import com.littlez.uiautomator.util.LogUtil;
-import com.littlez.uiautomator.util.SPUtils;
 
 import junit.framework.TestCase;
-
 
 import java.util.Random;
 
@@ -22,7 +22,11 @@ import androidx.test.uiautomator.UiSelector;
  * <p>
  * Date 2019/12/3
  */
-public class Uitest extends TestCase {
+public class WeiShitest extends TestCase {
+
+
+    /*app 名字*/
+    private String appName = "微视";
 
     //    @Test
     public void test() throws UiObjectNotFoundException {
@@ -36,49 +40,59 @@ public class Uitest extends TestCase {
         LogUtil.e("我开始运行了");
         int count = 0;
 
+
         try {
 
+            //腾讯微视完全要自己特别定制方案 因为需要每次一达到目标就进行点击
             while (true) {
 
                 LogUtil.e("我运行了" + (count++));
 
-                Thread.sleep(1500);
+                Thread.sleep(1000);
 
-//                SPUtils.get()
+                //播放按钮
+                UiObject uiPlay = new UiObject(new UiSelector().resourceId("com.tencent.weishi:id/video_player_play_button"));
+                //首页
+                UiObject uiHome = new UiObject(new UiSelector().resourceId("com.tencent.weishi:id/bottom_bar_image_icon"));
+                //心
+                UiObject uiHeart = new UiObject(new UiSelector().index(5).className("android.widget.FrameLayout"));
+                //任务中心
+                UiObject uiTaskCenter = new UiObject(new UiSelector().resourceId("com.tencent.weishi:id/top_bar"));
 
-                UiObject uiHeart = new UiObject(new UiSelector().resourceId("com.jm.video:id/image_view"));
-                UiObject uiShare = new UiObject(new UiSelector().resourceId("com.jm.video:id/share"));
 
-                UiObject uiGold = new UiObject(new UiSelector().resourceId("com.jm.video:id/constraintLayout_gold"));
-                UiObject uiBalance = new UiObject(new UiSelector().resourceId("com.jm.video:id/constraintLayout_balance"));
+                if (uiHome.exists() && uiHome.isSelected()) {//是首页
 
-                if (uiHeart.exists() && uiShare.exists()) {//是首页
+                    //微视需要手动点击收钱
+                    UiObject uiFinishNms = new UiObject(new UiSelector().index(3).className("android.widget.TextView"));
+                    if (uiFinishNms.exists() && !TextUtils.isEmpty(uiFinishNms.getText()) &&
+                            Integer.parseInt(uiFinishNms.getText().toString()) >= 1) {//已经完成了一条以上
+                        uiFinishNms.click();
+                        continue;
+                    }
+
                     Random r = new Random();
                     int number = r.nextInt(100) + 1;
                     /*随机数 进行判断 点击心或者滑动到下一个视频*/
                     if (number <= 10) {//上滑
                         uiDevice.swipe(534, 802, 400, 1200, 2);
-                    } else if (number <= 85) {//下滑
+                    } else if (number <= 95) {//下滑
                         uiDevice.swipe(400, 1200, 534, 802, 2);
                         Thread.sleep(8000);//播放 时长
-                    } else if (number <= 90) {//点击我的
-                        UiObject uiMe =
-                                new UiObject(new UiSelector().resourceId("com.jm.video:id/tv_tab_title").text("我"));
-                        uiMe.click();
                     } else {//3点击心
                         if (uiHeart.exists()) uiHeart.click();
                     }
-                } else if (uiGold.exists() && uiBalance.exists()) {//是我的界面
-                    UiObject uiHome =
-                            new UiObject(new UiSelector().resourceId("com.jm.video:id/tv_tab_title").text("首页"));
-                    uiHome.click();
+
+                } else if (uiTaskCenter.exists()) {//是任务中心
+                    
+                    uiDevice.click(550, 1155);
+
                 } else {//处理异常情况  1.0 点击重播 2.0 广告滑动一下
 
                     uiDevice.pressHome();
                     Thread.sleep(500);
                     uiDevice.pressRecentApps();
                     Thread.sleep(500);
-                    UiObject appLaunch = new UiObject(new UiSelector().text("刷宝短视频"));
+                    UiObject appLaunch = new UiObject(new UiSelector().text(appName));
                     if (appLaunch.exists()) {//没有彻底挂掉
 
                         appLaunch.click();
@@ -90,7 +104,7 @@ public class Uitest extends TestCase {
                         uiDevice.pressHome();
                         Thread.sleep(500);
                         //启动应用
-                        UiObject uiVideo = new UiObject(new UiSelector().text("刷宝短视频"));
+                        UiObject uiVideo = new UiObject(new UiSelector().text(appName));
                         if (uiVideo.exists()) {
                             uiVideo.click();
                             Thread.sleep(2000);
