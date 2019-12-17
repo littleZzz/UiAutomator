@@ -4,7 +4,6 @@ import android.app.Instrumentation;
 import android.content.Context;
 
 import com.littlez.uiautomator.util.LogUtil;
-import com.littlez.uiautomator.util.SPUtils;
 
 import junit.framework.TestCase;
 
@@ -73,32 +72,35 @@ public class Uitest extends TestCase {
                             new UiObject(new UiSelector().resourceId("com.jm.video:id/tv_tab_title").text("首页"));
                     uiHome.click();
                 } else {//处理异常情况  1.0 点击重播 2.0 广告滑动一下
-
-                    uiDevice.pressHome();
-                    Thread.sleep(500);
-                    uiDevice.pressRecentApps();
-                    Thread.sleep(500);
-                    UiObject appLaunch = new UiObject(new UiSelector().text("刷宝短视频"));
-                    if (appLaunch.exists()) {//没有彻底挂掉
-
-                        appLaunch.click();
-                        Thread.sleep(500);
-                        uiDevice.swipe(400, 1200, 534, 802, 2);
-                        Thread.sleep(1000);
-
-                    } else {//彻底挂掉了  重启
+                    UiObject uiPrivacy = new UiObject(new UiSelector().resourceId("com.jm.video:id/btn_privacy_action"));
+                    if (uiPrivacy.exists()) {//用户协议
+                        uiPrivacy.click();
+                    } else {
                         uiDevice.pressHome();
                         Thread.sleep(500);
-                        //启动应用
-                        UiObject uiVideo = new UiObject(new UiSelector().text("刷宝短视频"));
-                        if (uiVideo.exists()) {
-                            uiVideo.click();
-                            Thread.sleep(2000);
+                        uiDevice.pressRecentApps();
+                        Thread.sleep(500);
+                        UiObject appLaunch = new UiObject(new UiSelector().text("刷宝短视频"));
+                        if (appLaunch.exists()) {//没有彻底挂掉
+
+                            appLaunch.click();
+                            Thread.sleep(500);
+                            uiDevice.swipe(400, 1200, 534, 802, 2);
+                            Thread.sleep(1000);
+
+                        } else {//彻底挂掉了  重启
+                            uiDevice.pressHome();
+                            Thread.sleep(500);
+                            //启动应用
+                            UiObject uiVideo = new UiObject(new UiSelector().text("刷宝短视频"));
+                            if (uiVideo.exists()) {
+                                uiVideo.click();
+                                Thread.sleep(2000);
+                            }
                         }
                     }
 
                 }
-
 
             }
 

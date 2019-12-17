@@ -1,34 +1,60 @@
 package com.littlez.uiautomator;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Context;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Toast;
 
+import com.chad.library.adapter.base.BaseQuickAdapter;
+import com.littlez.uiautomator.adapter.VideosAdapter;
 import com.littlez.uiautomator.util.ExeCommand;
 import com.littlez.uiautomator.util.LogUtil;
+
+import java.util.ArrayList;
 
 //  https://www.testwo.com/blog/7057  这个是标准的配置文档
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
     Context mContext = this;
+    String[] datas = {"WeiShitest", "Uitest", ""};//存放的是启动的数据
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        Button btnWeishi = (Button) findViewById(R.id.btnWeishi);
-        Button btnShuaBao = (Button) findViewById(R.id.btnShuaBao);
+        RecyclerView recyclerView = (RecyclerView) findViewById(R.id.recycleView);
         Button btnStop = (Button) findViewById(R.id.btnStop);
 
-        btnWeishi.setOnClickListener(this);
-        btnShuaBao.setOnClickListener(this);
-        btnStop.setOnClickListener(this);
+        recyclerView.setLayoutManager(new LinearLayoutManager(mContext, RecyclerView.VERTICAL, false));
+        ArrayList<String> strings = new ArrayList<>();
+        strings.add("微视");
+        strings.add("刷宝短视频");
+        strings.add("快手短视频极速版本");
+        VideosAdapter adapter = new VideosAdapter(R.layout.adapter_videos_item, strings);
+        adapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
+                LogUtil.e("点击");
+                if (TextUtils.isEmpty(datas[position])) {
+                    Toast.makeText(mContext, "开发中。", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                //这里面已经默认开启了线程
+                ExeCommand cmd = new ExeCommand(false);
+                cmd.run("uiautomator runtest AutoRunner.jar --nohup -c testpackage." + datas[position], 60000);
+            }
+        });
+        recyclerView.setAdapter(adapter);
 
+
+        btnStop.setOnClickListener(this);
 
     }
 
@@ -41,21 +67,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.btnWeishi:
-
-                LogUtil.e("点击");
-                //这里面已经默认开启了线程
-                new ExeCommand(false)
-                        .run("uiautomator runtest AutoRunner.jar --nohup -c testpackage.WeiShitest", 60000);
-                break;
-            case R.id.btnShuaBao:
-
-                LogUtil.e("点击");
-                //这里面已经默认开启了线程
-                new ExeCommand(false)
-                        .run("uiautomator runtest AutoRunner.jar --nohup -c testpackage.Uitest", 60000);
-
-                break;
 
             case R.id.btnStop://停止按钮
 

@@ -2,7 +2,6 @@ package com.littlez.uiautomator;
 
 import android.app.Instrumentation;
 import android.content.Context;
-import android.content.Intent;
 import android.text.TextUtils;
 
 import com.littlez.uiautomator.util.LogUtil;
@@ -19,10 +18,10 @@ import androidx.test.uiautomator.UiSelector;
 
 /**
  * created by xiaozhi
- * <p>
+ * <p>快手极速版本
  * Date 2019/12/3
  */
-public class WeiShitest extends TestCase {
+public class KuaiSJiSutest extends TestCase {
 
 
     /*app 名字*/
