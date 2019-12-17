@@ -62,12 +62,16 @@ public class WeiShitest extends TestCase {
 
                 if (uiHome.exists() && uiHome.isSelected()) {//是首页
 
-                    //微视需要手动点击收钱
-                    UiObject uiFinishNms = new UiObject(new UiSelector().index(3).className("android.widget.TextView"));
-                    if (uiFinishNms.exists() && !TextUtils.isEmpty(uiFinishNms.getText()) &&
-                            Integer.parseInt(uiFinishNms.getText().toString()) >= 1) {//已经完成了一条以上
-                        uiFinishNms.click();
-                        continue;
+                    //微视需要手动点击收钱  有问题  解析会出现问题
+                    try {
+                        UiObject uiFinishNms = new UiObject(new UiSelector().index(3).className("android.widget.TextView"));
+                        if (uiFinishNms.exists() && !TextUtils.isEmpty(uiFinishNms.getText()) &&
+                                Integer.parseInt(uiFinishNms.getText().toString()) >= 1) {//已经完成了一条以上
+                            uiFinishNms.click();
+                            continue;
+                        }
+                    } catch (Exception e) {
+                        e.printStackTrace();
                     }
 
                     Random r = new Random();
@@ -83,34 +87,44 @@ public class WeiShitest extends TestCase {
                     }
 
                 } else if (uiTaskCenter.exists()) {//是任务中心
-                    
-                    uiDevice.click(550, 1155);
+
+                    uiDevice.click(550, 1155);//设置的点击固定  的位置 TODO
 
                 } else {//处理异常情况  1.0 点击重播 2.0 广告滑动一下
+                    UiObject uiAct = new UiObject(new UiSelector().resourceId("com.tencent.weishi:id/iv_outer_activity_close"));
+                    UiObject uiCloseBtn = new UiObject(new UiSelector().resourceId("com.tencent.weishi:id/close_btn"));
 
-                    uiDevice.pressHome();
-                    Thread.sleep(500);
-                    uiDevice.pressRecentApps();
-                    Thread.sleep(500);
-                    UiObject appLaunch = new UiObject(new UiSelector().text(appName));
-                    if (appLaunch.exists()) {//没有彻底挂掉
+                    UiObject uiRootT = new UiObject(new UiSelector().resourceId("com.kingroot.kinguser:id/title").text("UiAutomator"));
+                    UiObject uiRootAllow = new UiObject(new UiSelector().resourceId("com.kingroot.kinguser:id/button_right"));
 
-                        appLaunch.click();
-                        Thread.sleep(500);
-                        uiDevice.swipe(400, 1200, 534, 802, 2);
-                        Thread.sleep(1000);
-
-                    } else {//彻底挂掉了  重启
+                    if (uiAct.exists()) {//活动
+                        uiAct.click();
+                    } else if (uiCloseBtn.exists()) {//青少年保护弹框
+                        uiCloseBtn.click();
+                    } else if (uiRootT.exists() && uiRootAllow.exists()) {//root 权限获取
+                        uiRootAllow.click();
+                    } else {//最终的强制搞一波
                         uiDevice.pressHome();
                         Thread.sleep(500);
-                        //启动应用
-                        UiObject uiVideo = new UiObject(new UiSelector().text(appName));
-                        if (uiVideo.exists()) {
-                            uiVideo.click();
-                            Thread.sleep(2000);
+                        uiDevice.pressRecentApps();
+                        Thread.sleep(500);
+                        UiObject appLaunch = new UiObject(new UiSelector().text(appName));
+                        if (appLaunch.exists()) {//没有彻底挂掉
+
+                            appLaunch.click();
+                            Thread.sleep(500);
+
+                        } else {//彻底挂掉了  重启
+                            uiDevice.pressHome();
+                            Thread.sleep(500);
+                            //启动应用
+                            UiObject uiVideo = new UiObject(new UiSelector().text(appName));
+                            if (uiVideo.exists()) {
+                                uiVideo.click();
+                                Thread.sleep(2000);
+                            }
                         }
                     }
-
                 }
 
 

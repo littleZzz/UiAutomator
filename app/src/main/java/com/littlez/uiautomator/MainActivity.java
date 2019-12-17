@@ -68,12 +68,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     String result = run.getResult();
                     if (result.contains("root")) {//有
                         int root = result.indexOf("root");
-                        String substring = result.substring(root);
+                        String substring = result.substring(root + "root".length());
                         String[] s = substring.split(" ");
                         for (int i = 0; i < s.length; i++) {
                             if (!TextUtils.isEmpty(s[i])) {
-                                new ExeCommand(true)
-                                        .run("kill " + s[i], 30000);
+                                ExeCommand run1 = new ExeCommand(true)
+                                        .run("su -c kill " + s[i], 30000);
+                                LogUtil.e("result---" + run1.getResult());
                                 break;
                             }
                         }
