@@ -47,7 +47,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         recyclerView.setLayoutManager(layoutManager);
 
         /*这里就是数据源*/
-        videos.add(new VideosBean("微视", "WeiShitest"));
+        videos.add(new VideosBean("微视", "WeiShitest"));//微视 目前是最low的
         videos.add(new VideosBean("刷宝短视频", "ShuaBaotest"));
         videos.add(new VideosBean("快手极速版", "KuaiSJiSutest"));
         videos.add(new VideosBean("火山极速版", "HuoShanJiSutest"));
@@ -109,9 +109,20 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
             case R.id.btnStartServe://启动服务
 
-                startService(new Intent(mContext, BackService.class));
+                Intent intent = new Intent(mContext, BackService.class);
+                startService(intent);
 
                 break;
         }
+    }
+
+    @Override
+    public void onBackPressed() {
+//        super.onBackPressed();
+        //实现home 效果
+        Intent i = new Intent(Intent.ACTION_MAIN);
+        i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        i.addCategory(Intent.CATEGORY_HOME);
+        startActivity(i);
     }
 }

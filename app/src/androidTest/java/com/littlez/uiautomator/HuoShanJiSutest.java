@@ -23,15 +23,14 @@ import androidx.test.uiautomator.UiSelector;
  */
 public class HuoShanJiSutest extends TestCase {
 
-
     /*app 名字*/
     private String appName = "火山极速版";
 
     //    @Test
     public void test() throws UiObjectNotFoundException {
         // 获取设备对象
-//        Instrumentation instrumentation = InstrumentationRegistry.getInstrumentation();
-        UiDevice uiDevice = UiDevice.getInstance(/*instrumentation*/);
+        Instrumentation instrumentation = InstrumentationRegistry.getInstrumentation();
+        UiDevice uiDevice = UiDevice.getInstance(instrumentation);
 //        Context context = instrumentation.getContext();  // 获取上下文
 
 //        LogUtil.e("我开始运行了");
@@ -60,6 +59,8 @@ public class HuoShanJiSutest extends TestCase {
                     if (uiHomeAward.exists()) {//还有一个抽奖页面
                         Rect bounds = uiHomeAward.getBounds();
                         uiDevice.click(bounds.right - 50, bounds.bottom + 50);
+                        Thread.sleep(5000);//播放 时长
+                        uiHome01.click();
                     } else {
                         Random r = new Random();
                         int number = r.nextInt(100) + 1;
