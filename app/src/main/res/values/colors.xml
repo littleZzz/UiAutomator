@@ -3,4 +3,8 @@
     <color name="colorPrimary">#008577</color>
     <color name="colorPrimaryDark">#00574B</color>
     <color name="colorAccent">#D81B60</color>
+
+    <color name="bg_page">#f6f6f6</color><!--左右页面的底色 背景-->
+    <color name="spilt_line">#e8e8e8</color><!-- 列表分割线 颜色色值-->
+
 </resources>

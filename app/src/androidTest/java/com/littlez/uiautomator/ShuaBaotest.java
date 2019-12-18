@@ -21,7 +21,7 @@ import androidx.test.uiautomator.UiSelector;
  * <p>
  * Date 2019/12/3
  */
-public class Uitest extends TestCase {
+public class ShuaBaotest extends TestCase {
 
     //    @Test
     public void test() throws UiObjectNotFoundException {

@@ -18,14 +18,14 @@ import androidx.test.uiautomator.UiSelector;
 
 /**
  * created by xiaozhi
- * <p>快手极速版本
+ * <p>快手极速版
  * Date 2019/12/3
  */
 public class KuaiSJiSutest extends TestCase {
 
 
     /*app 名字*/
-    private String appName = "微视";
+    private String appName = "快手极速版";
 
     //    @Test
     public void test() throws UiObjectNotFoundException {
@@ -42,36 +42,19 @@ public class KuaiSJiSutest extends TestCase {
 
         try {
 
-            //腾讯微视完全要自己特别定制方案 因为需要每次一达到目标就进行点击
             while (true) {
 
                 LogUtil.e("我运行了" + (count++));
 
                 Thread.sleep(1000);
 
-                //播放按钮
-                UiObject uiPlay = new UiObject(new UiSelector().resourceId("com.tencent.weishi:id/video_player_play_button"));
                 //首页
-                UiObject uiHome = new UiObject(new UiSelector().resourceId("com.tencent.weishi:id/bottom_bar_image_icon"));
+                UiObject uiHome = new UiObject(new UiSelector().resourceId("com.kuaishou.nebula:id/left_btn"));
                 //心
-                UiObject uiHeart = new UiObject(new UiSelector().index(5).className("android.widget.FrameLayout"));
-                //任务中心
-                UiObject uiTaskCenter = new UiObject(new UiSelector().resourceId("com.tencent.weishi:id/top_bar"));
+                UiObject uiHeart = new UiObject(new UiSelector().index(5).className("com.kuaishou.nebula:id/like_icon"));
 
 
-                if (uiHome.exists() && uiHome.isSelected()) {//是首页
-
-                    //微视需要手动点击收钱  有问题  解析会出现问题
-                    try {
-                        UiObject uiFinishNms = new UiObject(new UiSelector().index(3).className("android.widget.TextView"));
-                        if (uiFinishNms.exists() && !TextUtils.isEmpty(uiFinishNms.getText()) &&
-                                Integer.parseInt(uiFinishNms.getText()) >= 1) {//已经完成了一条以上
-                            uiFinishNms.click();
-                            continue;
-                        }
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
+                if (uiHome.exists()) {//是首页
 
                     Random r = new Random();
                     int number = r.nextInt(100) + 1;
@@ -85,23 +68,15 @@ public class KuaiSJiSutest extends TestCase {
                         if (uiHeart.exists()) uiHeart.click();
                     }
 
-                } else if (uiTaskCenter.exists()) {//是任务中心
-
-                    uiDevice.click(550, 1155);//设置的点击固定  的位置 TODO
-
                 } else {//处理异常情况  1.0 点击重播 2.0 广告滑动一下
-                    UiObject uiAct = new UiObject(new UiSelector().resourceId("com.tencent.weishi:id/iv_outer_activity_close"));
-                    UiObject uiCloseBtn = new UiObject(new UiSelector().resourceId("com.tencent.weishi:id/close_btn"));
-
                     UiObject uiRootT = new UiObject(new UiSelector().resourceId("com.kingroot.kinguser:id/title").text("UiAutomator"));
                     UiObject uiRootAllow = new UiObject(new UiSelector().resourceId("com.kingroot.kinguser:id/button_right"));
+                    UiObject uiCloseBtn = new UiObject(new UiSelector().resourceId("com.kuaishou.nebula:id/positive"));
 
-                    if (uiAct.exists()) {//活动
-                        uiAct.click();
+                    if (uiRootT.exists() && uiRootAllow.exists()) {//root 权限获取
+                        uiRootAllow.click();
                     } else if (uiCloseBtn.exists()) {//青少年保护弹框
                         uiCloseBtn.click();
-                    } else if (uiRootT.exists() && uiRootAllow.exists()) {//root 权限获取
-                        uiRootAllow.click();
                     } else {//最终的强制搞一波
                         uiDevice.pressHome();
                         Thread.sleep(500);
@@ -125,7 +100,6 @@ public class KuaiSJiSutest extends TestCase {
                         }
                     }
                 }
-
 
             }
 

@@ -39,6 +39,7 @@ public class WeiShitest extends TestCase {
 
         LogUtil.e("我开始运行了");
         int count = 0;
+        int errorCount = 0;//记录异常强制启动次数  超过5次就关闭应用
 
 
         try {
@@ -82,6 +83,7 @@ public class WeiShitest extends TestCase {
                     } else if (number <= 95) {//下滑
                         uiDevice.swipe(400, 1200, 534, 802, 2);
                         Thread.sleep(8000);//播放 时长
+                        errorCount++;//重置异常启动次数
                     } else {//3点击心
                         if (uiHeart.exists()) uiHeart.click();
                     }
@@ -104,16 +106,15 @@ public class WeiShitest extends TestCase {
                     } else if (uiRootT.exists() && uiRootAllow.exists()) {//root 权限获取
                         uiRootAllow.click();
                     } else {//最终的强制搞一波
+
                         uiDevice.pressHome();
                         Thread.sleep(500);
                         uiDevice.pressRecentApps();
                         Thread.sleep(500);
                         UiObject appLaunch = new UiObject(new UiSelector().text(appName));
                         if (appLaunch.exists()) {//没有彻底挂掉
-
                             appLaunch.click();
                             Thread.sleep(500);
-
                         } else {//彻底挂掉了  重启
                             uiDevice.pressHome();
                             Thread.sleep(500);
@@ -124,6 +125,8 @@ public class WeiShitest extends TestCase {
                                 Thread.sleep(2000);
                             }
                         }
+                        errorCount++;//增加异常启动次数
+
                     }
                 }
 

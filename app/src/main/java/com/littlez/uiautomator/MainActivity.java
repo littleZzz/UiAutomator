@@ -5,6 +5,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
@@ -13,16 +14,23 @@ import android.widget.Toast;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.littlez.uiautomator.adapter.VideosAdapter;
+import com.littlez.uiautomator.bean.VideosBean;
+import com.littlez.uiautomator.service.BackService;
 import com.littlez.uiautomator.util.ExeCommand;
 import com.littlez.uiautomator.util.LogUtil;
+import com.littlez.uiautomator.util.ToastUtils;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Set;
 
 //  https://www.testwo.com/blog/7057  这个是标准的配置文档
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
     Context mContext = this;
-    String[] datas = {"WeiShitest", "Uitest", ""};//存放的是启动的数据
+    /*各个平台对应的信息*/
+    final ArrayList<VideosBean> videos = new ArrayList<>();
+    private VideosAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,31 +38,27 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         setContentView(R.layout.activity_main);
 
         RecyclerView recyclerView = (RecyclerView) findViewById(R.id.recycleView);
+        Button btnCheck = (Button) findViewById(R.id.btnCheck);
         Button btnStop = (Button) findViewById(R.id.btnStop);
+        Button btnStartServe = (Button) findViewById(R.id.btnStartServe);
 
-        recyclerView.setLayoutManager(new LinearLayoutManager(mContext, RecyclerView.VERTICAL, false));
-        ArrayList<String> strings = new ArrayList<>();
-        strings.add("微视");
-        strings.add("刷宝短视频");
-        strings.add("快手短视频极速版本");
-        VideosAdapter adapter = new VideosAdapter(R.layout.adapter_videos_item, strings);
-        adapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
-            @Override
-            public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-                LogUtil.e("点击");
-                if (TextUtils.isEmpty(datas[position])) {
-                    Toast.makeText(mContext, "开发中。", Toast.LENGTH_SHORT).show();
-                    return;
-                }
-                //这里面已经默认开启了线程
-                ExeCommand cmd = new ExeCommand(false);
-                cmd.run("uiautomator runtest AutoRunner.jar --nohup -c testpackage." + datas[position], 60000);
-            }
-        });
+        LinearLayoutManager layoutManager =
+                new LinearLayoutManager(mContext, RecyclerView.VERTICAL, false);
+        recyclerView.setLayoutManager(layoutManager);
+
+        /*这里就是数据源*/
+        videos.add(new VideosBean("微视", "WeiShitest"));
+        videos.add(new VideosBean("刷宝短视频", "ShuaBaotest"));
+        videos.add(new VideosBean("快手极速版", "KuaiSJiSutest"));
+
+
+        adapter = new VideosAdapter(R.layout.adapter_videos_item, videos);
         recyclerView.setAdapter(adapter);
 
 
+        btnCheck.setOnClickListener(this);
         btnStop.setOnClickListener(this);
+        btnStartServe.setOnClickListener(this);
 
     }
 
@@ -69,12 +73,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         switch (v.getId()) {
 
             case R.id.btnStop://停止按钮
-
                 //通过文件来停止 和启动 uiautomator
-
                 ExeCommand run = new ExeCommand(true)
                         .run("ps | grep uiautomator", 30000);
-
                 if (!TextUtils.isEmpty(run.getResult())) {//不是空
                     String result = run.getResult();
                     if (result.contains("root")) {//有
@@ -92,7 +93,22 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     }
                 }
                 LogUtil.e("result---" + run.getResult());
+                break;
+            case R.id.btnCheck://查看选中
 
+                StringBuffer content = new StringBuffer();
+                HashMap<Integer, Boolean> checkMaps = adapter.getCheckMaps();
+
+                Set<Integer> keys = checkMaps.keySet();
+                for (Integer key : keys) {
+                    if (checkMaps.get(key)) content.append(videos.get(key).getAppName() + " ; ");
+                }
+                ToastUtils.show(TextUtils.isEmpty(content.toString()) ? "还没有选中平台" : content.toString());
+                break;
+
+            case R.id.btnStartServe://启动服务
+
+                startService(new Intent(mContext, BackService.class));
 
                 break;
         }
