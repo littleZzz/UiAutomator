@@ -31,24 +31,22 @@ public class WeiShitest extends TestCase {
     //    @Test
     public void test() throws UiObjectNotFoundException {
         // 获取设备对象
-        Instrumentation instrumentation = InstrumentationRegistry.getInstrumentation();
-        UiDevice uiDevice = UiDevice.getInstance(instrumentation);
+//        Instrumentation instrumentation = InstrumentationRegistry.getInstrumentation();
+        UiDevice uiDevice = UiDevice.getInstance(/*instrumentation*/);
 
         // 获取上下文
-        Context context = instrumentation.getContext();
+//        Context context = instrumentation.getContext();
 
-        LogUtil.e("我开始运行了");
+//        LogUtil.e("我开始运行了");
         int count = 0;
         int errorCount = 0;//记录异常强制启动次数  超过5次就关闭应用
-
 
         try {
 
             //腾讯微视完全要自己特别定制方案 因为需要每次一达到目标就进行点击
             while (true) {
 
-                LogUtil.e("我运行了" + (count++));
-
+//                LogUtil.e("我运行了" + (count++));
                 Thread.sleep(1000);
 
                 //播放按钮

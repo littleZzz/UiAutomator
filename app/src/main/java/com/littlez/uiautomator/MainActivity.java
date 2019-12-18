@@ -50,6 +50,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         videos.add(new VideosBean("微视", "WeiShitest"));
         videos.add(new VideosBean("刷宝短视频", "ShuaBaotest"));
         videos.add(new VideosBean("快手极速版", "KuaiSJiSutest"));
+        videos.add(new VideosBean("火山极速版", "HuoShanJiSutest"));
 
 
         adapter = new VideosAdapter(R.layout.adapter_videos_item, videos);

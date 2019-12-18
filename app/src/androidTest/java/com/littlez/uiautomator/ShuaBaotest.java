@@ -26,20 +26,19 @@ public class ShuaBaotest extends TestCase {
     //    @Test
     public void test() throws UiObjectNotFoundException {
         // 获取设备对象
-        Instrumentation instrumentation = InstrumentationRegistry.getInstrumentation();
-        UiDevice uiDevice = UiDevice.getInstance(instrumentation);
+//        Instrumentation instrumentation = InstrumentationRegistry.getInstrumentation();
+        UiDevice uiDevice = UiDevice.getInstance(/*instrumentation*/);
+//         获取上下文
+//        Context context = instrumentation.getContext();
 
-        // 获取上下文
-        Context context = instrumentation.getContext();
-
-        LogUtil.e("我开始运行了");
+//        LogUtil.e("我开始运行了");
         int count = 0;
 
         try {
 
             while (true) {
 
-                LogUtil.e("我运行了" + (count++));
+//                LogUtil.e("我运行了" + (count++));
 
                 Thread.sleep(1500);
 
