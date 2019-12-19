@@ -47,10 +47,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         recyclerView.setLayoutManager(layoutManager);
 
         /*这里就是数据源*/
-        videos.add(new VideosBean("微视", "WeiShitest"));//微视 目前是最low的
-        videos.add(new VideosBean("刷宝短视频", "ShuaBaotest"));
         videos.add(new VideosBean("快手极速版", "KuaiSJiSutest"));
+        videos.add(new VideosBean("刷宝短视频", "ShuaBaotest"));
         videos.add(new VideosBean("火山极速版", "HuoShanJiSutest"));
+        videos.add(new VideosBean("微视", "WeiShitest"));//微视 目前是最low的
 
 
         adapter = new VideosAdapter(R.layout.adapter_videos_item, videos);
@@ -113,6 +113,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 startService(intent);
 
                 break;
+                
         }
     }
 

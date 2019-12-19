@@ -3,6 +3,8 @@
     package="com.littlez.uiautomator">
     <!--    android:sharedUserId="android.uid.shell"-->
 
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+
     <application
         android:name=".base.MyApplication"
         android:allowBackup="true"
@@ -20,7 +22,9 @@
             </intent-filter>
         </activity>
 
-        <service android:name=".service.BackService" />
+        <service
+            android:name=".service.BackService"
+            android:priority="1000" />
 
     </application>
 

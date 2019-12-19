@@ -31,8 +31,8 @@ public class WeiShitest extends TestCase {
     //    @Test
     public void test() throws UiObjectNotFoundException {
         // 获取设备对象
-//        Instrumentation instrumentation = InstrumentationRegistry.getInstrumentation();
-        UiDevice uiDevice = UiDevice.getInstance(/*instrumentation*/);
+        Instrumentation instrumentation = InstrumentationRegistry.getInstrumentation();
+        UiDevice uiDevice = UiDevice.getInstance(instrumentation);
 
         // 获取上下文
 //        Context context = instrumentation.getContext();
