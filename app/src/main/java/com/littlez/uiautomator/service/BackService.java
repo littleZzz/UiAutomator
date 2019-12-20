@@ -9,6 +9,7 @@ import android.content.Intent;
 import android.graphics.BitmapFactory;
 import android.os.Build;
 import android.os.IBinder;
+import android.provider.Settings;
 
 import com.littlez.uiautomator.MainActivity;
 import com.littlez.uiautomator.R;
@@ -37,12 +38,13 @@ public class BackService extends Service {
         super.onCreate();
         LogUtil.e("BackService  onCreate");
         initNotifyication();//初始化前台通知 创建前台服务
+        final int[] count = {0};
         thread = new Thread(new Runnable() {
             @Override
             public void run() {
                 while (true) {
                     try {
-                        LogUtil.e("我运行着呢 不要费");
+                        LogUtil.e("我运行着呢 不要费" + count[0]++);
                         Thread.sleep(5000);
                     } catch (InterruptedException e) {
                         e.printStackTrace();
@@ -100,9 +102,9 @@ public class BackService extends Service {
             builder.setContentIntent(PendingIntent.getActivity(this, 0, nfIntent, 0)) // 设置PendingIntent
                     .setLargeIcon(BitmapFactory.decodeResource(this.getResources(),
                             R.mipmap.ic_launcher)) // 设置下拉列表中的图标(大图标)
-                    .setContentTitle("下拉列表中的Title") // 设置下拉列表里的标题
+                    .setContentTitle("UIautomator") // 设置下拉列表里的标题
                     .setSmallIcon(R.mipmap.ic_launcher) // 设置状态栏内的小图标
-                    .setContentText("要显示的内容") // 设置上下文内容
+                    .setContentText("来吧 我看你能运行多久") // 设置上下文内容
                     .setWhen(System.currentTimeMillis()); // 设置该通知发生的时间
 
             Notification notification = builder.build(); // 获取构建好的Notification
