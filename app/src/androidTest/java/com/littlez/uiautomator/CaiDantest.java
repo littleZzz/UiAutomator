@@ -1,11 +1,7 @@
 package com.littlez.uiautomator;
 
 import android.app.Instrumentation;
-import android.content.Context;
-import android.content.Intent;
 import android.text.TextUtils;
-
-import com.littlez.uiautomator.util.LogUtil;
 
 import junit.framework.TestCase;
 
@@ -19,14 +15,14 @@ import androidx.test.uiautomator.UiSelector;
 
 /**
  * created by xiaozhi
- * <p>
+ * <p>彩蛋视频 测试用例
  * Date 2019/12/3
  */
-public class WeiShitest extends TestCase {
+public class CaiDantest extends TestCase {
 
 
     /*app 名字*/
-    private String appName = "微视";
+    private String appName = "彩蛋视频";
 
     //    @Test
     public void test() throws UiObjectNotFoundException {
@@ -49,29 +45,13 @@ public class WeiShitest extends TestCase {
 //                LogUtil.e("我运行了" + (count++));
                 Thread.sleep(1000);
 
-                //播放按钮
-                UiObject uiPlay = new UiObject(new UiSelector().resourceId("com.tencent.weishi:id/video_player_play_button"));
                 //首页
-                UiObject uiHome = new UiObject(new UiSelector().resourceId("com.tencent.weishi:id/bottom_bar_image_icon"));
+                UiObject uiHome = new UiObject(new UiSelector().resourceId("com.jifen.dandan:id/view_home_top_shadow"));
                 //心
-                UiObject uiHeart = new UiObject(new UiSelector().index(5).className("android.widget.FrameLayout"));
-                //任务中心
-                UiObject uiTaskCenter = new UiObject(new UiSelector().resourceId("com.tencent.weishi:id/top_bar"));
+                UiObject uiHeart = new UiObject(new UiSelector().resourceId("com.jifen.dandan:id/iv_like_icon"));
 
 
-                if (uiHome.exists() && uiHome.isSelected()) {//是首页
-
-                    //微视需要手动点击收钱  有问题  解析会出现问题
-                    try {
-                        UiObject uiFinishNms = new UiObject(new UiSelector().index(3).className("android.widget.TextView"));
-                        if (uiFinishNms.exists() && !TextUtils.isEmpty(uiFinishNms.getText()) &&
-                                Integer.parseInt(uiFinishNms.getText()) >= 1) {//已经完成了一条以上
-                            uiFinishNms.click();
-                            continue;
-                        }
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
+                if (uiHome.exists()) {//是首页
 
                     Random r = new Random();
                     int number = r.nextInt(100) + 1;
@@ -86,21 +66,23 @@ public class WeiShitest extends TestCase {
                         if (uiHeart.exists()) uiHeart.click();
                     }
 
-                } else if (uiTaskCenter.exists()) {//是任务中心
-
-                    uiDevice.click(550, 1155);//设置的点击固定  的位置
-
                 } else {//处理异常情况  1.0 点击重播 2.0 广告滑动一下
-                    UiObject uiAct = new UiObject(new UiSelector().resourceId("com.tencent.weishi:id/iv_outer_activity_close"));
-                    UiObject uiCloseBtn = new UiObject(new UiSelector().resourceId("com.tencent.weishi:id/close_btn"));
+                    UiObject uiDialogClose = new UiObject(new UiSelector().resourceId("com.jifen.dandan:id/iv_close"));
+                    UiObject uiDialogClose02 = new UiObject(new UiSelector().resourceId("com.jifen.dandan:id/close_bottom_button"));
+                    UiObject uiCloseBtn = new UiObject(new UiSelector().resourceId(""));
+                    UiObject uiWebView = new UiObject(new UiSelector().resourceId("com.jifen.dandan:id/q_web_view"));
 
                     UiObject uiRootT = new UiObject(new UiSelector().resourceId("com.kingroot.kinguser:id/title").text("UiAutomator"));
                     UiObject uiRootAllow = new UiObject(new UiSelector().resourceId("com.kingroot.kinguser:id/button_right"));
 
-                    if (uiAct.exists()) {//活动
-                        uiAct.click();
+                    if (uiDialogClose.exists()) {//弹框（邀请好友）
+                        uiDialogClose.click();
+                    } else if (uiDialogClose02.exists()) {
+                        uiDialogClose02.click();
                     } else if (uiCloseBtn.exists()) {//青少年保护弹框
                         uiCloseBtn.click();
+                    } else if (uiWebView.exists()) {//个人中心 webView 控件
+                        uiDevice.pressBack();
                     } else if (uiRootT.exists() && uiRootAllow.exists()) {//root 权限获取
                         uiRootAllow.click();
                     } else {//最终的强制搞一波

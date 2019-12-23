@@ -9,7 +9,6 @@ import android.content.Intent;
 import android.graphics.BitmapFactory;
 import android.os.Build;
 import android.os.IBinder;
-import android.provider.Settings;
 
 import com.littlez.uiautomator.MainActivity;
 import com.littlez.uiautomator.R;
@@ -60,8 +59,10 @@ public class BackService extends Service {
     public int onStartCommand(Intent intent, int flags, int startId) {
         LogUtil.e("BackService  onStartCommand");
 
-        if (!thread.isAlive()) thread.start();
+        String string = intent.getBundleExtra("bundle").getString("datas");
+        LogUtil.e("string----->" + string);
 
+        if (!thread.isAlive()) thread.start();
 
         return super.onStartCommand(intent, flags, startId);
     }

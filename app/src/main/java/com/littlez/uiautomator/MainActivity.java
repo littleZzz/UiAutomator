@@ -49,9 +49,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         /*这里就是数据源*/
         videos.add(new VideosBean("快手极速版", "KuaiSJiSutest"));
         videos.add(new VideosBean("刷宝短视频", "ShuaBaotest"));
-        videos.add(new VideosBean("抖音极速版", "DouYinJiSutest"));
+        videos.add(new VideosBean("彩蛋视频", "CaiDantest"));
         videos.add(new VideosBean("火山极速版", "HuoShanJiSutest"));//火山也是low的一匹
         videos.add(new VideosBean("微视", "WeiShitest"));//微视 目前是最low的
+        videos.add(new VideosBean("抖音极速版", "DouYinJiSutest"));//抖音是最low的而且还要支付宝提现
 
 
         adapter = new VideosAdapter(R.layout.adapter_videos_item, videos);
@@ -111,6 +112,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             case R.id.btnStartServe://启动服务
 
                 Intent intent = new Intent(mContext, BackService.class);
+                Bundle bundle = new Bundle();
+                bundle.putString("datas", "dsfak");
+                intent.putExtra("bundle", bundle);
                 startService(intent);
 
                 break;

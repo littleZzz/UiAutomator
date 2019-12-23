@@ -69,7 +69,7 @@ public class DouYinJiSutest extends TestCase {
 
                     if (uiRootT.exists() && uiRootAllow.exists()) {//root 权限获取
                         uiRootAllow.click();
-                    } else if (uiCloseBtn.exists()) {//青少年保护弹框 TODO 青少年保护 还需要自己观看一下
+                    } else if (uiCloseBtn.exists()) {//青少年保护弹框
                         uiCloseBtn.click();
                     } else if (uiDialog.exists()) {//新手收益弹框
                         uiDialog.click();

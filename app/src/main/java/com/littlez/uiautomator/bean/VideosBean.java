@@ -1,11 +1,13 @@
 package com.littlez.uiautomator.bean;
 
+import java.io.Serializable;
+
 /**
  * created by xiaozhi
  * <p>
  * Date 2019/12/18
  */
-public class VideosBean {
+public class VideosBean implements Serializable {
 
     private String appName;
     private String testClass;
@@ -29,5 +31,14 @@ public class VideosBean {
 
     public void setTestClass(String testClass) {
         this.testClass = testClass;
+    }
+
+
+    @Override
+    public String toString() {
+        return "VideosBean{" +
+                "appName='" + appName + '\'' +
+                ", testClass='" + testClass + '\'' +
+                '}';
     }
 }
