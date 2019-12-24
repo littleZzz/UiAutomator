@@ -33,6 +33,7 @@ public class ShuaBaotest extends TestCase {
 
 //        LogUtil.e("我开始运行了");
         int count = 0;
+        int errorCount = 0;//记录异常强制启动次数  超过10次就关闭应用
 
         try {
 
@@ -40,9 +41,7 @@ public class ShuaBaotest extends TestCase {
 
 //                LogUtil.e("我运行了" + (count++));
 
-                Thread.sleep(1500);
-
-//                SPUtils.get()
+                Thread.sleep(1000);
 
                 UiObject uiHeart = new UiObject(new UiSelector().resourceId("com.jm.video:id/image_view"));
                 UiObject uiShare = new UiObject(new UiSelector().resourceId("com.jm.video:id/share"));
@@ -74,7 +73,21 @@ public class ShuaBaotest extends TestCase {
                     UiObject uiPrivacy = new UiObject(new UiSelector().resourceId("com.jm.video:id/btn_privacy_action"));
                     if (uiPrivacy.exists()) {//用户协议
                         uiPrivacy.click();
-                    } else {
+                    } else {//最终的强制搞一波
+
+                        if (errorCount > 6) {//这个强制方法走了10次  出现什么异常问题了 直接关闭应用  重新启动
+                            uiDevice.pressHome();
+                            Thread.sleep(500);
+                            uiDevice.pressRecentApps();
+                            Thread.sleep(500);
+                            UiObject appClearAll =
+                                    new UiObject(new UiSelector().resourceId("com.android.systemui:id/clearButton"));
+                            if (appClearAll.exists()) {
+                                appClearAll.click();
+                                errorCount = 0;//重置失败次数
+                                Thread.sleep(500);
+                            }
+                        }
                         uiDevice.pressHome();
                         Thread.sleep(500);
                         uiDevice.pressRecentApps();
@@ -85,7 +98,7 @@ public class ShuaBaotest extends TestCase {
                             appLaunch.click();
                             Thread.sleep(500);
                             uiDevice.swipe(400, 1200, 534, 802, 2);
-                            Thread.sleep(1000);
+                            Thread.sleep(500);
 
                         } else {//彻底挂掉了  重启
                             uiDevice.pressHome();
@@ -97,6 +110,7 @@ public class ShuaBaotest extends TestCase {
                                 Thread.sleep(2000);
                             }
                         }
+                        errorCount++;//增加异常启动次数
                     }
 
                 }

@@ -11,6 +11,7 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.littlez.uiautomator.R;
 import com.littlez.uiautomator.bean.VideosBean;
+import com.littlez.uiautomator.util.CommonUtil;
 import com.littlez.uiautomator.util.ExeCommand;
 
 import java.util.HashMap;
@@ -52,10 +53,10 @@ public class VideosAdapter extends BaseQuickAdapter<VideosBean, BaseViewHolder> 
                     Toast.makeText(mContext, "开发中。", Toast.LENGTH_SHORT).show();
                     return;
                 }
+
                 //这里面已经默认开启了线程
-                ExeCommand cmd = new ExeCommand(false);
-                cmd.run("uiautomator runtest AutoRunner.jar --nohup -c testpackage."
-                        + item.getTestClass(), 30000);
+                CommonUtil.startUiautomator(item.getTestClass());
+
             }
         });
 

@@ -12,19 +12,29 @@ import android.os.IBinder;
 
 import com.littlez.uiautomator.MainActivity;
 import com.littlez.uiautomator.R;
+import com.littlez.uiautomator.bean.VideosBean;
+import com.littlez.uiautomator.util.CommonUtil;
 import com.littlez.uiautomator.util.LogUtil;
+
+import java.util.ArrayList;
 
 import androidx.annotation.Nullable;
 import androidx.core.app.NotificationCompat;
 
 /**
  * created by xiaozhi
- * <p>
+ * <p>进行后台运行uiautomator的  服务
  * Date 2019/12/16
  */
 public class BackService extends Service {
 
     private Thread thread;
+
+    private boolean isrun = true;
+    private ArrayList<VideosBean> datas;
+    private long startTime = 0L;//开始运行的时间
+    private long gapTime = 30 * 60 * 1000;//间隔的时间
+    private int startFlag = 0;//运行到第几条的flag PS：是一直自增的 所以用的时候进行%运算
 
     @Nullable
     @Override
@@ -37,17 +47,34 @@ public class BackService extends Service {
         super.onCreate();
         LogUtil.e("BackService  onCreate");
         initNotifyication();//初始化前台通知 创建前台服务
-        final int[] count = {0};
+
         thread = new Thread(new Runnable() {
             @Override
             public void run() {
-                while (true) {
+                while (isrun) {
+
                     try {
-                        LogUtil.e("我运行着呢 不要费" + count[0]++);
+
+                        long time = System.currentTimeMillis();
+                        if (startTime <= 0 || time - startTime >= gapTime) {//已经到切换的时间了
+
+                            CommonUtil.stopUiautomator();//停止当前任务
+
+                            //获取到开始那一条任务 并运行
+                            String testClass = datas.get(startFlag % datas.size()).getTestClass();
+                            CommonUtil.startUiautomator(testClass);//开始一个任务
+
+                            startFlag++;
+                            startTime = System.currentTimeMillis();//重新设置开始时间
+                        }
+
+                        LogUtil.e("运行中。。。" + datas.get((startFlag - 1) % datas.size()).getTestClass());
                         Thread.sleep(5000);
+
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
+
                 }
             }
         });
@@ -58,12 +85,13 @@ public class BackService extends Service {
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         LogUtil.e("BackService  onStartCommand");
-
-        String string = intent.getBundleExtra("bundle").getString("datas");
-        LogUtil.e("string----->" + string);
-
-        if (!thread.isAlive()) thread.start();
-
+        datas = intent.getParcelableArrayListExtra("datas");
+        gapTime = intent.getLongExtra("gapTime", gapTime);
+        LogUtil.e("datas----->" + datas.toString() + ";;;gapTime===" + (gapTime / 1000 / 60) + "分");
+        if (!thread.isAlive()) {
+            thread.start();
+            LogUtil.e("调用了 therad.start");
+        }
         return super.onStartCommand(intent, flags, startId);
     }
 

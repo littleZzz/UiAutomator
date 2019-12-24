@@ -10,12 +10,14 @@ import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.Toast;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.littlez.uiautomator.adapter.VideosAdapter;
 import com.littlez.uiautomator.bean.VideosBean;
 import com.littlez.uiautomator.service.BackService;
+import com.littlez.uiautomator.util.CommonUtil;
 import com.littlez.uiautomator.util.ExeCommand;
 import com.littlez.uiautomator.util.LogUtil;
 import com.littlez.uiautomator.util.ToastUtils;
@@ -32,13 +34,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     final ArrayList<VideosBean> videos = new ArrayList<>();
     private VideosAdapter adapter;
 
+    private EditText etSetRunTimeGap;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
         RecyclerView recyclerView = (RecyclerView) findViewById(R.id.recycleView);
-        Button btnCheck = (Button) findViewById(R.id.btnCheck);
+        etSetRunTimeGap = (EditText) findViewById(R.id.etSetRunTimeGap);
         Button btnStop = (Button) findViewById(R.id.btnStop);
         Button btnStartServe = (Button) findViewById(R.id.btnStartServe);
 
@@ -51,15 +55,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         videos.add(new VideosBean("刷宝短视频", "ShuaBaotest"));
         videos.add(new VideosBean("彩蛋视频", "CaiDantest"));
         videos.add(new VideosBean("火山极速版", "HuoShanJiSutest"));//火山也是low的一匹
-        videos.add(new VideosBean("微视", "WeiShitest"));//微视 目前是最low的
         videos.add(new VideosBean("抖音极速版", "DouYinJiSutest"));//抖音是最low的而且还要支付宝提现
+        videos.add(new VideosBean("微视", "WeiShitest"));//微视 目前是最low的
+        videos.add(new VideosBean("空数据", "yoxi"));//空数据 占位用的
+        videos.add(new VideosBean("空数据", "yoxi"));//空数据 占位用的
 
 
         adapter = new VideosAdapter(R.layout.adapter_videos_item, videos);
         recyclerView.setAdapter(adapter);
 
 
-        btnCheck.setOnClickListener(this);
         btnStop.setOnClickListener(this);
         btnStartServe.setOnClickListener(this);
 
@@ -76,47 +81,34 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         switch (v.getId()) {
 
             case R.id.btnStop://停止按钮
-                //通过文件来停止 和启动 uiautomator
-                ExeCommand run = new ExeCommand(true)
-                        .run("ps | grep uiautomator", 30000);
-                if (!TextUtils.isEmpty(run.getResult())) {//不是空
-                    String result = run.getResult();
-                    if (result.contains("root")) {//有
-                        int root = result.indexOf("root");
-                        String substring = result.substring(root + "root".length());
-                        String[] s = substring.split(" ");
-                        for (int i = 0; i < s.length; i++) {
-                            if (!TextUtils.isEmpty(s[i])) {
-                                ExeCommand run1 = new ExeCommand(true)
-                                        .run("su -c kill " + s[i], 30000);
-                                LogUtil.e("result---" + run1.getResult());
-                                break;
-                            }
-                        }
-                    }
-                }
-                LogUtil.e("result---" + run.getResult());
+
+                CommonUtil.stopUiautomator();//停止调用
+
                 break;
-            case R.id.btnCheck://查看选中
-
-                StringBuffer content = new StringBuffer();
-                HashMap<Integer, Boolean> checkMaps = adapter.getCheckMaps();
-
-                Set<Integer> keys = checkMaps.keySet();
-                for (Integer key : keys) {
-                    if (checkMaps.get(key)) content.append(videos.get(key).getAppName() + " ; ");
-                }
-                ToastUtils.show(TextUtils.isEmpty(content.toString()) ? "还没有选中平台" : content.toString());
-                break;
-
             case R.id.btnStartServe://启动服务
 
+                ArrayList<VideosBean> videosBeans = new ArrayList<>();
+
+                HashMap<Integer, Boolean> checkMaps = adapter.getCheckMaps();
+                Set<Integer> keys = checkMaps.keySet();
+                for (Integer key : keys) {
+                    if (checkMaps.get(key)) videosBeans.add(videos.get(key));
+                }
+                if (videosBeans.size() <= 0) {
+                    ToastUtils.show("还没有选中平台");
+                    return;
+                }
+                String etText = etSetRunTimeGap.getText().toString().trim();
+
                 Intent intent = new Intent(mContext, BackService.class);
-                Bundle bundle = new Bundle();
-                bundle.putString("datas", "dsfak");
-                intent.putExtra("bundle", bundle);
+                intent.putParcelableArrayListExtra("datas", videosBeans);
+                if (!TextUtils.isEmpty(etText))
+                    intent.putExtra("gapTime", Long.parseLong(etText) * 60 * 1000);
                 startService(intent);
 
+                break;
+            case R.id.btnStopServe://停止服务
+                stopService(new Intent(mContext, BackService.class));
                 break;
 
         }

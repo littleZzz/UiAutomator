@@ -81,7 +81,6 @@ public class WeiShitest extends TestCase {
                     } else if (number <= 95) {//下滑
                         uiDevice.swipe(400, 1200, 534, 802, 2);
                         Thread.sleep(8000);//播放 时长
-                        errorCount++;//重置异常启动次数
                     } else {//3点击心
                         if (uiHeart.exists()) uiHeart.click();
                     }
@@ -105,6 +104,19 @@ public class WeiShitest extends TestCase {
                         uiRootAllow.click();
                     } else {//最终的强制搞一波
 
+                        if (errorCount > 6) {//这个强制方法走了10次  出现什么异常问题了 直接关闭应用  重新启动
+                            uiDevice.pressHome();
+                            Thread.sleep(500);
+                            uiDevice.pressRecentApps();
+                            Thread.sleep(500);
+                            UiObject appClearAll =
+                                    new UiObject(new UiSelector().resourceId("com.android.systemui:id/clearButton"));
+                            if (appClearAll.exists()) {
+                                appClearAll.click();
+                                errorCount = 0;//重置失败次数
+                                Thread.sleep(500);
+                            }
+                        }
                         uiDevice.pressHome();
                         Thread.sleep(500);
                         uiDevice.pressRecentApps();

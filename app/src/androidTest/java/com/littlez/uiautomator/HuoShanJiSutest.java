@@ -35,7 +35,7 @@ public class HuoShanJiSutest extends TestCase {
 
 //        LogUtil.e("我开始运行了");
         int count = 0;
-
+        int errorCount = 0;//记录异常强制启动次数  超过10次就关闭应用
         try {
 
             while (true) {
@@ -93,6 +93,21 @@ public class HuoShanJiSutest extends TestCase {
                     } else if (uiLeftAllow.exists() && uiMyEarn.exists()) {//我的收益
                         uiLeftAllow.click();
                     } else {//最终的强制搞一波
+
+                        if (errorCount > 6) {//这个强制方法走了10次  出现什么异常问题了 直接关闭应用  重新启动
+                            uiDevice.pressHome();
+                            Thread.sleep(500);
+                            uiDevice.pressRecentApps();
+                            Thread.sleep(500);
+                            UiObject appClearAll =
+                                    new UiObject(new UiSelector().resourceId("com.android.systemui:id/clearButton"));
+                            if (appClearAll.exists()) {
+                                appClearAll.click();
+                                errorCount = 0;//重置失败次数
+                                Thread.sleep(500);
+                            }
+                        }
+
                         uiDevice.pressHome();
                         Thread.sleep(500);
                         uiDevice.pressRecentApps();
@@ -113,6 +128,7 @@ public class HuoShanJiSutest extends TestCase {
                                 Thread.sleep(2000);
                             }
                         }
+                        errorCount++;//增加异常启动次数
                     }
                 }
 
