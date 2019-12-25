@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#f6f6f6"
+    android:background="@color/bg_page"
     android:orientation="vertical"
     android:padding="10dp"
     tools:context=".MainActivity">
@@ -13,37 +13,39 @@
         android:id="@+id/recycleView"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1" />
+        android:layout_weight="1"
+        android:background="@color/white" />
 
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rvLogs"
+        android:layout_width="match_parent"
+        android:layout_height="150dp"
+        android:layout_marginTop="10dp"
+        android:background="@color/black"
+        android:paddingTop="5dp"
+        android:paddingBottom="5dp" />
 
+    <!--功能栏-->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
         android:gravity="center"
-        android:orientation="vertical"
-        android:paddingTop="5dp">
+        android:orientation="vertical">
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
-            <EditText
-                android:id="@+id/etSetRunTimeGap"
-                android:layout_width="wrap_content"
-                android:layout_height="30dp"
-                android:background="@color/bg_page"
-                android:hint="运行时间编辑 单位是分钟"
-                android:inputType="number"
-                android:textSize="12sp" />
-
-        </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
             android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/btnStartServe"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_gravity="center_horizontal"
+                android:text="启动服务" />
 
             <Button
                 android:id="@+id/btnStop"
@@ -53,13 +55,6 @@
                 android:layout_weight="1"
                 android:text="停止" />
 
-
-            <Button
-                android:id="@+id/btnStartServe"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_gravity="center_horizontal"
-                android:text="启动服务" />
 
             <Button
                 android:id="@+id/btnStopServe"

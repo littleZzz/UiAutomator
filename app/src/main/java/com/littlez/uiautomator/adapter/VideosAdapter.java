@@ -1,9 +1,12 @@
 package com.littlez.uiautomator.adapter;
 
+import android.text.Editable;
 import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -43,9 +46,33 @@ public class VideosAdapter extends BaseQuickAdapter<VideosBean, BaseViewHolder> 
         final CheckBox checkbox = (CheckBox) helper.getView(R.id.checkbox);
 
         TextView tvName = (TextView) helper.getView(R.id.tvName);
+        final EditText etSetRunTimeGap = (EditText) helper.getView(R.id.etSetRunTimeGap);
         Button btnStart = (Button) helper.getView(R.id.btnStart);
 
         tvName.setText(item.getAppName());
+        etSetRunTimeGap.setText("".concat((item.getGapTime() / 1000 / 60) + ""));
+        etSetRunTimeGap.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if (TextUtils.isEmpty(s)) {//为空
+                    etSetRunTimeGap.setText("0");
+                    item.setGapTime(0);
+                } else {
+                    int time = Integer.parseInt(s.toString().trim());
+                    item.setGapTime(time * 60 * 1000);//注意 这里需要变换为毫秒值
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
         btnStart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

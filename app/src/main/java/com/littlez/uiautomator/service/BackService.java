@@ -33,7 +33,7 @@ public class BackService extends Service {
     private boolean isrun = true;
     private ArrayList<VideosBean> datas;
     private long startTime = 0L;//开始运行的时间
-    private long gapTime = 30 * 60 * 1000;//间隔的时间
+    private long gapTime = 30 * 60 * 1000;//间隔的时间 默认半小时
     private int startFlag = 0;//运行到第几条的flag PS：是一直自增的 所以用的时候进行%运算
 
     @Nullable
@@ -62,13 +62,15 @@ public class BackService extends Service {
 
                             //获取到开始那一条任务 并运行
                             String testClass = datas.get(startFlag % datas.size()).getTestClass();
+                            gapTime = datas.get(startFlag % datas.size()).getGapTime();
                             CommonUtil.startUiautomator(testClass);//开始一个任务
 
                             startFlag++;
                             startTime = System.currentTimeMillis();//重新设置开始时间
                         }
 
-                        LogUtil.e("运行中。。。" + datas.get((startFlag - 1) % datas.size()).getTestClass());
+                        LogUtil.e("运行中.." + datas.get((startFlag - 1) % datas.size()).getTestClass() +
+                                "; gapTime=" + (gapTime / 1000 / 60) + "分钟");
                         Thread.sleep(5000);
 
                     } catch (InterruptedException e) {
@@ -86,8 +88,7 @@ public class BackService extends Service {
     public int onStartCommand(Intent intent, int flags, int startId) {
         LogUtil.e("BackService  onStartCommand");
         datas = intent.getParcelableArrayListExtra("datas");
-        gapTime = intent.getLongExtra("gapTime", gapTime);
-        LogUtil.e("datas----->" + datas.toString() + ";;;gapTime===" + (gapTime / 1000 / 60) + "分");
+        LogUtil.e("datas----->" + datas.toString());
         if (!thread.isAlive()) {
             thread.start();
             LogUtil.e("调用了 therad.start");

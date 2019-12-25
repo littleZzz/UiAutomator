@@ -13,11 +13,13 @@ public class VideosBean implements Parcelable {
 
     private String appName;
     private String testClass;
+    private long gapTime;
 
 
-    public VideosBean(String appName, String testClass) {
+    public VideosBean(String appName, String testClass, long gapTime) {
         this.appName = appName;
         this.testClass = testClass;
+        this.gapTime = gapTime;
     }
 
 
@@ -37,24 +39,41 @@ public class VideosBean implements Parcelable {
         this.testClass = testClass;
     }
 
+    public long getGapTime() {
+        return gapTime;
+    }
+
+    public void setGapTime(long gapTime) {
+        this.gapTime = gapTime;
+    }
 
     @Override
     public String toString() {
         return "VideosBean{" +
                 "appName='" + appName + '\'' +
                 ", testClass='" + testClass + '\'' +
+                ", gapTime=" + gapTime +
                 '}';
     }
 
 
-    /**
-     * 以下是序列化使用到的东西
-     *
-     * @param in
-     */
+
     protected VideosBean(Parcel in) {
         appName = in.readString();
         testClass = in.readString();
+        gapTime = in.readLong();
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(appName);
+        dest.writeString(testClass);
+        dest.writeLong(gapTime);
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
     }
 
     public static final Creator<VideosBean> CREATOR = new Creator<VideosBean>() {
@@ -69,14 +88,4 @@ public class VideosBean implements Parcelable {
         }
     };
 
-    @Override
-    public int describeContents() {
-        return 0;
-    }
-
-    @Override
-    public void writeToParcel(Parcel dest, int flags) {
-        dest.writeString(appName);
-        dest.writeString(testClass);
-    }
 }

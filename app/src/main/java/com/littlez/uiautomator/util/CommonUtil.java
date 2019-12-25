@@ -2,6 +2,10 @@ package com.littlez.uiautomator.util;
 
 import android.text.TextUtils;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.TimeZone;
+
 /**
  * created by xiaozhi
  * <p>常用的方法都放在这里面的
@@ -49,6 +53,30 @@ public class CommonUtil {
             }
         }
         LogUtil.e("result---" + run.getResult());
+    }
+
+
+    /**
+     * 根据Date解析日期
+     *
+     * @param date
+     * @return
+     */
+    public static String parseTime(Date date, int patternFlag) {
+
+        String pattern = "";
+        if (patternFlag == 1) {
+            pattern = "MM-dd HH:mm:ss";
+        } else if (patternFlag == 2) {
+            pattern = "yyyy年MM月dd日 HH时mm分";
+        } else {
+            pattern = "yyyy-MM-dd HH:mm:ss";
+        }
+
+        SimpleDateFormat dspFmt = new SimpleDateFormat(pattern);
+        String format = dspFmt.format(date);
+
+        return format;
     }
 
 }

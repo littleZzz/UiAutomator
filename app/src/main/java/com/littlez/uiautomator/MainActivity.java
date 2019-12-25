@@ -8,19 +8,27 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.view.Gravity;
 import android.view.View;
+import android.view.ViewTreeObserver;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
+import com.littlez.uiautomator.adapter.LogsAdapter;
 import com.littlez.uiautomator.adapter.VideosAdapter;
 import com.littlez.uiautomator.bean.VideosBean;
+import com.littlez.uiautomator.bean.eventbus.EventbusBean;
 import com.littlez.uiautomator.service.BackService;
 import com.littlez.uiautomator.util.CommonUtil;
 import com.littlez.uiautomator.util.ExeCommand;
 import com.littlez.uiautomator.util.LogUtil;
 import com.littlez.uiautomator.util.ToastUtils;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -32,33 +40,48 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     Context mContext = this;
     /*各个平台对应的信息*/
     final ArrayList<VideosBean> videos = new ArrayList<>();
-    private VideosAdapter adapter;
+    ArrayList<String> logDatas = new ArrayList<>();
 
-    private EditText etSetRunTimeGap;
+    private VideosAdapter adapter;
+    private LogsAdapter logsAdapter;
+    private RecyclerView rvLogs;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        EventBus.getDefault().register(this);
+
         RecyclerView recyclerView = (RecyclerView) findViewById(R.id.recycleView);
-        etSetRunTimeGap = (EditText) findViewById(R.id.etSetRunTimeGap);
+        rvLogs = (RecyclerView) findViewById(R.id.rvLogs);
         Button btnStop = (Button) findViewById(R.id.btnStop);
         Button btnStartServe = (Button) findViewById(R.id.btnStartServe);
 
+        //设置logs adapter
+        LinearLayoutManager logslayoutManager = new LinearLayoutManager(mContext);
+        rvLogs.setLayoutManager(logslayoutManager);
+        logsAdapter = new LogsAdapter(R.layout.adapter_logs_item, logDatas);
+        rvLogs.setAdapter(logsAdapter);
+
+        //设置产品列表
         LinearLayoutManager layoutManager =
                 new LinearLayoutManager(mContext, RecyclerView.VERTICAL, false);
         recyclerView.setLayoutManager(layoutManager);
 
         /*这里就是数据源*/
-        videos.add(new VideosBean("快手极速版", "KuaiSJiSutest"));
-        videos.add(new VideosBean("刷宝短视频", "ShuaBaotest"));
-        videos.add(new VideosBean("彩蛋视频", "CaiDantest"));
-        videos.add(new VideosBean("火山极速版", "HuoShanJiSutest"));//火山也是low的一匹
-        videos.add(new VideosBean("抖音极速版", "DouYinJiSutest"));//抖音是最low的而且还要支付宝提现
-        videos.add(new VideosBean("微视", "WeiShitest"));//微视 目前是最low的
-        videos.add(new VideosBean("空数据", "yoxi"));//空数据 占位用的
-        videos.add(new VideosBean("空数据", "yoxi"));//空数据 占位用的
+        videos.add(new VideosBean("快手极速版", "KuaiSJiSutest", 60 * 60 * 1000));
+        videos.add(new VideosBean("刷宝短视频", "ShuaBaotest", 60 * 60 * 1000));
+        videos.add(new VideosBean("彩蛋视频", "CaiDantest", 60 * 60 * 1000));
+
+        //下面的数据都是写不给力的数据
+        videos.add(new VideosBean("火山极速版", "HuoShanJiSutest", 35 * 60 * 1000));
+        videos.add(new VideosBean("抖音极速版", "DouYinJiSutest", 35 * 60 * 1000));
+        videos.add(new VideosBean("微视", "WeiShitest", 10 * 60 * 1000));
+
+        //下面这个是空数据占位子用的
+        videos.add(new VideosBean("空数据", "hahhh", 30 * 60 * 1000));
 
 
         adapter = new VideosAdapter(R.layout.adapter_videos_item, videos);
@@ -98,12 +121,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     ToastUtils.show("还没有选中平台");
                     return;
                 }
-                String etText = etSetRunTimeGap.getText().toString().trim();
 
                 Intent intent = new Intent(mContext, BackService.class);
                 intent.putParcelableArrayListExtra("datas", videosBeans);
-                if (!TextUtils.isEmpty(etText))
-                    intent.putExtra("gapTime", Long.parseLong(etText) * 60 * 1000);
                 startService(intent);
 
                 break;
@@ -114,6 +134,22 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
     }
 
+
+    /**
+     * eventBus事件处理
+     *
+     * @param eventbusBean
+     */
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void getEvent(EventbusBean eventbusBean) {
+
+        String log = eventbusBean.getLog();
+        logDatas.add(0, log);
+        logsAdapter.notifyDataSetChanged();
+        rvLogs.scrollToPosition(adapter.getItemCount() - 1);
+
+    }
+
     @Override
     public void onBackPressed() {
 //        super.onBackPressed();
@@ -122,5 +158,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         i.addCategory(Intent.CATEGORY_HOME);
         startActivity(i);
+    }
+
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (EventBus.getDefault().isRegistered(this)) {
+            EventBus.getDefault().unregister(this);
+        }
     }
 }
