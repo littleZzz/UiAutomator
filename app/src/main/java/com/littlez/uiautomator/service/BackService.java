@@ -70,7 +70,7 @@ public class BackService extends Service {
                         }
 
                         LogUtil.e("运行中.." + datas.get((startFlag - 1) % datas.size()).getTestClass() +
-                                "; gapTime=" + (gapTime / 1000 / 60) + "分钟");
+                                "; gapTime=" + (gapTime / 1000 / 60) + "分钟; " + (time - startTime) / 1000 / 60);
                         Thread.sleep(5000);
 
                     } catch (InterruptedException e) {

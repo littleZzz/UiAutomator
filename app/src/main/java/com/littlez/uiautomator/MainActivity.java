@@ -75,8 +75,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         videos.add(new VideosBean("刷宝短视频", "ShuaBaotest", 60 * 60 * 1000));
         videos.add(new VideosBean("彩蛋视频", "CaiDantest", 60 * 60 * 1000));
 
-        //下面的数据都是写不给力的数据
+        videos.add(new VideosBean("淘看点", "TaoKanDiantest", 60 * 60 * 1000));
         videos.add(new VideosBean("火山极速版", "HuoShanJiSutest", 35 * 60 * 1000));
+
+        //下面的数据都是写不给力的数据
         videos.add(new VideosBean("抖音极速版", "DouYinJiSutest", 35 * 60 * 1000));
         videos.add(new VideosBean("微视", "WeiShitest", 10 * 60 * 1000));
 
