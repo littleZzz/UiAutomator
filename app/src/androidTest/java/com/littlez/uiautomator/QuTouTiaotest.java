@@ -14,14 +14,14 @@ import androidx.test.uiautomator.UiSelector;
 
 /**
  * created by xiaozhi
- * <p>彩蛋视频 测试用例
+ * <p>趣头条 测试用例
  * Date 2019/12/3
  */
-public class CaiDantest extends TestCase {
+public class QuTouTiaotest extends TestCase {
 
 
     /*app 名字*/
-    private String appName = "彩蛋视频";
+    private String appName = "趣头条";
 
     //    @Test
     public void test() throws UiObjectNotFoundException {
@@ -45,12 +45,18 @@ public class CaiDantest extends TestCase {
                 Thread.sleep(1000);
 
                 //首页
-                UiObject uiHome = new UiObject(new UiSelector().resourceId("com.jifen.dandan:id/view_home_top_shadow"));
+                UiObject uiHome = new UiObject(new UiSelector().resourceId("com.jifen.qukan:id/nl"));
                 //心
-                UiObject uiHeart = new UiObject(new UiSelector().resourceId("com.jifen.dandan:id/iv_like_icon"));
+                UiObject uiHeart = new UiObject(new UiSelector().resourceId("com.jifen.qukan:id/s1"));
 
 
                 if (uiHome.exists()) {//是首页
+
+                    if (!uiHeart.exists()) {//不在播放视频界面
+                        UiObject child = uiHome.getChild(new UiSelector().className("android.widget.FrameLayout").index(2));
+                        if (child.exists()) child.click();
+                        Thread.sleep(500);
+                    }
 
                     Random r = new Random();
                     int number = r.nextInt(100) + 1;
@@ -65,23 +71,16 @@ public class CaiDantest extends TestCase {
                     }
 
                 } else {//处理异常情况  1.0 点击重播 2.0 广告滑动一下
-                    UiObject uiDialogClose = new UiObject(new UiSelector().resourceId("com.jifen.dandan:id/iv_close"));
-                    UiObject uiDialogClose02 = new UiObject(new UiSelector().resourceId("com.jifen.dandan:id/close_bottom_button"));
-                    UiObject uiCloseBtn = new UiObject(new UiSelector().resourceId(""));
-                    UiObject uiWebView = new UiObject(new UiSelector().resourceId("com.jifen.dandan:id/q_web_view"));
+//                    UiObject uiDialogClose = new UiObject(new UiSelector().resourceId("com.jifen.dandan:id/iv_close"));
+
 
                     UiObject uiRootT = new UiObject(new UiSelector().resourceId("com.kingroot.kinguser:id/title").text("UiAutomator"));
                     UiObject uiRootAllow = new UiObject(new UiSelector().resourceId("com.kingroot.kinguser:id/button_right"));
 
-                    if (uiDialogClose.exists()) {//弹框（邀请好友）
+                    /*if (uiDialogClose.exists()) {//
                         uiDialogClose.click();
-                    } else if (uiDialogClose02.exists()) {
-                        uiDialogClose02.click();
-                    } else if (uiCloseBtn.exists()) {//青少年保护弹框
-                        uiCloseBtn.click();
-                    } else if (uiWebView.exists()) {//个人中心 webView 控件
-                        uiDevice.pressBack();
-                    } else if (uiRootT.exists() && uiRootAllow.exists()) {//root 权限获取
+                    } else*/
+                    if (uiRootT.exists() && uiRootAllow.exists()) {//root 权限获取
                         uiRootAllow.click();
                     } else {//最终的强制搞一波
 

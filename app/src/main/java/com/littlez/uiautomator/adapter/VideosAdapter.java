@@ -50,8 +50,13 @@ public class VideosAdapter extends BaseQuickAdapter<VideosBean, BaseViewHolder> 
         Button btnStart = (Button) helper.getView(R.id.btnStart);
 
         tvName.setText(item.getAppName());
+
+        /*edittext  设置tag 解决复用问题*/
+        if (etSetRunTimeGap.getTag() instanceof TextWatcher) {
+            etSetRunTimeGap.removeTextChangedListener((TextWatcher) etSetRunTimeGap.getTag());
+        }
         etSetRunTimeGap.setText("".concat((item.getGapTime() / 1000 / 60) + ""));
-        etSetRunTimeGap.addTextChangedListener(new TextWatcher() {
+        TextWatcher textWatcher = new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
@@ -61,6 +66,7 @@ public class VideosAdapter extends BaseQuickAdapter<VideosBean, BaseViewHolder> 
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 if (TextUtils.isEmpty(s)) {//为空
                     etSetRunTimeGap.setText("0");
+                    etSetRunTimeGap.setSelection(0);//定位光标
                     item.setGapTime(0);
                 } else {
                     int time = Integer.parseInt(s.toString().trim());
@@ -72,7 +78,11 @@ public class VideosAdapter extends BaseQuickAdapter<VideosBean, BaseViewHolder> 
             public void afterTextChanged(Editable s) {
 
             }
-        });
+        };
+        etSetRunTimeGap.addTextChangedListener(textWatcher);
+        etSetRunTimeGap.setTag(textWatcher);
+
+        /*开始按钮*/
         btnStart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -87,6 +97,7 @@ public class VideosAdapter extends BaseQuickAdapter<VideosBean, BaseViewHolder> 
             }
         });
 
+        /*checkBox 事件*/
         checkbox.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

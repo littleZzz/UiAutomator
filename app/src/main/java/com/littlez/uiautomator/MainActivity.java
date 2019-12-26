@@ -12,6 +12,8 @@ import android.view.Gravity;
 import android.view.View;
 import android.view.ViewTreeObserver;
 import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -56,8 +58,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         RecyclerView recyclerView = (RecyclerView) findViewById(R.id.recycleView);
         rvLogs = (RecyclerView) findViewById(R.id.rvLogs);
+        CheckBox cbCheckAll = (CheckBox) findViewById(R.id.cbCheckAll);
         Button btnStop = (Button) findViewById(R.id.btnStop);
         Button btnStartServe = (Button) findViewById(R.id.btnStartServe);
+
 
         //设置logs adapter
         LinearLayoutManager logslayoutManager = new LinearLayoutManager(mContext);
@@ -77,18 +81,29 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         videos.add(new VideosBean("淘看点", "TaoKanDiantest", 60 * 60 * 1000));
         videos.add(new VideosBean("火山极速版", "HuoShanJiSutest", 35 * 60 * 1000));
+        videos.add(new VideosBean("趣头条", "QuTouTiaotest", 35 * 60 * 1000));
 
         //下面的数据都是写不给力的数据
-        videos.add(new VideosBean("抖音极速版", "DouYinJiSutest", 35 * 60 * 1000));
         videos.add(new VideosBean("微视", "WeiShitest", 10 * 60 * 1000));
 
         //下面这个是空数据占位子用的
+        videos.add(new VideosBean("抖音极速版", "DouYinJiSutest", 35 * 60 * 1000));
         videos.add(new VideosBean("空数据", "hahhh", 30 * 60 * 1000));
 
 
         adapter = new VideosAdapter(R.layout.adapter_videos_item, videos);
         recyclerView.setAdapter(adapter);
 
+
+        cbCheckAll.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                for (int i = 0; i < videos.size(); i++) {
+                    adapter.checkMaps.put(i, isChecked);
+                }
+                adapter.notifyDataSetChanged();
+            }
+        });
 
         btnStop.setOnClickListener(this);
         btnStartServe.setOnClickListener(this);
@@ -148,7 +163,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         String log = eventbusBean.getLog();
         logDatas.add(0, log);
         logsAdapter.notifyDataSetChanged();
-        rvLogs.scrollToPosition(adapter.getItemCount() - 1);
+//        rvLogs.scrollToPosition(logsAdapter.getItemCount() - 1);
 
     }
 

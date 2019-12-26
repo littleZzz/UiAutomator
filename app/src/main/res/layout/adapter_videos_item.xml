@@ -21,9 +21,11 @@
         <TextView
             android:id="@+id/tvName"
             android:layout_width="0dp"
+            android:textColor="@color/black"
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
-            android:layout_weight="1" />
+            android:layout_weight="1"
+            android:textStyle="bold" />
 
         <EditText
             android:id="@+id/etSetRunTimeGap"
