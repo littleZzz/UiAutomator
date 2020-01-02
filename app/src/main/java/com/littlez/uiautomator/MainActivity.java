@@ -87,7 +87,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         videos.add(new VideosBean("微视", "WeiShitest", 10 * 60 * 1000));
 
         //下面这个是空数据占位子用的
-        videos.add(new VideosBean("抖音极速版", "DouYinJiSutest", 35 * 60 * 1000));
+//        videos.add(new VideosBean("抖音极速版", "DouYinJiSutest", 35 * 60 * 1000));
         videos.add(new VideosBean("空数据", "hahhh", 30 * 60 * 1000));
 
 

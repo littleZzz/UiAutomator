@@ -95,7 +95,7 @@ public class TaoKanDiantest extends TestCase {
                             uiDevice.pressRecentApps();
                             Thread.sleep(500);
                             UiObject appClearAll =
-                                    new UiObject(new UiSelector().resourceId("com.android.systemui:id/clearButton"));
+                                    new UiObject(new UiSelector().resourceId("com.android.systemui:id/clearAnimView"));
                             if (appClearAll.exists()) {
                                 appClearAll.click();
                                 errorCount = 0;//重置失败次数
@@ -106,7 +106,8 @@ public class TaoKanDiantest extends TestCase {
                         Thread.sleep(500);
                         uiDevice.pressRecentApps();
                         Thread.sleep(500);
-                        UiObject appLaunch = new UiObject(new UiSelector().text(appName));
+                        UiObject appLaunch = new UiObject(new UiSelector().descriptionContains(appName)
+                                .className("android.widget.FrameLayout"));
                         if (appLaunch.exists()) {//没有彻底挂掉
                             appLaunch.click();
                             Thread.sleep(500);

@@ -23,6 +23,9 @@ import androidx.test.uiautomator.UiSelector;
  */
 public class ShuaBaotest extends TestCase {
 
+
+    /*app 名字*/
+    private String appName = "刷宝短视频";
     //    @Test
     public void test() throws UiObjectNotFoundException {
         // 获取设备对象
@@ -81,7 +84,7 @@ public class ShuaBaotest extends TestCase {
                             uiDevice.pressRecentApps();
                             Thread.sleep(500);
                             UiObject appClearAll =
-                                    new UiObject(new UiSelector().resourceId("com.android.systemui:id/clearButton"));
+                                    new UiObject(new UiSelector().resourceId("com.android.systemui:id/clearAnimView"));
                             if (appClearAll.exists()) {
                                 appClearAll.click();
                                 errorCount = 0;//重置失败次数
@@ -92,7 +95,8 @@ public class ShuaBaotest extends TestCase {
                         Thread.sleep(500);
                         uiDevice.pressRecentApps();
                         Thread.sleep(500);
-                        UiObject appLaunch = new UiObject(new UiSelector().text("刷宝短视频"));
+                        UiObject appLaunch = new UiObject(new UiSelector().descriptionContains(appName)
+                                .className("android.widget.FrameLayout"));
                         if (appLaunch.exists()) {//没有彻底挂掉
 
                             appLaunch.click();
@@ -104,7 +108,7 @@ public class ShuaBaotest extends TestCase {
                             uiDevice.pressHome();
                             Thread.sleep(500);
                             //启动应用
-                            UiObject uiVideo = new UiObject(new UiSelector().text("刷宝短视频"));
+                            UiObject uiVideo = new UiObject(new UiSelector().text(appName));
                             if (uiVideo.exists()) {
                                 uiVideo.click();
                                 Thread.sleep(2000);
