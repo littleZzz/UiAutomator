@@ -47,41 +47,48 @@ public class KuaiSJiSutest extends TestCase {
 
                 //首页
                 UiObject uiHome = new UiObject(new UiSelector().resourceId("com.kuaishou.nebula:id/left_btn"));
-                //心
-                UiObject uiHeart = new UiObject(new UiSelector().resourceId("com.kuaishou.nebula:id/like_icon"));
-                //关注
-                UiObject uiFollow = new UiObject(new UiSelector().resourceId("com.kuaishou.nebula:id/follow_layout"));
+
 
                 if (uiHome.exists()) {//是首页
+
+                    Random r = new Random();
+                    int number = r.nextInt(100) + 1;
+                    /*随机数 进行判断 点击心或者滑动到下一个视频*/
+                    if (number <= 10) {//上滑
+                        uiDevice.swipe(534, 802, 400, 1200, 2);
+                    } else if (number <= 94) {//下滑
+                        uiDevice.swipe(400, 1200, 534, 802, 2);
+                        Thread.sleep(5000);//播放 时长
+                    } else if (number <= 97) {//3点击心
+                        //心
+                        UiObject uiHeart = new UiObject(new UiSelector().resourceId("com.kuaishou.nebula:id/like_icon"));
+                        if (uiHeart.exists()) uiHeart.click();
+                    } else {
+                        //关注
+                        UiObject uiFollow = new UiObject(new UiSelector().resourceId("com.kuaishou.nebula:id/follow_layout"));
+                        if (uiFollow.exists()) uiFollow.click();
+                    }
+
                     /*处理异常情况*/
                     UiObject uiCloseBtn = new UiObject(new UiSelector().resourceId("com.kuaishou.nebula:id/positive"));
-                    UiObject uiSignIn = new UiObject(new UiSelector().description("立即签到").className("android.view.View"));
-                    UiObject uiGoldIncome = new UiObject(new UiSelector().description("金币收益").className("android.view.View"));
-                    UiObject uiMoneyIncome = new UiObject(new UiSelector().description("现金收益").className("android.view.View"));
+                    UiObject uiSignIn = new UiObject(new UiSelector().className("android.view.View").description("立即签到"));
+                    UiObject uiWebView = new UiObject(new UiSelector().resourceId("com.kuaishou.nebula:id/webView"));
+//                    UiObject uiGoldIncome = new UiObject(new UiSelector().className("android.view.View").description("金币收益"));
+//                    UiObject uiMoneyIncome = new UiObject(new UiSelector().className("android.view.View").description("现金收益"));
 
                     //TODO  还有一个 分享的弹框没有匹配到
                     if (uiCloseBtn.exists()) {//青少年保护弹框
                         uiCloseBtn.click();
                     } else if (uiSignIn.exists()) {//签到
                         uiSignIn.click();
-                    } else if (uiMoneyIncome.exists() && uiGoldIncome.exists()) {//首页界面
+                    } else if (uiWebView.exists()) {
                         uiDevice.pressBack();
                         Thread.sleep(2000);
-                    } else {
-                        Random r = new Random();
-                        int number = r.nextInt(100) + 1;
-                        /*随机数 进行判断 点击心或者滑动到下一个视频*/
-                        if (number <= 10) {//上滑
-                            uiDevice.swipe(534, 802, 400, 1200, 2);
-                        } else if (number <= 94) {//下滑
-                            uiDevice.swipe(400, 1200, 534, 802, 2);
-                            Thread.sleep(8000);//播放 时长
-                        } else if (number <= 97) {//3点击心
-                            if (uiHeart.exists()) uiHeart.click();
-                        } else {
-                            if (uiFollow.exists()) uiFollow.click();
-                        }
-                    }
+                    } /*else if (uiMoneyIncome.exists() && uiGoldIncome.exists()) {//首页界面
+                        uiDevice.pressBack();
+                        Thread.sleep(2000);
+                    }*/
+
                 } else {//处理异常情况  1.0 点击重播 2.0 广告滑动一下
                     UiObject uiRootT = new UiObject(new UiSelector().resourceId("com.kingroot.kinguser:id/title").text("UiAutomator"));
                     UiObject uiRootAllow = new UiObject(new UiSelector().resourceId("com.kingroot.kinguser:id/button_right"));

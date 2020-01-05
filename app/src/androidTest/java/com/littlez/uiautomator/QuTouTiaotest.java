@@ -45,42 +45,45 @@ public class QuTouTiaotest extends TestCase {
                 Thread.sleep(1000);
 
                 //首页
-                UiObject uiHome = new UiObject(new UiSelector().resourceId("com.jifen.qukan:id/nl"));
+                UiObject uiHome = new UiObject(new UiSelector().resourceId("com.jifen.qukan:id/mh"));
                 //心
-                UiObject uiHeart = new UiObject(new UiSelector().resourceId("com.jifen.qukan:id/s1"));
-
+                UiObject uiHeart = new UiObject(new UiSelector().resourceId("com.jifen.qukan:id/qu"));
 
                 if (uiHome.exists()) {//是首页
+
+                    /*阅读奖励*/
+                    UiObject uiReadingAward = new UiObject(new UiSelector().index(7).className("android.widget.FrameLayout"));
 
                     if (!uiHeart.exists()) {//不在播放视频界面
                         UiObject child = uiHome.getChild(new UiSelector().className("android.widget.FrameLayout").index(2));
                         if (child.exists()) child.click();
                         Thread.sleep(500);
-                    }
-
-                    Random r = new Random();
-                    int number = r.nextInt(100) + 1;
-                    /*随机数 进行判断 点击心或者滑动到下一个视频*/
-                    if (number <= 10) {//上滑
-                        uiDevice.swipe(534, 802, 400, 1200, 2);
-                    } else if (number <= 95) {//下滑
-                        uiDevice.swipe(400, 1200, 534, 802, 2);
-                        Thread.sleep(8000);//播放 时长
-                    } else {//3点击心
-                        if (uiHeart.exists()) uiHeart.click();
+                    } else if (uiReadingAward.exists()) {
+                        uiReadingAward.click();
+                    } else {
+                        Random r = new Random();
+                        int number = r.nextInt(100) + 1;
+                        /*随机数 进行判断 点击心或者滑动到下一个视频*/
+                        if (number <= 10) {//上滑
+                            uiDevice.swipe(534, 802, 400, 1200, 2);
+                        } else
+                        if (number <= 95) {//下滑
+                            uiDevice.swipe(400, 1200, 534, 802, 2);
+                            Thread.sleep(8000);//播放 时长
+                        } else {//3点击心
+                            if (uiHeart.exists()) uiHeart.click();
+                        }
                     }
 
                 } else {//处理异常情况  1.0 点击重播 2.0 广告滑动一下
-//                    UiObject uiDialogClose = new UiObject(new UiSelector().resourceId("com.jifen.dandan:id/iv_close"));
-
+                    UiObject uiClose = new UiObject(new UiSelector().resourceId("com.jifen.qukan:id/a5n"));
 
                     UiObject uiRootT = new UiObject(new UiSelector().resourceId("com.kingroot.kinguser:id/title").text("UiAutomator"));
                     UiObject uiRootAllow = new UiObject(new UiSelector().resourceId("com.kingroot.kinguser:id/button_right"));
 
-                    /*if (uiDialogClose.exists()) {//
-                        uiDialogClose.click();
-                    } else*/
-                    if (uiRootT.exists() && uiRootAllow.exists()) {//root 权限获取
+                    if (uiClose.exists()) {
+                        uiClose.click();
+                    } else if (uiRootT.exists() && uiRootAllow.exists()) {//root 权限获取
                         uiRootAllow.click();
                     } else {//最终的强制搞一波
 

@@ -45,11 +45,10 @@ public class HuoShanJiSutest extends TestCase {
                 Thread.sleep(1000);
 
                 //首页
-                UiObject uiFirstHome = new UiObject(new UiSelector().resourceId("com.ss.android.ugc.livelite:id/qb"));
-                UiObject uiHome01 = new UiObject(new UiSelector().resourceId("com.ss.android.ugc.livelite:id/qe").description("返回"));
-                UiObject uiHome02 = new UiObject(new UiSelector().resourceId("com.ss.android.ugc.livelite:id/uq"));
+                UiObject uiFirstHome = new UiObject(new UiSelector().resourceId("com.ss.android.ugc.livelite:id/qe"));
+                UiObject uiHome01 = new UiObject(new UiSelector().resourceId("com.ss.android.ugc.livelite:id/gf"));
                 //心
-                UiObject uiHeart = new UiObject(new UiSelector().resourceId("com.ss.android.ugc.livelite:id/o3"));
+                UiObject uiHeart = new UiObject(new UiSelector().resourceId("com.ss.android.ugc.livelite:id/o6"));
 
                 UiObject uiHomeAward = new UiObject(new UiSelector().description("谢谢参与"));
 
@@ -81,7 +80,7 @@ public class HuoShanJiSutest extends TestCase {
                     UiObject uiRootT = new UiObject(new UiSelector().resourceId("com.kingroot.kinguser:id/title").text("UiAutomator"));
                     UiObject uiRootAllow = new UiObject(new UiSelector().resourceId("com.kingroot.kinguser:id/button_right"));
                     UiObject uiCloseBtn =
-                            new UiObject(new UiSelector().resourceId("com.ss.android.ugc.livelite:id/qe").text("我知道了"));
+                            new UiObject(new UiSelector().resourceId("com.ss.android.ugc.livelite:id/qh").text("我知道了"));
                     UiObject uiLeftAllow = new UiObject(new UiSelector().resourceId("com.ss.android.ugc.livelite:id/a45"));
                     UiObject uiMyEarn = new UiObject(new UiSelector().description("我的收益").className("android.view.View"));
 
