@@ -76,8 +76,8 @@ public class ExeCommand {
      * 执行命令
      *
      * @param command eg: cat /sdcard/test.txt
-     * 路径最好不要是自己拼写的路径，最好是通过方法获取的路径
-     * example：Environment.getExternalStorageDirectory()
+     *                路径最好不要是自己拼写的路径，最好是通过方法获取的路径
+     *                example：Environment.getExternalStorageDirectory()
      * @param maxTime 最大等待时间 (ms)
      * @return this
      */
@@ -119,7 +119,7 @@ public class ExeCommand {
                         }
                         try {
                             int ret = process.exitValue();
-                            Log.i("auto", "exitValue Stream over"+ret);
+                            Log.i("auto", "exitValue Stream over" + ret);
                         } catch (IllegalThreadStateException e) {
                             Log.i("auto", "take maxTime,forced to destroy process");
                             process.destroy();

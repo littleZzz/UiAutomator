@@ -1,5 +1,8 @@
 package com.littlez.uiautomator.util;
 
+import android.content.Context;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
 import android.text.TextUtils;
 
 import java.text.SimpleDateFormat;
@@ -76,6 +79,25 @@ public class CommonUtil {
         String format = dspFmt.format(date);
 
         return format;
+    }
+
+    /**
+     * 获取版本名称
+     *
+     * @param context
+     * @return
+     */
+    public static String packageName(Context context) {
+        PackageManager manager = context.getPackageManager();
+        String name = null;
+        try {
+            PackageInfo info = manager.getPackageInfo(context.getPackageName(), 0);
+            name = info.versionName;
+        } catch (PackageManager.NameNotFoundException e) {
+            e.printStackTrace();
+        }
+
+        return name;
     }
 
 }

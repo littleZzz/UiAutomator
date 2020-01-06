@@ -7,25 +7,21 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.text.TextUtils;
-import android.view.Gravity;
 import android.view.View;
-import android.view.ViewTreeObserver;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
-import android.widget.EditText;
-import android.widget.Toast;
+import android.widget.TextView;
 
-import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.littlez.uiautomator.adapter.LogsAdapter;
 import com.littlez.uiautomator.adapter.VideosAdapter;
 import com.littlez.uiautomator.bean.VideosBean;
 import com.littlez.uiautomator.bean.eventbus.EventbusBean;
+import com.littlez.uiautomator.network.netsubscribe.PersionSubscribe;
+import com.littlez.uiautomator.network.netutils.DataCallbackListener;
 import com.littlez.uiautomator.service.BackService;
 import com.littlez.uiautomator.util.CommonUtil;
 import com.littlez.uiautomator.util.ExeCommand;
-import com.littlez.uiautomator.util.LogUtil;
 import com.littlez.uiautomator.util.ToastUtils;
 
 import org.greenrobot.eventbus.EventBus;
@@ -37,7 +33,7 @@ import java.util.HashMap;
 import java.util.Set;
 
 //  https://www.testwo.com/blog/7057  这个是标准的配置文档
-public class MainActivity extends AppCompatActivity implements View.OnClickListener {
+public class MainActivity extends AppCompatActivity implements View.OnClickListener, DataCallbackListener {
 
     Context mContext = this;
     /*各个平台对应的信息*/
@@ -47,6 +43,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private VideosAdapter adapter;
     private LogsAdapter logsAdapter;
     private RecyclerView rvLogs;
+    private PersionSubscribe persionSubscribe;
 
 
     @Override
@@ -56,12 +53,18 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         EventBus.getDefault().register(this);
 
+        persionSubscribe = new PersionSubscribe(mContext, this);
+
+        TextView tvVersion = (TextView) findViewById(R.id.tvVersion);
+        Button btnUpgradeApk = (Button) findViewById(R.id.btnUpgradeApk);
+        Button btnUpgradeJar = (Button) findViewById(R.id.btnUpgradeJar);
         RecyclerView recyclerView = (RecyclerView) findViewById(R.id.recycleView);
         rvLogs = (RecyclerView) findViewById(R.id.rvLogs);
         CheckBox cbCheckAll = (CheckBox) findViewById(R.id.cbCheckAll);
         Button btnStop = (Button) findViewById(R.id.btnStop);
         Button btnStartServe = (Button) findViewById(R.id.btnStartServe);
 
+        tvVersion.setText("版本：".concat(CommonUtil.packageName(mContext)));
 
         //设置logs adapter
         LinearLayoutManager logslayoutManager = new LinearLayoutManager(mContext);
@@ -107,6 +110,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         btnStop.setOnClickListener(this);
         btnStartServe.setOnClickListener(this);
+        btnUpgradeApk.setOnClickListener(this);
+        btnUpgradeJar.setOnClickListener(this);
 
     }
 
@@ -148,7 +153,39 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 stopService(new Intent(mContext, BackService.class));
                 break;
 
+            case R.id.btnUpgradeApk://更新apk
+                ToastUtils.show("跟新apk中");
+
+                persionSubscribe.updateApk();//跟新apk
+                break;
+            case R.id.btnUpgradeJar://更新jar包
+
+                ToastUtils.show("跟新jar中");
+                //修改文件可写入权限
+                ExeCommand cmd = new ExeCommand(true);
+                cmd.run("chmod -R 777 /data/local/tmp/", 30000);
+
+                persionSubscribe.downloadJar();//跟新jar包
+                break;
+
         }
+    }
+
+
+    /**
+     * 网络请求
+     *
+     * @param result
+     * @param flag
+     */
+    @Override
+    public void onSuccess(Object result, String flag) {
+
+    }
+
+    @Override
+    public void onFault(Object error, String flag) {
+
     }
 
 
@@ -185,4 +222,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             EventBus.getDefault().unregister(this);
         }
     }
+
+
 }

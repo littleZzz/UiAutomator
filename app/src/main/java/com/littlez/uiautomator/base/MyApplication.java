@@ -24,4 +24,12 @@ public class MyApplication extends Application {
         appContext = getApplicationContext();
         app = this;
     }
+
+    public static Context getConText() {
+        return appContext;
+    }
+
+    public static MyApplication getApp() {
+        return app;
+    }
 }
