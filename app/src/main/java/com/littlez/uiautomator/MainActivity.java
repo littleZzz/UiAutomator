@@ -154,13 +154,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 break;
 
             case R.id.btnUpgradeApk://更新apk
-                ToastUtils.show("跟新apk中");
+                ToastUtils.show("更新apk中");
 
                 persionSubscribe.updateApk();//跟新apk
                 break;
             case R.id.btnUpgradeJar://更新jar包
+                ToastUtils.show("更新jar中");
 
-                ToastUtils.show("跟新jar中");
                 //修改文件可写入权限
                 ExeCommand cmd = new ExeCommand(true);
                 cmd.run("chmod -R 777 /data/local/tmp/", 30000);

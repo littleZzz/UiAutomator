@@ -47,7 +47,7 @@ public class ShuaBaotest extends TestCase {
 
         try {
 
-            baseMethod(uiDevice, CaiDantest.TYPE.CLEAR_APP.ordinal());//启动时  先关闭其他的
+            baseMethod(uiDevice, TYPE.CLEAR_APP.ordinal());//启动时  先关闭其他的
 
             while (true) {
 
@@ -87,7 +87,7 @@ public class ShuaBaotest extends TestCase {
                         uiPrivacy.click();
                     } else {//最终的强制搞一波
 
-                        baseMethod(uiDevice, CaiDantest.TYPE.Error_Base.ordinal());
+                        baseMethod(uiDevice,TYPE.Error_Base.ordinal());
 
 
                     }

@@ -49,7 +49,7 @@ public class WeiShitest extends TestCase {
 
         try {
 
-            baseMethod(uiDevice, CaiDantest.TYPE.CLEAR_APP.ordinal());//启动时  先关闭其他的
+            baseMethod(uiDevice, TYPE.CLEAR_APP.ordinal());//启动时  先关闭其他的
 
             //腾讯微视完全要自己特别定制方案 因为需要每次一达到目标就进行点击
             while (true) {
@@ -112,7 +112,7 @@ public class WeiShitest extends TestCase {
                         uiRootAllow.click();
                     } else {//最终的强制搞一波
 
-                        baseMethod(uiDevice, CaiDantest.TYPE.Error_Base.ordinal());
+                        baseMethod(uiDevice, TYPE.Error_Base.ordinal());
 
                     }
                 }
