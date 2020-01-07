@@ -1,10 +1,6 @@
 package com.littlez.uiautomator;
 
 import android.app.Instrumentation;
-import android.content.Context;
-import android.text.TextUtils;
-
-import com.littlez.uiautomator.util.LogUtil;
 
 import junit.framework.TestCase;
 
@@ -18,14 +14,14 @@ import androidx.test.uiautomator.UiSelector;
 
 /**
  * created by xiaozhi
- * <p>快手极速版
+ * <p>快看点  测试用例
  * Date 2019/12/3
  */
-public class KuaiSJiSutest extends TestCase {
+public class KuaiKanDianTVtest extends TestCase {
 
 
     /*app 名字*/
-    private String appName = "快手极速版";
+    private String appName = "快看点";
 
     public enum TYPE {
         CLEAR_APP, Error_Base,
@@ -39,12 +35,15 @@ public class KuaiSJiSutest extends TestCase {
         // 获取设备对象
         Instrumentation instrumentation = InstrumentationRegistry.getInstrumentation();
         UiDevice uiDevice = UiDevice.getInstance(instrumentation);
+
         // 获取上下文
 //        Context context = instrumentation.getContext();
 
 //        LogUtil.e("我开始运行了");
         int count = 0;
+
         try {
+
 
             baseMethod(uiDevice, TYPE.CLEAR_APP.ordinal());//启动时  先关闭其他的
 
@@ -53,58 +52,64 @@ public class KuaiSJiSutest extends TestCase {
 //                LogUtil.e("我运行了" + (count++));
                 Thread.sleep(1000);
 
-                //首页
-                UiObject uiHome = new UiObject(new UiSelector().resourceId("com.kuaishou.nebula:id/left_btn"));
+                //主页
+                UiObject uiMain = new UiObject(new UiSelector()
+                        .resourceId("com.yuncheapp.android.pearl:id/home_page_tab_bar"));
 
 
-                if (uiHome.exists()) {//是首页
+                if (uiMain.exists()) {//是主页
 
-                    Random r = new Random();
-                    int number = r.nextInt(100) + 1;
-                    /*随机数 进行判断 点击心或者滑动到下一个视频*/
-                    if (number <= 10) {//上滑
-                        uiDevice.swipe(534, 802, 400, 1200, 2);
-                    } else if (number <= 94) {//下滑
-                        uiDevice.swipe(400, 1200, 534, 802, 2);
-                        Thread.sleep(5000);//播放 时长
-                    } else if (number <= 97) {//3点击心
+                    UiObject uiHome = new UiObject(new UiSelector()
+                            .resourceId("com.yuncheapp.android.pearl:id/tab_tv").text("首页"));
+                    UiObject uiTV = new UiObject(new UiSelector()
+                            .resourceId("com.yuncheapp.android.pearl:id/tab_tv").text("小视频"));
+                    UiObject uiMission = new UiObject(new UiSelector()
+                            .resourceId("com.yuncheapp.android.pearl:id/tab_tv").text("任务"));
+
+                    if (uiHome.exists() && uiHome.isSelected()) {//选中的首页
+                        uiTV.click();
+                    } else if (uiTV.exists() && uiTV.isSelected()) {//选中的小视频
+
                         //心
-                        UiObject uiHeart = new UiObject(new UiSelector().resourceId("com.kuaishou.nebula:id/like_icon"));
-                        if (uiHeart.exists()) uiHeart.click();
-                    } else {
-                        //关注
-                        UiObject uiFollow = new UiObject(new UiSelector().resourceId("com.kuaishou.nebula:id/follow_layout"));
-                        if (uiFollow.exists()) uiFollow.click();
+                        UiObject uiHeart = new UiObject(new UiSelector()
+                                .resourceId("com.yuncheapp.android.pearl:id/like_icon"));
+                        Random r = new Random();
+                        int number = r.nextInt(100) + 1;
+                        /*随机数 进行判断 点击心或者滑动到下一个视频*/
+                        if (number <= 10) {//上滑
+                            uiDevice.swipe(534, 802, 400, 1200, 2);
+                        } else if (number <= 90) {//下滑
+                            uiDevice.swipe(400, 1200, 534, 802, 2);
+                            Thread.sleep(8000);//播放 时长
+                        } else if (number <= 95) {//点击任务
+                            uiMission.click();
+                        } else {//3点击心
+                            if (uiHeart.exists()) uiHeart.click();
+                        }
+
+                    } else if (uiMission.exists() && uiMission.isSelected()) {//选中的任务
+                        uiTV.click();
+                    } else {//其他
+                        uiTV.click();
                     }
 
-                    /*处理异常情况*/
-                    UiObject uiCloseBtn = new UiObject(new UiSelector().resourceId("com.kuaishou.nebula:id/positive"));
-                    UiObject uiSignIn = new UiObject(new UiSelector().className("android.view.View").description("立即签到"));
-                    UiObject uiWebView = new UiObject(new UiSelector().resourceId("com.kuaishou.nebula:id/webView"));
-                    UiObject uiCloseBtn02 = new UiObject(new UiSelector().resourceId("com.kuaishou.nebula:id/close"));
 
-                    if (uiCloseBtn.exists()) {//青少年保护弹框
-                        uiCloseBtn.click();
-                    } else if (uiCloseBtn02.exists()) {//邀请
-                        uiCloseBtn02.click();
-                    } else if (uiSignIn.exists()) {//签到
-                        uiSignIn.click();
-                    } else if (uiWebView.exists()) {
-                        uiDevice.pressBack();
-                        Thread.sleep(2000);
-                    }
+                } else {//处理异常情况
+                    UiObject uiDialogClose = new UiObject(new UiSelector().resourceId("com.jifen.dandan:id/iv_close"));
 
-                } else {//处理异常情况  1.0 点击重播 2.0 广告滑动一下
                     UiObject uiRootT = new UiObject(new UiSelector().resourceId("com.kingroot.kinguser:id/title").text("UiAutomator"));
                     UiObject uiRootAllow = new UiObject(new UiSelector().resourceId("com.kingroot.kinguser:id/button_right"));
 
-                    if (uiRootT.exists() && uiRootAllow.exists()) {//root 权限获取
+                    if (uiDialogClose.exists()) {//
+                        uiDialogClose.click();
+                    } else if (uiRootT.exists() && uiRootAllow.exists()) {//root 权限获取
                         uiRootAllow.click();
                     } else {//最终的强制搞一波
 
                         baseMethod(uiDevice, TYPE.Error_Base.ordinal());
                     }
                 }
+
 
             }
 
@@ -169,6 +174,5 @@ public class KuaiSJiSutest extends TestCase {
             e.printStackTrace();
         }
     }
-
 
 }
