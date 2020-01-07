@@ -23,9 +23,6 @@ public class KuaiKanDianTVtest extends TestCase {
     /*app 名字*/
     private String appName = "快看点";
 
-    public enum TYPE {
-        CLEAR_APP, Error_Base,
-    }
 
     private int errorCount = 0;//记录异常强制启动次数  超过10次就关闭应用
 
@@ -45,7 +42,7 @@ public class KuaiKanDianTVtest extends TestCase {
         try {
 
 
-            baseMethod(uiDevice, TYPE.CLEAR_APP.ordinal());//启动时  先关闭其他的
+            baseMethod(uiDevice, 0);//启动时  先关闭其他的
 
             while (true) {
 
@@ -95,7 +92,7 @@ public class KuaiKanDianTVtest extends TestCase {
 
 
                 } else {//处理异常情况
-                    UiObject uiDialogClose = new UiObject(new UiSelector().resourceId("com.jifen.dandan:id/iv_close"));
+                    UiObject uiDialogClose = new UiObject(new UiSelector().resourceId("com.yuncheapp.android.pearl:id/close_img"));
 
                     UiObject uiRootT = new UiObject(new UiSelector().resourceId("com.kingroot.kinguser:id/title").text("UiAutomator"));
                     UiObject uiRootAllow = new UiObject(new UiSelector().resourceId("com.kingroot.kinguser:id/button_right"));
@@ -106,7 +103,7 @@ public class KuaiKanDianTVtest extends TestCase {
                         uiRootAllow.click();
                     } else {//最终的强制搞一波
 
-                        baseMethod(uiDevice, TYPE.Error_Base.ordinal());
+                        baseMethod(uiDevice, 1);
                     }
                 }
 

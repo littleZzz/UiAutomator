@@ -83,14 +83,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         videos.add(new VideosBean("刷宝短视频", "ShuaBaotest", 45 * 60 * 1000));
         videos.add(new VideosBean("彩蛋视频", "CaiDantest", 45 * 60 * 1000));
         videos.add(new VideosBean("微视", "WeiShitest", 10 * 60 * 1000));
-        videos.add(new VideosBean("火山极速版", "HuoShanJiSutest", 35 * 60 * 1000));//id 经常变
-
-        /*待确定的数据*/
-        videos.add(new VideosBean("快看点新闻", "KuaiKanDianNewstest", 30 * 60 * 1000));
-        videos.add(new VideosBean("快看点视频", "KuaiKanDianTVtest", 30 * 60 * 1000));
         videos.add(new VideosBean("趣头条", "QuTouTiaotest", 35 * 60 * 1000));//id 经常变
 
+        /*待确定的数据*/
+//        videos.add(new VideosBean("快看点视频", "KuaiKanDianTVtest", 30 * 60 * 1000));
+//        videos.add(new VideosBean("快看点新闻", "KuaiKanDianNewstest", 30 * 60 * 1000));
+
         //下面  是无用的数据
+//        videos.add(new VideosBean("火山极速版", "HuoShanJiSutest", 35 * 60 * 1000));//id 经常变  效率实在是差
         videos.add(new VideosBean("空数据", "hahhh", 30 * 60 * 1000));
 
 

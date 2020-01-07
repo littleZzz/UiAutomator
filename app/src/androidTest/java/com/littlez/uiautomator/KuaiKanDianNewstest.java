@@ -26,9 +26,6 @@ public class KuaiKanDianNewstest extends TestCase {
     /*app 名字*/
     private String appName = "快看点";
 
-    public enum TYPE {
-        CLEAR_APP, Error_Base,
-    }
 
     private int errorCount = 0;//记录异常强制启动次数  超过10次就关闭应用
 
@@ -48,7 +45,7 @@ public class KuaiKanDianNewstest extends TestCase {
         try {
 
 
-            baseMethod(uiDevice, TYPE.CLEAR_APP.ordinal());//启动时  先关闭其他的
+            baseMethod(uiDevice, 0);//启动时  先关闭其他的
 
             while (true) {
 
@@ -100,10 +97,8 @@ public class KuaiKanDianNewstest extends TestCase {
                     boolean isRun = true;
                     //查看新闻
                     while (isRun) {
-                        LogUtil.e("开始1");
                         UiObject uiWeixin02 = new UiObject(new UiSelector()
                                 .resourceId("com.yuncheapp.android.pearl:id/wechat_wrapper"));//视频
-                        LogUtil.e("开始2");
                         if (uiWeixin02.exists()) {//视频
                             Random r = new Random();
                             int number = r.nextInt(30) + 1;
@@ -112,28 +107,20 @@ public class KuaiKanDianNewstest extends TestCase {
                             isRun = false;
                             break;
                         } else {//新闻
-                            LogUtil.e("开始3");
 
                             UiObject uiWeixin = new UiObject(new UiSelector().resourceId("shareWechat"));//文档
                             try {
-                                LogUtil.e("开始4");
 
-                                Rect visibleBounds = uiWeixin.getVisibleBounds();//如果可见  是有值的
-                                LogUtil.e("开始5");
-
-                                if (visibleBounds.top < 1000) {
+                                Rect visibleBounds = uiWeixin.getBounds();//如果可见  是有值的
+                                if (visibleBounds.top <= 800) {
                                     uiDevice.pressBack();
                                     isRun = false;
                                     break;
                                 } else {
-                                    LogUtil.e("开始6");
-
                                     uiDevice.swipe(400, 1200, 534, 802, 10);
                                     continue;
                                 }
-                            } catch (UiObjectNotFoundException e) {
-                                LogUtil.e("开始6");
-
+                            } catch (Exception e) {
                                 e.printStackTrace();
                                 //异常就是不存在
                                 uiDevice.swipe(400, 1200, 534, 802, 10);
@@ -153,7 +140,7 @@ public class KuaiKanDianNewstest extends TestCase {
                         uiRootAllow.click();
                     } else {//最终的强制搞一波
 
-                        baseMethod(uiDevice, TYPE.Error_Base.ordinal());
+                        baseMethod(uiDevice, 1);
                     }
                 }
 
