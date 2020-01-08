@@ -77,22 +77,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 new LinearLayoutManager(mContext, RecyclerView.VERTICAL, false);
         recyclerView.setLayoutManager(layoutManager);
 
-        /*这里就是数据源*/
-        /*稳定数据*/
-        videos.add(new VideosBean("快手极速版", "KuaiSJiSutest", 45 * 60 * 1000));
-        videos.add(new VideosBean("刷宝短视频", "ShuaBaotest", 45 * 60 * 1000));
-        videos.add(new VideosBean("彩蛋视频", "CaiDantest", 45 * 60 * 1000));
-        videos.add(new VideosBean("微视", "WeiShitest", 10 * 60 * 1000));
-        videos.add(new VideosBean("趣头条", "QuTouTiaotest", 35 * 60 * 1000));//id 经常变
-
-        /*待确定的数据*/
-//        videos.add(new VideosBean("快看点视频", "KuaiKanDianTVtest", 30 * 60 * 1000));
-//        videos.add(new VideosBean("快看点新闻", "KuaiKanDianNewstest", 30 * 60 * 1000));
-
-        //下面  是无用的数据
-//        videos.add(new VideosBean("火山极速版", "HuoShanJiSutest", 35 * 60 * 1000));//id 经常变  效率实在是差
-        videos.add(new VideosBean("空数据", "hahhh", 30 * 60 * 1000));
-
+        initData();//添加数据源
 
         adapter = new VideosAdapter(R.layout.adapter_videos_item, videos);
         recyclerView.setAdapter(adapter);
@@ -135,10 +120,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 ArrayList<VideosBean> videosBeans = new ArrayList<>();
 
                 HashMap<Integer, Boolean> checkMaps = adapter.getCheckMaps();
-                Set<Integer> keys = checkMaps.keySet();
-                for (Integer key : keys) {
-                    if (checkMaps.get(key)) videosBeans.add(videos.get(key));
+                for (int i = 0; i < videos.size(); i++) {
+                    if (checkMaps.get(i)) videosBeans.add(videos.get(i));
                 }
+
                 if (videosBeans.size() <= 0) {
                     ToastUtils.show("还没有选中平台");
                     return;
@@ -223,5 +208,27 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
     }
 
+
+    /**
+     * 添加数据
+     */
+    private void initData() {
+        /*这里就是数据源*/
+        /*稳定数据*/
+        videos.add(new VideosBean("快手极速版", "KuaiSJiSutest", 35 * 60 * 1000));
+        videos.add(new VideosBean("刷宝短视频", "ShuaBaotest", 35 * 60 * 1000));
+        videos.add(new VideosBean("彩蛋视频", "CaiDantest", 35 * 60 * 1000));
+        videos.add(new VideosBean("微视", "WeiShitest", 10 * 60 * 1000));
+
+        /*待确定的数据*/
+        videos.add(new VideosBean("快看点视频", "KuaiKanDianTVtest", 25 * 60 * 1000));
+        videos.add(new VideosBean("趣头条", "QuTouTiaotest", 25 * 60 * 1000));//id 经常变
+        videos.add(new VideosBean("快看点新闻", "KuaiKanDianNewstest", 25 * 60 * 1000));
+        videos.add(new VideosBean("微鲤畅聊版", "A08WeiLiChangLiaotest", 25 * 60 * 1000));
+
+        //下面  是无用|或使用过废弃的数据  如 火山  淘看点 等等
+        videos.add(new VideosBean("空数据", "hahhh", 30 * 60 * 1000));
+//        videos.add(new VideosBean("火山极速版", "HuoShanJiSutest", 35 * 60 * 1000));//id 经常变  效率实在是差
+    }
 
 }

@@ -39,6 +39,9 @@ public class VideosAdapter extends BaseQuickAdapter<VideosBean, BaseViewHolder> 
 
     public VideosAdapter(int layoutResId, @Nullable List<VideosBean> data) {
         super(layoutResId, data);
+        for (int i = 0; i < data.size(); i++) {
+            checkMaps.put(i, false);
+        }
     }
 
     @Override

@@ -50,7 +50,6 @@ public class ShuaBaotest extends TestCase {
 
 //                LogUtil.e("我运行了" + (count++));
 
-                Thread.sleep(1000);
 
                 UiObject uiHeart = new UiObject(new UiSelector().resourceId("com.jm.video:id/image_view"));
                 UiObject uiShare = new UiObject(new UiSelector().resourceId("com.jm.video:id/share"));
@@ -90,6 +89,8 @@ public class ShuaBaotest extends TestCase {
                     }
 
                 }
+
+                Thread.sleep(500);
 
             }
 
@@ -137,7 +138,7 @@ public class ShuaBaotest extends TestCase {
                     if (appLaunch.exists()) {//没有彻底挂掉
 
                         appLaunch.click();
-                        Thread.sleep(500);
+                        Thread.sleep(1000);
                         uiDevice.swipe(400, 1200, 534, 802, 2);
                         Thread.sleep(500);
 

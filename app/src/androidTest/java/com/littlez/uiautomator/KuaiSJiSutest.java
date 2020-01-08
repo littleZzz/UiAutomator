@@ -48,7 +48,6 @@ public class KuaiSJiSutest extends TestCase {
             while (true) {
 
 //                LogUtil.e("我运行了" + (count++));
-                Thread.sleep(1000);
 
                 //首页
                 UiObject uiHome = new UiObject(new UiSelector().resourceId("com.kuaishou.nebula:id/left_btn"));
@@ -94,18 +93,16 @@ public class KuaiSJiSutest extends TestCase {
                 } else {//处理异常情况  1.0 点击重播 2.0 广告滑动一下
                     UiObject uiReplay = new UiObject(new UiSelector().resourceId("com.kuaishou.nebula:id/replay_ad_video"));
 
-                    UiObject uiRootT = new UiObject(new UiSelector().resourceId("com.kingroot.kinguser:id/title").text("UiAutomator"));
-                    UiObject uiRootAllow = new UiObject(new UiSelector().resourceId("com.kingroot.kinguser:id/button_right"));
 
                     if (uiReplay.exists()) {
                         uiDevice.swipe(400, 1200, 534, 802, 2);
-                    } else if (uiRootT.exists() && uiRootAllow.exists()) {//root 权限获取
-                        uiRootAllow.click();
-                    } else {//最终的强制搞一波
+                    }  else {//最终的强制搞一波
 
                         baseMethod(uiDevice, 1);
                     }
                 }
+
+                Thread.sleep(500);
 
             }
 
@@ -152,7 +149,7 @@ public class KuaiSJiSutest extends TestCase {
                             .className("android.widget.FrameLayout"));
                     if (appLaunch.exists()) {//没有彻底挂掉
                         appLaunch.click();
-                        Thread.sleep(500);
+                        Thread.sleep(1000);
                     } else {//彻底挂掉了  重启
                         uiDevice.pressHome();
                         Thread.sleep(500);

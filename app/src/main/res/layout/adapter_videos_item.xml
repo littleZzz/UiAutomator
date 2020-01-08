@@ -11,20 +11,20 @@
         android:layout_height="wrap_content"
         android:focusable="true"
         android:focusableInTouchMode="true"
-        android:padding="5dp">
+        android:paddingLeft="5dp"
+        android:paddingRight="5dp">
 
         <CheckBox
             android:id="@+id/checkbox"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_width="50dp"
+            android:layout_height="30dp" />
 
         <TextView
             android:id="@+id/tvName"
             android:layout_width="0dp"
-            android:textColor="@color/black"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
             android:layout_weight="1"
+            android:textColor="@color/black"
             android:textStyle="bold" />
 
         <EditText

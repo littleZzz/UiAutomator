@@ -49,7 +49,6 @@ public class CaiDantest extends TestCase {
             while (true) {
 
 //                LogUtil.e("我运行了" + (count++));
-                Thread.sleep(1000);
 
                 //首页
                 UiObject uiHome = new UiObject(new UiSelector().resourceId("com.jifen.dandan:id/view_home_top_shadow"));
@@ -77,8 +76,6 @@ public class CaiDantest extends TestCase {
                     UiObject uiCloseBtn = new UiObject(new UiSelector().resourceId(""));
                     UiObject uiWebView = new UiObject(new UiSelector().resourceId("com.jifen.dandan:id/q_web_view"));
 
-                    UiObject uiRootT = new UiObject(new UiSelector().resourceId("com.kingroot.kinguser:id/title").text("UiAutomator"));
-                    UiObject uiRootAllow = new UiObject(new UiSelector().resourceId("com.kingroot.kinguser:id/button_right"));
 
                     if (uiDialogClose.exists()) {//弹框（邀请好友）
                         uiDialogClose.click();
@@ -88,14 +85,13 @@ public class CaiDantest extends TestCase {
                         uiCloseBtn.click();
                     } else if (uiWebView.exists()) {//个人中心 webView 控件
                         uiDevice.pressBack();
-                    } else if (uiRootT.exists() && uiRootAllow.exists()) {//root 权限获取
-                        uiRootAllow.click();
                     } else {//最终的强制搞一波
 
                         baseMethod(uiDevice, 1);
                     }
                 }
 
+                Thread.sleep(500);
 
             }
 
@@ -142,7 +138,7 @@ public class CaiDantest extends TestCase {
                             .className("android.widget.FrameLayout"));
                     if (appLaunch.exists()) {//没有彻底挂掉
                         appLaunch.click();
-                        Thread.sleep(500);
+                        Thread.sleep(1000);
                     } else {//彻底挂掉了  重启
                         uiDevice.pressHome();
                         Thread.sleep(500);
