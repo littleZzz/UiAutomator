@@ -217,9 +217,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private void initData() {
         /*这里就是数据源*/
         /*稳定数据*/
-        videos.add(new VideosBean("快手极速版", "KuaiSJiSutest", 35 * 60 * 1000));
+        videos.add(new VideosBean("快手极速版", "KuaiSJiSutest", 25 * 60 * 1000));
         videos.add(new VideosBean("刷宝短视频", "ShuaBaotest", 25 * 60 * 1000));
-        videos.add(new VideosBean("彩蛋视频", "CaiDantest", 35 * 60 * 1000));
+        videos.add(new VideosBean("彩蛋视频", "CaiDantest", 30 * 60 * 1000));
         videos.add(new VideosBean("微视", "WeiShitest", 10 * 60 * 1000));
 
         /*待确定的数据*/
