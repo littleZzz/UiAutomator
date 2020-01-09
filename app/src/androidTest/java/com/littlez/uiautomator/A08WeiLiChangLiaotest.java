@@ -66,7 +66,7 @@ public class A08WeiLiChangLiaotest extends TestCase {
                             uiDevice.swipe(534, 802, 400, 1200, 2);
                         } else if (number <= 92) {//下滑
                             uiDevice.swipe(400, 1200, 534, 802, 2);
-                            Thread.sleep(3500);//播放 时长
+                            Thread.sleep(3000);//播放 时长
                             swipCount++;
                             if (swipCount % 10 == 0) {
                                 UiObject uiTimer = new UiObject(

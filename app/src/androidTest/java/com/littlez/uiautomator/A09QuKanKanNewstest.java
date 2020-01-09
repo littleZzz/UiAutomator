@@ -14,19 +14,18 @@ import androidx.test.uiautomator.UiSelector;
 
 /**
  * created by xiaozhi
- * <p>快看点  测试用例
+ * <p>趣看看  测试用例
  * Date 2019/12/3
  */
-public class KuaiKanDianTVtest extends TestCase {
+public class A09QuKanKanNewstest extends TestCase {
 
 
     /*app 名字*/
-    private String appName = "快看点";
+    private String appName = "趣看看";
 
 
     private int errorCount = 0;//记录异常强制启动次数  超过10次就关闭应用
-    private int swipCount = 0;//记录一下滑动的次数每隔10次滑动  点击一下timer
-
+    private int newsCount = 0;//记录一下看新闻的次数  每隔几次点击一下
 
     //    @Test
     public void test() throws UiObjectNotFoundException {
@@ -40,67 +39,92 @@ public class KuaiKanDianTVtest extends TestCase {
 //        LogUtil.e("我开始运行了");
         int count = 0;
 
+        try {
 
-        baseMethod(uiDevice, 0);//启动时  先关闭其他的
+            baseMethod(uiDevice, 0);//启动时  先关闭其他的
 
-        while (true) {
+            while (true) {
 
-            try {
 //                LogUtil.e("我运行了" + (count++));
 
                 //主页
                 UiObject uiMain = new UiObject(new UiSelector()
-                        .resourceId("com.yuncheapp.android.pearl:id/home_page_tab_bar"));
+                        .resourceId("com.popnews2345:id/ll_tab_group"));
+                //红包
+                UiObject uiRedPack = new UiObject(new UiSelector().resourceId("com.startnews.plugin:id/iv_red_pack"));
 
 
-                if (uiMain.exists()) {//是主页
+                if (uiRedPack.exists()) {//查看新闻界面
 
-                    UiObject uiHome = new UiObject(new UiSelector()
-                            .resourceId("com.yuncheapp.android.pearl:id/tab_tv").text("首页"));
-                    UiObject uiTV = new UiObject(new UiSelector()
-                            .resourceId("com.yuncheapp.android.pearl:id/tab_tv").text("小视频"));
-                    UiObject uiMission = new UiObject(new UiSelector()
-                            .resourceId("com.yuncheapp.android.pearl:id/tab_tv").text("任务"));
+                    boolean isRun = true;
+                    newsCount++;
 
-                    if (uiTV.exists() && uiTV.isSelected()) {//选中的小视频
-
-                        //心
-                        UiObject uiHeart = new UiObject(new UiSelector()
-                                .resourceId("com.yuncheapp.android.pearl:id/like_icon"));
-                        Random r = new Random();
-                        int number = r.nextInt(100) + 1;
-                        /*随机数 进行判断 点击心或者滑动到下一个视频*/
-                        if (number <= 10) {//上滑
-                            uiDevice.swipe(534, 802, 400, 1200, 2);
-                        } else if (number <= 90) {//下滑
-                            uiDevice.swipe(400, 1200, 534, 802, 2);
-                            Thread.sleep(8000);//播放 时长
-                            swipCount++;
-                            if (swipCount % 10 == 0) {
-                                UiObject uiTimer = new UiObject(
-                                        new UiSelector().resourceId("com.yuncheapp.android.pearl:id/timer_anchor"));
-                                uiTimer.clickTopLeft();
-                            }
-                        } else if (number <= 95) {//点击任务
-                            uiMission.click();
-                        } else {//3点击心
-                            if (uiHeart.exists()) uiHeart.click();
-                        }
-
-                    } else {//其他
-                        uiTV.click();
+                    if (newsCount % 4 == 0) {//每隔三次点击一下红包
+                        uiRedPack.click();
+                        continue;
                     }
 
+                    //查看新闻
+                    while (isRun) {
+
+                        //新闻
+                        UiObject uiLike = new UiObject(
+                                new UiSelector().resourceId("com.startnews.plugin:id/rel_like"));
+
+                        if (uiLike.exists()) {
+                            isRun = false;
+                            uiDevice.pressBack();
+                        } else {
+                            uiDevice.swipe(400, 1200, 534, 802, 10);
+                        }
+
+                    }
+
+                } else if (uiMain.exists()) {//是主页
+
+                    UiObject uiHome = new UiObject(new UiSelector()
+                            .resourceId("com.popnews2345:id/tv_title").text("头条"));
+                    UiObject uiMission = new UiObject(new UiSelector()
+                            .resourceId("com.popnews2345:id/tv_title").text("任务"));
+                    UiObject uiMe = new UiObject(new UiSelector()
+                            .resourceId("com.popnews2345:id/tv_title").text("我的"));
+
+                    if (uiHome.isSelected()) {//选中的头条
+                        //item  通过图片id  确认点击哪一个
+                        UiObject uiItem = new UiObject(new UiSelector()
+                                .resourceId("com.startnews.plugin:id/img_item1").instance(0));
+
+                        Random r = new Random();
+                        int number = r.nextInt(100) + 1;
+                        if (number <= 2) {//上滑
+                            uiDevice.swipe(534, 802, 400, 1200, 10);
+                        } else if (number <= 95) {//下滑
+                            uiDevice.swipe(400, 1200, 534, 602, 10);
+                        } else if (number <= 98) {
+                            uiMission.click();//跳转到查看任务
+                            Thread.sleep(500);
+                            continue;
+                        } else {
+                            uiMe.click();//我的
+                            Thread.sleep(1000);
+                            continue;
+                        }
+                        uiItem.click();
+                        Thread.sleep(1000);//要听一下  给一些加载时间
+                    } else {//其他
+                        uiHome.click();
+                    }
 
                 } else {//处理异常情况
-                    UiObject uiDialogClose = new UiObject(new UiSelector().resourceId("com.yuncheapp.android.pearl:id/close_img"));
-                    UiObject uiWebView = new UiObject(new UiSelector().resourceId("com.yuncheapp.android.pearl:id/webview"));
+                    //靠点赞按钮判断是不是在播放视频那个整个界面
+                    UiObject uiDialog = new UiObject(new UiSelector().resourceId("com.popnews2345:id/iv_close"));
+                    UiObject uiDialog02 = new UiObject(
+                            new UiSelector().resourceId("com.startnews.plugin:id/news2345_iv_close"));
 
-                    //TODO 还有一个砸蛋那个关闭没有弄
-                    if (uiWebView.exists()) {
-                        uiDevice.pressBack();
-                    } else if (uiDialogClose.exists()) {//
-                        uiDialogClose.click();
+                    if (uiDialog.exists()) {//
+                        uiDialog.click();
+                    } else if (uiDialog02.exists()) {//
+                        uiDialog02.click();
                     } else {//最终的强制搞一波
 
                         baseMethod(uiDevice, 1);
@@ -109,11 +133,11 @@ public class KuaiKanDianTVtest extends TestCase {
 
                 Thread.sleep(500);
 
-            } catch (Exception e) {
-                e.printStackTrace();
             }
+
+        } catch (Exception e) {
+            e.printStackTrace();
         }
-        
     }
 
 
@@ -154,7 +178,7 @@ public class KuaiKanDianTVtest extends TestCase {
                             .className("android.widget.FrameLayout"));
                     if (appLaunch.exists()) {//没有彻底挂掉
                         appLaunch.click();
-                        Thread.sleep(1000);
+                        Thread.sleep(2000);
                     } else {//彻底挂掉了  重启
                         uiDevice.pressHome();
                         Thread.sleep(500);

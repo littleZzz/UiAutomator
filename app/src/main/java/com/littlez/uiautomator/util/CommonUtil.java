@@ -57,6 +57,27 @@ public class CommonUtil {
         LogUtil.e("result---" + run.getResult());
     }
 
+    /**
+     * 判断是不是有uiautomator在运行
+     *
+     * @return
+     */
+    public static boolean isUiautomatorRuning() {
+
+        boolean back = false;
+        //通过文件来停止 和启动 uiautomator
+        ExeCommand run = new ExeCommand(true)
+                .run("ps | grep uiautomator", 30000);
+        if (!TextUtils.isEmpty(run.getResult())) {//不是空
+            String result = run.getResult();
+            if (result.contains("root")) {//有
+                back = true;
+            }
+        }
+        LogUtil.e("isUiautomatorRuning---" + back);
+        return back;
+    }
+
 
     /**
      * 根据Date解析日期

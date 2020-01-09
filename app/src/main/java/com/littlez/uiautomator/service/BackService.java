@@ -9,6 +9,7 @@ import android.content.Intent;
 import android.graphics.BitmapFactory;
 import android.os.Build;
 import android.os.IBinder;
+import android.util.Log;
 
 import com.littlez.uiautomator.MainActivity;
 import com.littlez.uiautomator.R;
@@ -33,6 +34,7 @@ public class BackService extends Service {
     private boolean isrun = true;
     private ArrayList<VideosBean> datas;
     private long startTime = 0L;//开始运行的时间
+    private long notifyTime = 0L;//唤醒uiautomator的时间值标记
     private long gapTime = 30 * 60 * 1000;//间隔的时间 默认半小时
     private int startFlag = 0;//运行到第几条的flag PS：是一直自增的 所以用的时候进行%运算
 
@@ -58,7 +60,11 @@ public class BackService extends Service {
                         long time = System.currentTimeMillis();
                         if (startTime <= 0 || time - startTime >= gapTime) {//已经到切换的时间了
 
-                            CommonUtil.stopUiautomator();//停止当前任务
+
+                            while (CommonUtil.isUiautomatorRuning()) {//循环保证一定停止当前任务
+                                CommonUtil.stopUiautomator();
+                                Thread.sleep(500);
+                            }
 
                             //获取到开始那一条任务 并运行
                             String testClass = datas.get(startFlag % datas.size()).getTestClass();
@@ -70,8 +76,19 @@ public class BackService extends Service {
                         }
 
                         LogUtil.e("运行中.." + datas.get((startFlag - 1) % datas.size()).getTestClass() +
-                                "; gapTime=" + (gapTime / 1000 / 60) + "分钟; " + (time - startTime) / 1000 / 60);
+                                ";gapTime=" + (gapTime / 1000 / 60) + "分钟;" + (time - startTime) / 1000 / 60);
                         Thread.sleep(5000);
+
+                        //另外设一个时间值  判断当前运行uiautomator  是不是没有运行  是就去唤醒他
+                        if (time - notifyTime > 15000) {//15秒一个间隔去检查是不是
+                            boolean uiautomatorRuning = CommonUtil.isUiautomatorRuning();
+                            if (!uiautomatorRuning) {//如果没有uiautomator任务运行
+                                //重新启动UI任务
+                                String testClass = datas.get((startFlag - 1) % datas.size()).getTestClass();
+                                if (!"test".endsWith(testClass))//排除一下空数据
+                                    CommonUtil.startUiautomator(testClass);//开始一个任务
+                            }
+                        }
 
                     } catch (InterruptedException e) {
                         e.printStackTrace();
@@ -92,7 +109,12 @@ public class BackService extends Service {
         if (!thread.isAlive()) {
             thread.start();
             LogUtil.e("调用了 therad.start");
+        } else {//否则就重置现在最新的数据
+            //重置标记  重新开始任务
+            startTime = 0;
+            startFlag = 0;
         }
+        notifyTime = System.currentTimeMillis();//设置唤醒ui任务的时间值
         return super.onStartCommand(intent, flags, startId);
     }
 

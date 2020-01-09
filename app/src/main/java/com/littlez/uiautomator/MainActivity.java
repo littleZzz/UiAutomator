@@ -112,7 +112,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
             case R.id.btnStop://停止按钮
 
-                CommonUtil.stopUiautomator();//停止调用
+                while (CommonUtil.isUiautomatorRuning()) {
+                    CommonUtil.stopUiautomator();//停止调用
+                }
 
                 break;
             case R.id.btnStartServe://启动服务
@@ -216,18 +218,19 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         /*这里就是数据源*/
         /*稳定数据*/
         videos.add(new VideosBean("快手极速版", "KuaiSJiSutest", 35 * 60 * 1000));
-        videos.add(new VideosBean("刷宝短视频", "ShuaBaotest", 35 * 60 * 1000));
+        videos.add(new VideosBean("刷宝短视频", "ShuaBaotest", 25 * 60 * 1000));
         videos.add(new VideosBean("彩蛋视频", "CaiDantest", 35 * 60 * 1000));
         videos.add(new VideosBean("微视", "WeiShitest", 10 * 60 * 1000));
 
         /*待确定的数据*/
-        videos.add(new VideosBean("快看点视频", "KuaiKanDianTVtest", 25 * 60 * 1000));
-        videos.add(new VideosBean("趣头条", "QuTouTiaotest", 25 * 60 * 1000));//id 经常变
-        videos.add(new VideosBean("快看点新闻", "KuaiKanDianNewstest", 25 * 60 * 1000));
+        videos.add(new VideosBean("快看点视频", "KuaiKanDianTVtest", 18 * 60 * 1000));
+        videos.add(new VideosBean("快看点新闻", "KuaiKanDianNewstest", 18 * 60 * 1000));
+        videos.add(new VideosBean("趣头条", "QuTouTiaotest", 25 * 60 * 1000));//
         videos.add(new VideosBean("微鲤畅聊版", "A08WeiLiChangLiaotest", 25 * 60 * 1000));
+        videos.add(new VideosBean("趣看看", "A09QuKanKanNewstest", 20 * 60 * 1000));
 
         //下面  是无用|或使用过废弃的数据  如 火山  淘看点 等等
-        videos.add(new VideosBean("空数据", "hahhh", 30 * 60 * 1000));
+        videos.add(new VideosBean("空数据", "test", 30 * 60 * 1000));
 //        videos.add(new VideosBean("火山极速版", "HuoShanJiSutest", 35 * 60 * 1000));//id 经常变  效率实在是差
     }
 
