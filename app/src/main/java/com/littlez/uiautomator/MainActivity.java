@@ -228,6 +228,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         videos.add(new VideosBean("趣头条", "QuTouTiaotest", 25 * 60 * 1000));//
         videos.add(new VideosBean("微鲤畅聊版", "A08WeiLiChangLiaotest", 25 * 60 * 1000));
         videos.add(new VideosBean("趣看看", "A09QuKanKanNewstest", 20 * 60 * 1000));
+        videos.add(new VideosBean("东方头条", "A10DongFangTTtest", 25 * 60 * 1000));
 
         //下面  是无用|或使用过废弃的数据  如 火山  淘看点 等等
         videos.add(new VideosBean("空数据", "test", 30 * 60 * 1000));

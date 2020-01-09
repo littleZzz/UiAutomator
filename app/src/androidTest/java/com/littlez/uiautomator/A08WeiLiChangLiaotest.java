@@ -42,12 +42,11 @@ public class A08WeiLiChangLiaotest extends TestCase {
 //        LogUtil.e("我开始运行了");
         int count = 0;
 
-        try {
 
-            baseMethod(uiDevice, 0);//启动时  先关闭其他的
+        baseMethod(uiDevice, 0);//启动时  先关闭其他的
 
-            while (true) {
-
+        while (true) {
+            try {
 //                LogUtil.e("我运行了" + (count++));
 
                 //主页
@@ -108,12 +107,12 @@ public class A08WeiLiChangLiaotest extends TestCase {
                 }
 
                 Thread.sleep(500);
-
+            } catch (Exception e) {
+                e.printStackTrace();
             }
-
-        } catch (Exception e) {
-            e.printStackTrace();
         }
+
+
     }
 
 

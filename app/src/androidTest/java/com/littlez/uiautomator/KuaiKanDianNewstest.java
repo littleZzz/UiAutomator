@@ -43,12 +43,12 @@ public class KuaiKanDianNewstest extends TestCase {
 //        LogUtil.e("我开始运行了");
         int count = 0;
 
-        try {
 
-            baseMethod(uiDevice, 0);//启动时  先关闭其他的
+        baseMethod(uiDevice, 0);//启动时  先关闭其他的
 
-            while (true) {
+        while (true) {
 
+            try {
 //                LogUtil.e("我运行了" + (count++));
 
                 //主页
@@ -63,7 +63,7 @@ public class KuaiKanDianNewstest extends TestCase {
 
                     boolean isRun = true;
                     //查看新闻
-                    while (isRun) {
+                    while (isRun && uiCollect.exists() && uiShare.exists()) {
                         UiObject uiWeixin02 = new UiObject(new UiSelector()
                                 .resourceId("com.yuncheapp.android.pearl:id/wechat_wrapper"));//视频
 
@@ -134,11 +134,12 @@ public class KuaiKanDianNewstest extends TestCase {
 
                 Thread.sleep(500);
 
+            } catch (Exception e) {
+                e.printStackTrace();
             }
-
-        } catch (Exception e) {
-            e.printStackTrace();
         }
+
+
     }
 
 
