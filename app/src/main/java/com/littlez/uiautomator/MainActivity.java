@@ -62,6 +62,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         rvLogs = (RecyclerView) findViewById(R.id.rvLogs);
         CheckBox cbCheckAll = (CheckBox) findViewById(R.id.cbCheckAll);
         Button btnStop = (Button) findViewById(R.id.btnStop);
+        Button btnStopServe = (Button) findViewById(R.id.btnStopServe);
         Button btnStartServe = (Button) findViewById(R.id.btnStartServe);
 
         tvVersion.setText("版本：".concat(CommonUtil.packageName(mContext)));
@@ -94,6 +95,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         });
 
         btnStop.setOnClickListener(this);
+        btnStopServe.setOnClickListener(this);
         btnStartServe.setOnClickListener(this);
         btnUpgradeApk.setOnClickListener(this);
         btnUpgradeJar.setOnClickListener(this);

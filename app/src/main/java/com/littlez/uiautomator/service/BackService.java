@@ -57,6 +57,7 @@ public class BackService extends Service {
 
                     try {
 
+
                         long time = System.currentTimeMillis();
                         if (startTime <= 0 || time - startTime >= gapTime) {//已经到切换的时间了
 
@@ -124,6 +125,8 @@ public class BackService extends Service {
         stopForeground(true);// 停止前台服务--参数：表示是否移除之前的通知
         super.onDestroy();
         LogUtil.e("BackService  onDestroy");
+
+        isrun = false;
 
     }
 
