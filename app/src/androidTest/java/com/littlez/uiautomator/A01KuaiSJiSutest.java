@@ -21,47 +21,40 @@ import androidx.test.uiautomator.UiSelector;
  * <p>快手极速版
  * Date 2019/12/3
  */
-public class KuaiSJiSutest extends TestCase {
-
+public class A01KuaiSJiSutest extends TestCase {
 
     /*app 名字*/
     private String appName = "快手极速版";
-
-
-    private int errorCount = 0;//记录异常强制启动次数  超过10次就关闭应用
-
 
     //    @Test
     public void test() throws UiObjectNotFoundException {
         // 获取设备对象
         Instrumentation instrumentation = InstrumentationRegistry.getInstrumentation();
         UiDevice uiDevice = UiDevice.getInstance(instrumentation);
-        // 获取上下文
-//        Context context = instrumentation.getContext();
 
-//        LogUtil.e("我开始运行了");
-        int count = 0;
         try {
+            LogUtil.e("1");
+            A00UtilTest.baseMethod(uiDevice, 0, appName);//启动时  先关闭其他的
+            A00UtilTest.errorCount = 0;//设置errorcount为0
+            LogUtil.e("2");
 
-            baseMethod(uiDevice, 0);//启动时  先关闭其他的
 
             while (true) {
-
-//                LogUtil.e("我运行了" + (count++));
+                LogUtil.e("5");
 
                 //首页
                 UiObject uiHome = new UiObject(new UiSelector().resourceId("com.kuaishou.nebula:id/left_btn"));
 
-
                 if (uiHome.exists()) {//是首页
+                    LogUtil.e("6");
 
                     Random r = new Random();
                     int number = r.nextInt(100) + 1;
                     /*随机数 进行判断 点击心或者滑动到下一个视频*/
                     if (number <= 10) {//上滑
-                        uiDevice.swipe(534, 802, 400, 1200, 2);
+                        A00UtilTest.swipUp(uiDevice);
                     } else if (number <= 94) {//下滑
-                        uiDevice.swipe(400, 1200, 534, 802, 2);
+                        A00UtilTest.swipDown(uiDevice);
                         Thread.sleep(5000);//播放 时长
                     } else if (number <= 97) {//3点击心
                         //心
@@ -92,79 +85,21 @@ public class KuaiSJiSutest extends TestCase {
 
                 } else {//处理异常情况  1.0 点击重播 2.0 广告滑动一下
                     UiObject uiReplay = new UiObject(new UiSelector().resourceId("com.kuaishou.nebula:id/replay_ad_video"));
-
+                    LogUtil.e("7");
 
                     if (uiReplay.exists()) {
-                        uiDevice.swipe(400, 1200, 534, 802, 2);
-                    }  else {//最终的强制搞一波
-
-                        baseMethod(uiDevice, 1);
+                        A00UtilTest.swipDown(uiDevice);
+                    } else {//最终的强制搞一波
+                        A00UtilTest.baseMethod(uiDevice, 1, appName);
                     }
                 }
 
                 Thread.sleep(500);
-
             }
 
         } catch (Exception e) {
             e.printStackTrace();
-        }
-    }
-
-
-    /**
-     * 基本的运行方法封装
-     */
-    public void baseMethod(UiDevice uiDevice, int flag) {
-        try {
-            switch (flag) {
-                case 0://CLEAR_APP
-                    uiDevice.pressRecentApps();
-                    Thread.sleep(500);
-                    UiObject clearAll = new UiObject(new UiSelector().resourceId("com.android.systemui:id/clearAnimView"));
-                    if (clearAll.exists()) {
-                        clearAll.click();
-                        Thread.sleep(500);
-                    }
-                    break;
-                case 1://Error_Base
-                    if (errorCount > 6) {//这个强制方法走了10次  出现什么异常问题了 直接关闭应用  重新启动
-                        uiDevice.pressHome();
-                        Thread.sleep(500);
-                        uiDevice.pressRecentApps();
-                        Thread.sleep(500);
-                        UiObject appClearAll =
-                                new UiObject(new UiSelector().resourceId("com.android.systemui:id/clearAnimView"));
-                        if (appClearAll.exists()) {
-                            appClearAll.click();
-                            errorCount = 0;//重置失败次数
-                            Thread.sleep(500);
-                        }
-                    }
-                    uiDevice.pressHome();
-                    Thread.sleep(500);
-                    uiDevice.pressRecentApps();
-                    Thread.sleep(500);
-                    UiObject appLaunch = new UiObject(new UiSelector().descriptionContains(appName)
-                            .className("android.widget.FrameLayout"));
-                    if (appLaunch.exists()) {//没有彻底挂掉
-                        appLaunch.click();
-                        Thread.sleep(1000);
-                    } else {//彻底挂掉了  重启
-                        uiDevice.pressHome();
-                        Thread.sleep(500);
-                        //启动应用
-                        UiObject uiVideo = new UiObject(new UiSelector().text(appName));
-                        if (uiVideo.exists()) {
-                            uiVideo.click();
-                            Thread.sleep(2000);
-                        }
-                    }
-                    errorCount++;//增加异常启动次数
-                    break;
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
+            LogUtil.e(e.toString());
         }
     }
 

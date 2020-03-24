@@ -1,6 +1,9 @@
 package com.littlez.uiautomator;
 
 import android.app.Instrumentation;
+import android.util.Log;
+
+import com.littlez.uiautomator.util.LogUtil;
 
 import junit.framework.TestCase;
 
@@ -14,18 +17,18 @@ import androidx.test.uiautomator.UiSelector;
 
 /**
  * created by xiaozhi
- * <p>趣头条 测试用例
+ * <p>微鲤畅聊版  测试用例
  * Date 2019/12/3
  */
-public class QuTouTiaotest extends TestCase {
+public class A08WeiLiKanKantest extends TestCase {
 
 
     /*app 名字*/
-    private String appName = "趣头条";
+    private String appName = "微鲤看看";
 
 
     private int errorCount = 0;//记录异常强制启动次数  超过10次就关闭应用
-
+    private int swipCount = 0;//记录一下滑动的次数每隔10次滑动  点击一下timer
 
     //    @Test
     public void test() throws UiObjectNotFoundException {
@@ -39,72 +42,77 @@ public class QuTouTiaotest extends TestCase {
 //        LogUtil.e("我开始运行了");
         int count = 0;
 
-        try {
 
-            baseMethod(uiDevice, 0);//启动时  先关闭其他的
+        baseMethod(uiDevice, 0);//启动时  先关闭其他的
 
-            while (true) {
-
+        while (true) {
+            try {
 //                LogUtil.e("我运行了" + (count++));
 
                 //主页
-                UiObject uiHome = new UiObject(new UiSelector().resourceId("com.jifen.qukan:id/mh"));
-                //心
-                UiObject uiHeart = new UiObject(new UiSelector().resourceId("com.jifen.qukan:id/qu"));
+                UiObject uiMain = new UiObject(new UiSelector().resourceId("cn.tech.weili.kankan:id/ll_bottom"));
+                if (uiMain.exists()) {//是主页
+                    //心
+                    UiObject uiHeart = new UiObject(new UiSelector()
+                            .resourceId("cn.tech.weili.kankan:id/iv_appreciate"));
 
-                if (uiHome.exists()) {//是主页
+                    if (uiHeart.exists()) {//选中的首页
 
-                    /*阅读奖励*/
-                    UiObject uiReadingAward = new UiObject(new UiSelector().resourceId("com.jifen.qukan:id/aw_"));
-                    UiObject uiTV = new UiObject(new UiSelector().text("小视频").className("android.widget.TextView"));
-                    UiObject uiMission = new UiObject(new UiSelector().text("任务").className("android.widget.TextView"));
-                    UiObject uiMe = new UiObject(new UiSelector().text("我的").className("android.widget.TextView"));
-
-                    if (!uiTV.isSelected()) {//不在播放视频界面
-                        uiTV.click();
-                        Thread.sleep(500);
-                    } else if (uiReadingAward.exists()) {
-                        uiReadingAward.click();
-                    } else {
                         Random r = new Random();
                         int number = r.nextInt(100) + 1;
                         /*随机数 进行判断 点击心或者滑动到下一个视频*/
                         if (number <= 5) {//上滑
                             uiDevice.swipe(534, 802, 400, 1200, 2);
-                        } else if (number <= 88) {//下滑
+                        } else if (number <= 92) {//下滑
                             uiDevice.swipe(400, 1200, 534, 802, 2);
-                            Thread.sleep(8000);//播放 时长
-                        } else if (number <= 92) {
-                            uiMission.click();
-                            Thread.sleep(500);
-                        } else if (number <= 95) {
+                            Thread.sleep(3000);//播放 时长
+                            swipCount++;
+                            if (swipCount % 10 == 0) {
+                                UiObject uiTimer = new UiObject(
+                                        new UiSelector().resourceId("cn.tech.weili.kankan:id/rl_read_coin"));
+                                uiTimer.click();
+                            }
+                        } else if (number <= 96) {//点击我的
+                            UiObject uiMe = new UiObject(new UiSelector()
+                                    .resourceId("cn.tech.weili.kankan:id/rl_bottom_4"));
                             uiMe.click();
                             Thread.sleep(500);
                         } else {//3点击心
                             if (uiHeart.exists()) uiHeart.click();
                         }
+                    } else {//其他 都进行点击首页
+                        UiObject uiHome = new UiObject(new UiSelector()
+                                .resourceId("cn.tech.weili.kankan:id/rl_bottom_1"));
+                        uiHome.click();
                     }
 
-                } else {//处理异常情况  1.0 点击重播 2.0 广告滑动一下
-                    UiObject uiClose = new UiObject(new UiSelector().resourceId("com.jifen.qukan:id/a5n"));
 
+                } else {//处理异常情况
+                    UiObject uiDiaClose = new UiObject(new UiSelector().resourceId("cn.tech.weili.kankan:id/iv_close"));
+                    UiObject uiDiaClose02 = new UiObject(new UiSelector().resourceId("cn.tech.weili.kankan:id/tv_ok"));
+                    UiObject uiDiaClose03 = new UiObject(new UiSelector().resourceId("cn.tech.weili.kankan:id/img_close"));
+                    UiObject uiBtnBack = new UiObject(new UiSelector().resourceId("cn.tech.weili.kankan:id/button_back"));
 
-                    if (uiClose.exists()) {
-                        uiClose.click();
+                    if (uiDiaClose.exists()) {//
+                        uiDiaClose.click();
+                    } else if (uiDiaClose02.exists()) {//
+                        uiDiaClose02.click();
+                    } else if (uiDiaClose03.exists()) {//
+                        uiDiaClose03.click();
+                    } else if (uiBtnBack.exists()) {//
+                        uiBtnBack.click();
                     } else {//最终的强制搞一波
-
                         baseMethod(uiDevice, 1);
-
                     }
                 }
 
                 Thread.sleep(500);
-
+            } catch (Exception e) {
+                e.printStackTrace();
             }
-
-        } catch (Exception e) {
-            e.printStackTrace();
         }
+
+
     }
 
 

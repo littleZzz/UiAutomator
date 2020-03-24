@@ -34,7 +34,6 @@ import java.util.Set;
 
 //  https://www.testwo.com/blog/7057  这个是标准的配置文档
 public class MainActivity extends AppCompatActivity implements View.OnClickListener, DataCallbackListener {
-
     Context mContext = this;
     /*各个平台对应的信息*/
     final ArrayList<VideosBean> videos = new ArrayList<>();
@@ -44,7 +43,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private LogsAdapter logsAdapter;
     private RecyclerView rvLogs;
     private PersionSubscribe persionSubscribe;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -219,18 +217,17 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private void initData() {
         /*这里就是数据源*/
         /*稳定数据*/
-        videos.add(new VideosBean("快手极速版", "KuaiSJiSutest", 25 * 60 * 1000));
-        videos.add(new VideosBean("刷宝短视频", "ShuaBaotest", 25 * 60 * 1000));
-        videos.add(new VideosBean("彩蛋视频", "CaiDantest", 30 * 60 * 1000));
-        videos.add(new VideosBean("微视", "WeiShitest", 10 * 60 * 1000));
+//        videos.add(new VideosBean("快手极速版", "A01KuaiSJiSutest", 25 * 60 * 1000));//需要验证
+        videos.add(new VideosBean("刷宝短视频", "A02ShuaBaotest", 25 * 60 * 1000));
+        videos.add(new VideosBean("彩蛋视频", "A03CaiDantest", 30 * 60 * 1000));
 
         /*待确定的数据*/
-        videos.add(new VideosBean("快看点视频", "KuaiKanDianTVtest", 18 * 60 * 1000));
-        videos.add(new VideosBean("快看点新闻", "KuaiKanDianNewstest", 18 * 60 * 1000));
-        videos.add(new VideosBean("趣头条", "QuTouTiaotest", 25 * 60 * 1000));//
-        videos.add(new VideosBean("微鲤畅聊版", "A08WeiLiChangLiaotest", 25 * 60 * 1000));
-        videos.add(new VideosBean("趣看看", "A09QuKanKanNewstest", 20 * 60 * 1000));
-        videos.add(new VideosBean("东方头条", "A10DongFangTTtest", 25 * 60 * 1000));
+//        videos.add(new VideosBean("快看点视频", "A04KuaiKanDianTVtest", 18 * 60 * 1000));//需要验证
+        videos.add(new VideosBean("快看点新闻", "A05KuaiKanDianNewstest", 18 * 60 * 1000));
+//        videos.add(new VideosBean("趣头条", "A06QuTouTiaotest", 25 * 60 * 1000));//好像经常变动id
+//        videos.add(new VideosBean("微鲤看看", "A08WeiLiKanKantest", 25 * 60 * 1000));//这个好像可以
+//        videos.add(new VideosBean("趣看看", "A09QuKanKanNewstest", 20 * 60 * 1000));
+//        videos.add(new VideosBean("东方头条", "A10DongFangTTtest", 25 * 60 * 1000));
 
         //下面  是无用|或使用过废弃的数据  如 火山  淘看点 等等
         videos.add(new VideosBean("空数据", "test", 30 * 60 * 1000));
