@@ -35,54 +35,89 @@ public class A06QuTouTiaotest extends TestCase {
             A00UtilTest.errorCount = 0;//重置/
 
             while (true) {
-
                 //主页
-                UiObject uiHome = new UiObject(new UiSelector().resourceId("com.jifen.qukan:id/mh"));
-                //心
-                UiObject uiHeart = new UiObject(new UiSelector().resourceId("com.jifen.qukan:id/qu"));
+                UiObject uiHome = new UiObject(new UiSelector().resourceId("com.jifen.qukan:id/m6"));
 
-                if (uiHome.exists()) {//是主页
-
-                    /*阅读奖励*/
-                    UiObject uiReadingAward = new UiObject(new UiSelector().resourceId("com.jifen.qukan:id/aw_"));
-                    UiObject uiTV = new UiObject(new UiSelector().text("小视频").className("android.widget.TextView"));
-                    UiObject uiMission = new UiObject(new UiSelector().text("任务").className("android.widget.TextView"));
-                    UiObject uiMe = new UiObject(new UiSelector().text("我的").className("android.widget.TextView"));
-
-                    if (!uiTV.isSelected()) {//不在播放视频界面
-                        uiTV.click();
-                        Thread.sleep(500);
-                    } else if (uiReadingAward.exists()) {
-                        uiReadingAward.click();
-                    } else {
+                if (uiHome.exists()) {//是主页  滑动选择条目
+                    UiObject uiHomeChild =
+                            uiHome.getChild(new UiSelector().className("android.widget.FrameLayout").index(0));
+                    if (uiHomeChild.isSelected()) {//选中的是首页
+                        //主页滑动选择条目
                         Random r = new Random();
                         int number = r.nextInt(100) + 1;
-                        /*随机数 进行判断 点击心或者滑动到下一个视频*/
-                        if (number <= 5) {//上滑
-                            A00UtilTest.swipUp(uiDevice);
-                        } else if (number <= 88) {//下滑
-                            A00UtilTest.swipDown(uiDevice);
-                            Thread.sleep(8000);//播放 时长
-                        } else if (number <= 92) {
-                            uiMission.click();
-                            Thread.sleep(500);
-                        } else if (number <= 95) {
-                            uiMe.click();
-                            Thread.sleep(500);
-                        } else {//3点击心
-                            if (uiHeart.exists()) uiHeart.click();
+                        if (number <= 2) {//上滑
+                            A00UtilTest.swipUp(uiDevice, 10);
+                        } else if (number <= 95) {//下滑
+                            A00UtilTest.swipDown(uiDevice, 10);
+                        } else {//做一些其他额外的附加任务
+                            UiObject uiGet =
+                                    new UiObject(new UiSelector().resourceId("com.jifen.qukan:id/bsx").text("领取"));//首页领取
+                            if (uiGet.exists()) {
+                                uiGet.click();
+                                continue;
+                            }
+                        }
+                        Thread.sleep(500);
+                        UiObject uititle = new UiObject(new UiSelector().resourceId("com.jifen.qukan:id/ajh"));
+                        uititle.click();//跳转到查看任务
+                        Thread.sleep(600);//要听一下  给一些加载时间
+                    }
+
+                } else {//去检测是不是我想要的界面  是就进行处理
+                    UiObject uicllect = new UiObject(new UiSelector().resourceId("com.jifen.qukan:id/bmx"));//收藏
+                    UiObject uiTvOut = new UiObject(new UiSelector().resourceId("com.jifen.qukan:id/tp"));//视频最外层
+
+                    if (uicllect.exists() && uiTvOut.exists()) {//是视频
+
+                        UiObject uiAward = new UiObject(new UiSelector().resourceId("com.jifen.qukan:id/aw_"));//阅读奖励
+                        if (uiAward.exists()) {
+                            uiAward.click();
+                            continue;//要跳过这次循环
+                        }
+                        Random r = new Random();
+                        int number = r.nextInt(90) + 1;
+                        Thread.sleep((45 + number) * 1000);
+                        uiDevice.pressBack();
+                    } else if (uicllect.exists()) {//是新闻
+
+                        UiObject uiAward = new UiObject(new UiSelector().resourceId("com.jifen.qukan:id/aw_"));//阅读奖励
+                        if (uiAward.exists()) {
+                            uiAward.click();
+                            continue;//要跳过这次循环
+                        }
+
+                        boolean isRun = true;
+                        while (isRun) {
+                            UiObject uilike
+                                    = new UiObject(new UiSelector().description("不喜欢").className("android.view.View"));//喜欢
+                            if (uilike.exists()) {
+                                isRun = false;
+                                uiDevice.pressBack();
+                            } else {
+                                uiDevice.swipe(400, 1200, 534, 802, 10);
+                                Thread.sleep(500);
+                            }
+                        }
+
+                    } else {
+                        //处理异常情况
+                        UiObject uiClose = new UiObject(new UiSelector().resourceId("com.jifen.qukan:id/a5n"));
+                        //阅读奖励点击后的dialog
+                        UiObject uiClose02 = new UiObject(new UiSelector().resourceId("com.jifen.qukan:id/v8"));
+                        UiObject uiClose03 = new UiObject(new UiSelector().resourceId("com.jifen.qukan:id/yc"));
+
+                        if (uiClose.exists()) {
+                            uiClose.click();
+                        } else if (uiClose02.exists()) {
+                            uiClose02.click();
+                        } else if (uiClose03.exists()) {
+                            uiClose03.click();
+                        } else {//最终的强制搞一波
+                            A00UtilTest.baseMethod(uiDevice, 1, appName);
                         }
                     }
-
-                } else {//处理异常情况  1.0 点击重播 2.0 广告滑动一下
-                    UiObject uiClose = new UiObject(new UiSelector().resourceId("com.jifen.qukan:id/a5n"));
-
-                    if (uiClose.exists()) {
-                        uiClose.click();
-                    } else {//最终的强制搞一波
-                        A00UtilTest.baseMethod(uiDevice, 1, appName);
-                    }
                 }
+
                 Thread.sleep(500);
             }
         } catch (Exception e) {

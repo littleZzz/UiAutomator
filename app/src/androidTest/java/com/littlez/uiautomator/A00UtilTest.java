@@ -17,7 +17,7 @@ public class A00UtilTest {
             switch (flag) {
                 case 0://CLEAR_APP
                     uiDevice.pressRecentApps();
-                    Thread.sleep(500);
+                    Thread.sleep(800);
                     UiObject clearAll = new UiObject(
                             new UiSelector().resourceId("com.android.systemui:id/leui_recent_clear_all_btn_layout"));
                     if (clearAll.exists()) {

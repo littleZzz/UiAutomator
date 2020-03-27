@@ -8,6 +8,7 @@ import com.littlez.uiautomator.util.LogUtil;
 
 import junit.framework.TestCase;
 
+import java.lang.annotation.ElementType;
 import java.util.Random;
 
 import androidx.test.platform.app.InstrumentationRegistry;
@@ -39,14 +40,12 @@ public class A05KuaiKanDianNewstest extends TestCase {
         while (true) {
 
             try {
-
                 //主页
                 UiObject uiMain = new UiObject(new UiSelector()
                         .resourceId("com.yuncheapp.android.pearl:id/home_page_tab_bar"));
                 //收藏 分享
                 UiObject uiCollect = new UiObject(new UiSelector().resourceId("com.yuncheapp.android.pearl:id/collect"));
                 UiObject uiShare = new UiObject(new UiSelector().resourceId("com.yuncheapp.android.pearl:id/share"));
-
 
                 if (uiCollect.exists() && uiShare.exists()) {//查看新闻界面
 
@@ -55,9 +54,13 @@ public class A05KuaiKanDianNewstest extends TestCase {
                     while (isRun && uiCollect.exists() && uiShare.exists()) {
                         UiObject uiWeixin02 = new UiObject(new UiSelector()
                                 .resourceId("com.yuncheapp.android.pearl:id/wechat_wrapper"));//视频
+                        UiObject uiNet = new UiObject(new UiSelector()
+                                .resourceId("com.yuncheapp.android.pearl:id/description"));//网络不畅
 
-
-                        if (uiWeixin02.exists()) {//视频
+                        if (uiNet.exists()) {
+                            uiNet.click();
+                            Thread.sleep(3000);
+                        } else if (uiWeixin02.exists()) {//视频
                             Random r = new Random();
                             int number = r.nextInt(60) + 1;
                             Thread.sleep((45 + number) * 1000);
@@ -65,10 +68,8 @@ public class A05KuaiKanDianNewstest extends TestCase {
                             isRun = false;
                             break;
                         } else {//新闻
-
                             UiObject uiRecy = new UiObject(
                                     new UiSelector().resourceId("com.yuncheapp.android.pearl:id/recycler_view"));
-
                             if (uiRecy.exists()) {
                                 isRun = false;
                                 uiDevice.pressBack();
@@ -76,7 +77,6 @@ public class A05KuaiKanDianNewstest extends TestCase {
                                 uiDevice.swipe(400, 1200, 534, 802, 10);
                                 Thread.sleep(500);
                             }
-
                         }
                     }
 
@@ -113,11 +113,16 @@ public class A05KuaiKanDianNewstest extends TestCase {
                 } else {//处理异常情况
                     //靠点赞按钮判断是不是在播放视频那个整个界面
                     UiObject uiTV = new UiObject(new UiSelector().resourceId("com.yuncheapp.android.pearl:id/like_icon"));
+                    UiObject close = new UiObject(new UiSelector().resourceId("com.yuncheapp.android.pearl:id/close_img"));
+                    UiObject close02 = new UiObject(new UiSelector().resourceId("com.yuncheapp.android.pearl:id/coin_get"));
 
                     if (uiTV.exists()) {//
                         uiDevice.pressBack();
+                    } else if (close.exists()) {
+                        close.click();
+                    } else if (close02.exists()) {
+                        close02.click();
                     } else {//最终的强制搞一波
-
                         A00UtilTest.baseMethod(uiDevice, 1, appName);
                     }
                 }

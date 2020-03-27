@@ -218,13 +218,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         /*这里就是数据源*/
         /*稳定数据*/
 //        videos.add(new VideosBean("快手极速版", "A01KuaiSJiSutest", 25 * 60 * 1000));//需要验证
-        videos.add(new VideosBean("刷宝短视频", "A02ShuaBaotest", 25 * 60 * 1000));
+        videos.add(new VideosBean("刷宝短视频", "A02ShuaBaotest", 30 * 60 * 1000));
         videos.add(new VideosBean("彩蛋视频", "A03CaiDantest", 30 * 60 * 1000));
+//        videos.add(new VideosBean("快看点视频", "A04KuaiKanDianTVtest", 18 * 60 * 1000));//需要验证
+        videos.add(new VideosBean("快看点新闻", "A05KuaiKanDianNewstest", 30 * 60 * 1000));
+        videos.add(new VideosBean("趣头条", "A06QuTouTiaotest", 15 * 60 * 1000));//好像经常变动id
 
         /*待确定的数据*/
-//        videos.add(new VideosBean("快看点视频", "A04KuaiKanDianTVtest", 18 * 60 * 1000));//需要验证
-        videos.add(new VideosBean("快看点新闻", "A05KuaiKanDianNewstest", 18 * 60 * 1000));
-//        videos.add(new VideosBean("趣头条", "A06QuTouTiaotest", 25 * 60 * 1000));//好像经常变动id
 //        videos.add(new VideosBean("微鲤看看", "A08WeiLiKanKantest", 25 * 60 * 1000));//这个好像可以
 //        videos.add(new VideosBean("趣看看", "A09QuKanKanNewstest", 20 * 60 * 1000));
 //        videos.add(new VideosBean("东方头条", "A10DongFangTTtest", 25 * 60 * 1000));

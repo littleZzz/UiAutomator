@@ -33,12 +33,6 @@ public class A09QuKanKanNewstest extends TestCase {
         Instrumentation instrumentation = InstrumentationRegistry.getInstrumentation();
         UiDevice uiDevice = UiDevice.getInstance(instrumentation);
 
-        // 获取上下文
-//        Context context = instrumentation.getContext();
-
-//        LogUtil.e("我开始运行了");
-        int count = 0;
-
 
         baseMethod(uiDevice, 0);//启动时  先关闭其他的
 

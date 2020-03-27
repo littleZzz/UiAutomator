@@ -51,7 +51,7 @@ public class A02ShuaBaotest extends TestCase {
                         A00UtilTest.swipUp(uiDevice);
                     } else if (number <= 85) {//下一条
                         A00UtilTest.swipDown(uiDevice);
-                        Thread.sleep(15000);//播放 时长
+                        Thread.sleep(12000);//播放 时长
                     } else if (number <= 90) {//点击我的
                         UiObject uiMe =
                                 new UiObject(new UiSelector().resourceId("com.jm.video:id/tv_tab_title").text("我"));
@@ -65,12 +65,14 @@ public class A02ShuaBaotest extends TestCase {
                     uiHome.click();
                 } else {//处理异常情况  1.0 点击重播 2.0 广告滑动一下
                     UiObject uiPrivacy = new UiObject(new UiSelector().resourceId("com.jm.video:id/btn_privacy_action"));
+                    UiObject uiNet = new UiObject(new UiSelector().resourceId("com.jm.video:id/empty_button"));//无网络
                     if (uiPrivacy.exists()) {//用户协议
                         uiPrivacy.click();
+                    }if (uiNet.exists()) {//用户协议
+                        uiNet.click();
+                        Thread.sleep(2000);
                     } else {//最终的强制搞一波
-
                         A00UtilTest.baseMethod(uiDevice, 1, appName);
-
                     }
                 }
                 Thread.sleep(500);

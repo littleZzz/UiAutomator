@@ -83,12 +83,15 @@ public class A04KuaiKanDianTVtest extends TestCase {
                 } else {//处理异常情况
                     UiObject uiDialogClose = new UiObject(new UiSelector().resourceId("com.yuncheapp.android.pearl:id/close_img"));
                     UiObject uiWebView = new UiObject(new UiSelector().resourceId("com.yuncheapp.android.pearl:id/webview"));
+                    UiObject close = new UiObject(new UiSelector().resourceId("com.yuncheapp.android.pearl:id/close_img"));
 
                     //TODO 还有一个砸蛋那个关闭没有弄
                     if (uiWebView.exists()) {
                         uiDevice.pressBack();
                     } else if (uiDialogClose.exists()) {//
                         uiDialogClose.click();
+                    }else if (close.exists()) {//
+                        close.click();
                     } else {//最终的强制搞一波
 
                         A00UtilTest.baseMethod(uiDevice, 1, appName);
