@@ -58,17 +58,9 @@ public class A09QuKanKanNewstest extends TestCase {
                         UiObject uiTvTitle = new UiObject(new UiSelector().resourceId("com.startnews.plugin:id/tv_title"));
                         if (uiTvTitle.exists()) uiTvTitle.click();//有视频 先看视频
                         else {//就看新闻
-                            UiObject uiAuther =
-                                    new UiObject(new UiSelector().resourceId("com.startnews.plugin:id/tv_news_from").instance(0));
-                            UiObject uiAdv =
-                                    uiAuther.getFromParent(new UiSelector().resourceId("com.startnews.plugin:id/tv_news_tag"));
-                            if (uiAdv.exists()) {
-                                UiObject uiAuther02 =
-                                        new UiObject(new UiSelector().resourceId("com.startnews.plugin:id/tv_news_from").instance(1));
-                                uiAuther02.click();
-                            } else {
-                                uiAuther.click();
-                            }
+                            UiObject uiAuther = new UiObject(
+                                    new UiSelector().resourceId("com.startnews.plugin:id/tv_news_from").instance(0).index(0));
+                            uiAuther.click();
                         }
                         Thread.sleep(1500);//要听一下  给一些加载时间
                     }
