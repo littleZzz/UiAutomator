@@ -43,6 +43,12 @@ public class A00UtilTest {
                             Thread.sleep(500);
                         }
                     }
+
+                    UiObject uiCrash = new UiObject(new UiSelector().resourceId("android:id/le_bottomsheet_default_confirm"));
+                    if (uiCrash.exists()) {
+                        uiCrash.click();//应用奔溃了 的页面
+                    }
+
                     uiDevice.pressHome();
                     Thread.sleep(500);
 

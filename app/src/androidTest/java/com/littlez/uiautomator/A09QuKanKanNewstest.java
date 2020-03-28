@@ -44,7 +44,7 @@ public class A09QuKanKanNewstest extends TestCase {
                         int number = r.nextInt(100) + 1;
                         if (number <= 2) {//上滑
                             A00UtilTest.swipUp(uiDevice, 15);
-                        } else if (number <= 95) {//下滑
+                        } else if (number <= 100) {//下滑
                             A00UtilTest.swipDown(uiDevice, 15);
                         } //做一些其他额外的附加任务
                         //首页领取  做一个时段任务奖励的领取

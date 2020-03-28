@@ -43,9 +43,9 @@ public class A11XiangKantest extends TestCase {
                         Random r = new Random();
                         int number = r.nextInt(100) + 1;
                         if (number <= 2) {//上滑
-                            A00UtilTest.swipUp(uiDevice, 12);
-                        } else if (number <= 95) {//下滑
-                            A00UtilTest.swipDown(uiDevice, 12);
+                            A00UtilTest.swipUp(uiDevice, 10);
+                        } else if (number <= 100) {//下滑
+                            A00UtilTest.swipDown(uiDevice, 10);
                         } //做一些其他额外的附加任务
                         //首页领取  做一个时段任务奖励的领取
                         UiObject uiGet = new UiObject(new UiSelector()
@@ -55,51 +55,50 @@ public class A11XiangKantest extends TestCase {
                             continue;
                         }
                         Thread.sleep(500);//没有时段领取 选择一条进行跳转
-                        UiObject uiTitle = new UiObject(new UiSelector().resourceId("com.xiangkan.android:id/tvTitle"));
+                        UiObject uiTitle = new UiObject(new UiSelector().resourceId("com.xiangkan.android:id/tvTitle").instance(0));
                         uiTitle.click();//这个不分是视频还是阅读了
                         Thread.sleep(1500);//要听一下  给一些加载时间
                     }
-
                 } else {//去检测是不是我想要的界面  是就进行处理
                     UiObject uiTVTitle =
                             new UiObject(new UiSelector().resourceId("com.xiangkan.android:id/vo_video_detail_title"));//标题
                     UiObject uiCollect = new UiObject(new UiSelector().resourceId("com.xiangkan.android:id/img_thumbUp"));//收藏
-                    LogUtil.e("1");
                     if (uiTVTitle.exists() && uiCollect.exists()) {//是视频
                         Random r = new Random();
                         int number = r.nextInt(90) + 1;
                         Thread.sleep((45 + number) * 1000);
                         uiDevice.pressBack();
                     } else if (uiCollect.exists()) {//是新闻
-                        LogUtil.e("2");
                         boolean isRun = true;
+                        boolean isGetMore = true;
                         while (isRun) {
-                            LogUtil.e("3");
-                            UiObject uiShare =
-                                    new UiObject(new UiSelector().resourceId("com.xiangkan.android:id/share_wechat_tv"));//分享微信
-                            UiObject uiMore =
-                                    new UiObject(new UiSelector().text("点击阅读全文").className("android.view.View"));//这个查找慢
-                            LogUtil.e("4");
-                            if (uiMore.exists()) {//查看更多
-                                LogUtil.e("5");
-                                uiMore.click();
-                                Thread.sleep(500);
-                            } else if (uiShare.exists()) {
-                                LogUtil.e("6");
-                                isRun = false;
+                            UiObject uiShare = new UiObject(
+                                    new UiSelector().resourceId("com.xiangkan.android:id/share_wechat_tv"));//分享微信
+                            UiObject uiMore = new UiObject(new UiSelector().description("点击阅读全文"));//貌似是H5  拿不到
+                            if (uiShare.exists()) {
+                                if (isGetMore) {//通过能查找的来进行判断
+                                    int right = uiShare.getBounds().right / 2;
+                                    int top = uiShare.getBounds().top;
+                                    uiDevice.swipe(right, top - 50, right, top - 50, 20);
+                                    isGetMore = false;
+                                    Thread.sleep(1500);
+                                    continue;
+                                }
                                 uiDevice.pressBack();
                             } else {
-                                LogUtil.e("7");
+                                Thread.sleep(1000);
                                 uiDevice.swipe(400, 1200, 534, 802, 10);
-                                Thread.sleep(1500);
                             }
                         }
                     } else {
                         //处理异常情况 首页领取奖励后的dialog
-                        UiObject uiClose = new UiObject(new UiSelector().resourceId("sdf"));//时段奖励领取
+                        UiObject uiClose = new UiObject(new UiSelector().resourceId("com.xiangkan.android:id/btn_close"));//时段奖励
+                        UiObject uiClose02 = new UiObject(new UiSelector().resourceId("com.xiangkan.android:id/iv_close"));//福袋dialog
 
                         if (uiClose.exists()) {
                             uiClose.click();
+                        } else if (uiClose02.exists()) {
+                            uiClose02.click();
                         } else {//最终的强制搞一波
                             A00UtilTest.baseMethod(uiDevice, 1, appName);
                         }

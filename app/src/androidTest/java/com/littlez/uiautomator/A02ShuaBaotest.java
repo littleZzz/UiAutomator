@@ -66,11 +66,14 @@ public class A02ShuaBaotest extends TestCase {
                 } else {//处理异常情况  1.0 点击重播 2.0 广告滑动一下
                     UiObject uiPrivacy = new UiObject(new UiSelector().resourceId("com.jm.video:id/btn_privacy_action"));
                     UiObject uiNet = new UiObject(new UiSelector().resourceId("com.jm.video:id/empty_button"));//无网络
+                    UiObject uiTimeAward = new UiObject(new UiSelector().resourceId("com.jm.video:id/tv_go"));//时段奖励
                     if (uiPrivacy.exists()) {//用户协议
                         uiPrivacy.click();
-                    }if (uiNet.exists()) {//用户协议
+                    } else if (uiNet.exists()) {//用户协议
                         uiNet.click();
                         Thread.sleep(2000);
+                    } else if (uiTimeAward.exists()) {//时段奖励
+                        uiTimeAward.click();
                     } else {//最终的强制搞一波
                         A00UtilTest.baseMethod(uiDevice, 1, appName);
                     }
