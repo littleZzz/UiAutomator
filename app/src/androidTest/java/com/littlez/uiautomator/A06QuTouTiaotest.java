@@ -44,9 +44,8 @@ public class A06QuTouTiaotest extends TestCase {
                         int number = r.nextInt(100) + 1;
                         if (number <= 2) {//上滑
                             A00UtilTest.swipUp(uiDevice, 10);
-                        } else if (number <= 95) {//下滑
+                        } else if (number <= 100) {//下滑
                             A00UtilTest.swipDown(uiDevice, 10);
-                        } else {//做一些其他额外的附加任务
                         }
                         UiObject uiGet =
                                 new UiObject(new UiSelector().resourceId("com.jifen.qukan:id/bsx").text("领取"));//首页领取
@@ -88,9 +87,9 @@ public class A06QuTouTiaotest extends TestCase {
                                 uiDevice.pressBack();
                                 isRun = false;
                             } else {
-                                uiDevice.swipe(400, 1200, 534, 802, 10);
+                                uiDevice.swipe(400, 1200, 534, 602, 10);
                                 count++;
-                                if (count >= 50) {
+                                if (count >= 35) {
                                     isRun = false;
                                     uiDevice.pressBack();
                                 }
@@ -103,6 +102,7 @@ public class A06QuTouTiaotest extends TestCase {
                         //阅读奖励点击后的dialog
                         UiObject uiClose02 = new UiObject(new UiSelector().resourceId("com.jifen.qukan:id/v8"));
                         UiObject uiClose03 = new UiObject(new UiSelector().resourceId("com.jifen.qukan:id/yc"));
+                        UiObject uiClose04 = new UiObject(new UiSelector().resourceId("com.jifen.qukan:id/a92"));
 
                         if (uiClose.exists()) {
                             uiClose.click();
@@ -110,6 +110,8 @@ public class A06QuTouTiaotest extends TestCase {
                             uiClose02.click();
                         } else if (uiClose03.exists()) {
                             uiClose03.click();
+                        } else if (uiClose04.exists()) {
+                            uiClose04.click();
                         } else {//最终的强制搞一波
                             A00UtilTest.baseMethod(uiDevice, 1, appName);
                         }
