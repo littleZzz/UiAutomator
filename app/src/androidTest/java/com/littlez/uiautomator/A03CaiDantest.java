@@ -30,10 +30,8 @@ public class A03CaiDantest extends TestCase {
         UiDevice uiDevice = UiDevice.getInstance(instrumentation);
 
         try {
-
             A00UtilTest.baseMethod(uiDevice, 0, appName);//启动时  先关闭其他的
             A00UtilTest.errorCount=0;//重置
-
             while (true) {
 
                 //首页

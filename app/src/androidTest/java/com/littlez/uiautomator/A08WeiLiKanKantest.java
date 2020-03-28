@@ -32,10 +32,8 @@ public class A08WeiLiKanKantest extends TestCase {
         UiDevice uiDevice = UiDevice.getInstance(instrumentation);
 
         try {
-
             A00UtilTest.baseMethod(uiDevice, 0, appName);//启动时  先关闭其他的
             A00UtilTest.errorCount = 0;//重置/
-
             while (true) {
                 //主页 根据和 底部bottom 同一级的上级内容判断
                 UiObject uiHome = new UiObject(new UiSelector().resourceId("cn.weli.story:id/rl_content_foot"));
