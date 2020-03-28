@@ -220,17 +220,17 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 //        videos.add(new VideosBean("快手极速版", "A01KuaiSJiSutest", 25 * 60 * 1000));//需要验证
         videos.add(new VideosBean("刷宝短视频", "A02ShuaBaotest", 30 * 60 * 1000));
         videos.add(new VideosBean("彩蛋视频", "A03CaiDantest", 30 * 60 * 1000));
-//        videos.add(new VideosBean("快看点视频", "A04KuaiKanDianTVtest", 18 * 60 * 1000));//需要验证
         videos.add(new VideosBean("快看点新闻", "A05KuaiKanDianNewstest", 30 * 60 * 1000));
-        videos.add(new VideosBean("趣头条", "A06QuTouTiaotest", 15 * 60 * 1000));//好像经常变动id
+        videos.add(new VideosBean("趣头条", "A06QuTouTiaotest", 20 * 60 * 1000));//好像经常变动id
+        videos.add(new VideosBean("微鲤看看", "A08WeiLiKanKantest", 10 * 60 * 1000));//这个好像可以
+        videos.add(new VideosBean("趣看看", "A09QuKanKanNewstest", 10 * 60 * 1000));
+        videos.add(new VideosBean("东方头条", "A10DongFangTTtest", 10 * 60 * 1000));
+        videos.add(new VideosBean("想看", "A11XiangKantest", 10 * 60 * 1000));
+
+        videos.add(new VideosBean("空数据", "test", 30 * 60 * 1000));
 
         /*待确定的数据*/
-//        videos.add(new VideosBean("微鲤看看", "A08WeiLiKanKantest", 25 * 60 * 1000));//这个好像可以
-//        videos.add(new VideosBean("趣看看", "A09QuKanKanNewstest", 20 * 60 * 1000));
-//        videos.add(new VideosBean("东方头条", "A10DongFangTTtest", 25 * 60 * 1000));
-
         //下面  是无用|或使用过废弃的数据  如 火山  淘看点 等等
-        videos.add(new VideosBean("空数据", "test", 30 * 60 * 1000));
 //        videos.add(new VideosBean("火山极速版", "HuoShanJiSutest", 35 * 60 * 1000));//id 经常变  效率实在是差
     }
 

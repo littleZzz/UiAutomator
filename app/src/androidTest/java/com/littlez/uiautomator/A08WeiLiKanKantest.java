@@ -95,7 +95,7 @@ public class A08WeiLiKanKantest extends TestCase {
                                 Thread.sleep(500);
                             } else {
                                 uiDevice.swipe(400, 1200, 534, 802, 10);
-                                Thread.sleep(500);
+                                Thread.sleep(2000);
                             }
                         }
 

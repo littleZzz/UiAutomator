@@ -2,10 +2,6 @@ package com.littlez.uiautomator;
 
 import android.app.Instrumentation;
 
-import junit.framework.TestCase;
-
-import java.util.Random;
-
 import androidx.test.platform.app.InstrumentationRegistry;
 import androidx.test.uiautomator.UiDevice;
 import androidx.test.uiautomator.UiObject;
@@ -14,16 +10,19 @@ import androidx.test.uiautomator.UiSelector;
 
 import com.littlez.uiautomator.util.LogUtil;
 
+import junit.framework.TestCase;
+
+import java.util.Random;
+
 /**
  * created by xiaozhi
- * <p>东方头条  测试用例
+ * <p>想看  测试用例
  * Date 2019/12/3
  */
-public class A10DongFangTTtest extends TestCase {
+public class A11XiangKantest extends TestCase {
 
     /*app 名字*/
-    private String appName = "东方头条";
-    private boolean isFirstRun = true;//是否第一次启动
+    private String appName = "想看";
 
     //    @Test
     public void test() throws UiObjectNotFoundException {
@@ -36,20 +35,10 @@ public class A10DongFangTTtest extends TestCase {
         try {
             while (true) {
                 //主页
-                UiObject uiHome = new UiObject(new UiSelector().resourceId("com.songheng.eastnews:id/ady"));
+                UiObject uiHome = new UiObject(new UiSelector().resourceId("com.xiangkan.android:id/bottom_tab_layout"));
                 if (uiHome.exists()) {//是主页  滑动选择条目
-                    UiObject uiHomeTitle = new UiObject(new UiSelector().resourceId("com.songheng.eastnews:id/afj"));
+                    UiObject uiHomeTitle = new UiObject(new UiSelector().resourceId("com.xiangkan.android:id/tab_layout"));
                     if (uiHomeTitle.exists()) {//选中的是首页
-
-                        if (isFirstRun) {//第一次启动要刷新一下数据
-                            UiObject uinews = new UiObject(new UiSelector().resourceId("com.songheng.eastnews:id/a5t"));
-                            if (uinews.exists()) {
-                                uinews.click();
-                                isFirstRun = false;
-                                Thread.sleep(2000);
-                                continue;
-                            }
-                        }
                         //主页滑动选择条目
                         Random r = new Random();
                         int number = r.nextInt(100) + 1;
@@ -60,65 +49,57 @@ public class A10DongFangTTtest extends TestCase {
                         } //做一些其他额外的附加任务
                         //首页领取  做一个时段任务奖励的领取
                         UiObject uiGet = new UiObject(new UiSelector()
-                                .resourceId("com.songheng.eastnews:id/aj9").text("领取"));
+                                .resourceId("com.xiangkan.android:id/tv_box_time_new").text("领金币"));
                         if (uiGet.exists()) {
                             uiGet.click();
                             continue;
                         }
                         Thread.sleep(500);//没有时段领取 选择一条进行跳转
-                        UiObject uiTvTitle = new UiObject(new UiSelector().resourceId("com.songheng.eastnews:id/atv"));
-                        if (uiTvTitle.exists()) uiTvTitle.click();//有视频 先看视频
-                        else {//就看新闻
-                            UiObject uiNews =
-                                    new UiObject(new UiSelector().resourceId("com.songheng.eastnews:id/au7").instance(0));
-                            uiNews.click();
-                        }
+                        UiObject uiTitle = new UiObject(new UiSelector().resourceId("com.xiangkan.android:id/tvTitle"));
+                        uiTitle.click();//这个不分是视频还是阅读了
                         Thread.sleep(1500);//要听一下  给一些加载时间
                     }
 
                 } else {//去检测是不是我想要的界面  是就进行处理
-                    UiObject uiListView = new UiObject(new UiSelector().resourceId("com.songheng.eastnews:id/ax3"));//列表
-                    UiObject uiCollect = new UiObject(new UiSelector().resourceId("com.songheng.eastnews:id/a12"));//收藏
+                    UiObject uiTVTitle =
+                            new UiObject(new UiSelector().resourceId("com.xiangkan.android:id/vo_video_detail_title"));//标题
+                    UiObject uiCollect = new UiObject(new UiSelector().resourceId("com.xiangkan.android:id/img_thumbUp"));//收藏
                     LogUtil.e("1");
-                    if (uiCollect.exists()) {//是新闻
+                    if (uiTVTitle.exists() && uiCollect.exists()) {//是视频
+                        Random r = new Random();
+                        int number = r.nextInt(90) + 1;
+                        Thread.sleep((45 + number) * 1000);
+                        uiDevice.pressBack();
+                    } else if (uiCollect.exists()) {//是新闻
                         LogUtil.e("2");
                         boolean isRun = true;
                         while (isRun) {
                             LogUtil.e("3");
-                            UiObject uiHotNews = new UiObject(new UiSelector().resourceId("com.songheng.eastnews:id/aim"));//热门新闻
-                            UiObject uiMore = new UiObject(new UiSelector().resourceId("com.songheng.eastnews:id/a4y"));//这个查找慢
+                            UiObject uiShare =
+                                    new UiObject(new UiSelector().resourceId("com.xiangkan.android:id/share_wechat_tv"));//分享微信
+                            UiObject uiMore =
+                                    new UiObject(new UiSelector().text("点击阅读全文").className("android.view.View"));//这个查找慢
                             LogUtil.e("4");
                             if (uiMore.exists()) {//查看更多
                                 LogUtil.e("5");
                                 uiMore.click();
                                 Thread.sleep(500);
-                            } else if (uiHotNews.exists()) {
+                            } else if (uiShare.exists()) {
                                 LogUtil.e("6");
                                 isRun = false;
                                 uiDevice.pressBack();
                             } else {
                                 LogUtil.e("7");
                                 uiDevice.swipe(400, 1200, 534, 802, 10);
-                                Thread.sleep(1000);
+                                Thread.sleep(1500);
                             }
                         }
-                    } else if (uiListView.exists()) {//是视频
-                        Random r = new Random();
-                        int number = r.nextInt(90) + 1;
-                        Thread.sleep((45 + number) * 1000);
-                        uiDevice.pressBack();
                     } else {
                         //处理异常情况 首页领取奖励后的dialog
-                        UiObject uiClose = new UiObject(new UiSelector().resourceId("com.songheng.eastnews:id/au8"));//时段奖励领取
-                        UiObject uiClose02 = new UiObject(new UiSelector().resourceId("com.songheng.eastnews:id/uf"));//dialog
-                        UiObject uiClose03 = new UiObject(new UiSelector().resourceId("com.songheng.eastnews:id/amn"));//dialog
+                        UiObject uiClose = new UiObject(new UiSelector().resourceId("sdf"));//时段奖励领取
 
                         if (uiClose.exists()) {
                             uiClose.click();
-                        } else if (uiClose02.exists()) {
-                            uiClose02.click();
-                        } else if (uiClose03.exists()) {
-                            uiClose03.click();
                         } else {//最终的强制搞一波
                             A00UtilTest.baseMethod(uiDevice, 1, appName);
                         }

@@ -30,14 +30,11 @@ public class A06QuTouTiaotest extends TestCase {
         UiDevice uiDevice = UiDevice.getInstance(instrumentation);
 
         try {
-
             A00UtilTest.baseMethod(uiDevice, 0, appName);//启动时  先关闭其他的
             A00UtilTest.errorCount = 0;//重置/
-
             while (true) {
                 //主页
                 UiObject uiHome = new UiObject(new UiSelector().resourceId("com.jifen.qukan:id/m6"));
-
                 if (uiHome.exists()) {//是主页  滑动选择条目
                     UiObject uiHomeChild =
                             uiHome.getChild(new UiSelector().className("android.widget.FrameLayout").index(0));
@@ -50,25 +47,22 @@ public class A06QuTouTiaotest extends TestCase {
                         } else if (number <= 95) {//下滑
                             A00UtilTest.swipDown(uiDevice, 10);
                         } else {//做一些其他额外的附加任务
-                            UiObject uiGet =
-                                    new UiObject(new UiSelector().resourceId("com.jifen.qukan:id/bsx").text("领取"));//首页领取
-                            if (uiGet.exists()) {
-                                uiGet.click();
-                                continue;
-                            }
+                        }
+                        UiObject uiGet =
+                                new UiObject(new UiSelector().resourceId("com.jifen.qukan:id/bsx").text("领取"));//首页领取
+                        if (uiGet.exists()) {
+                            uiGet.click();
+                            continue;
                         }
                         Thread.sleep(500);
                         UiObject uititle = new UiObject(new UiSelector().resourceId("com.jifen.qukan:id/ajh"));
                         uititle.click();//跳转到查看任务
                         Thread.sleep(600);//要听一下  给一些加载时间
                     }
-
                 } else {//去检测是不是我想要的界面  是就进行处理
                     UiObject uicllect = new UiObject(new UiSelector().resourceId("com.jifen.qukan:id/bmx"));//收藏
                     UiObject uiTvOut = new UiObject(new UiSelector().resourceId("com.jifen.qukan:id/tp"));//视频最外层
-
                     if (uicllect.exists() && uiTvOut.exists()) {//是视频
-
                         UiObject uiAward = new UiObject(new UiSelector().resourceId("com.jifen.qukan:id/aw_"));//阅读奖励
                         if (uiAward.exists()) {
                             uiAward.click();
@@ -85,20 +79,24 @@ public class A06QuTouTiaotest extends TestCase {
                             uiAward.click();
                             continue;//要跳过这次循环
                         }
-
                         boolean isRun = true;
+                        int count = 0;//记录滑动次数  超过一定次数就直接返回
                         while (isRun) {
-                            UiObject uilike
-                                    = new UiObject(new UiSelector().description("不喜欢").className("android.view.View"));//喜欢
+                            UiObject uilike =
+                                    new UiObject(new UiSelector().description("不喜欢").className("android.view.View"));//喜欢
                             if (uilike.exists()) {
-                                isRun = false;
                                 uiDevice.pressBack();
+                                isRun = false;
                             } else {
                                 uiDevice.swipe(400, 1200, 534, 802, 10);
-                                Thread.sleep(500);
+                                count++;
+                                if (count >= 50) {
+                                    isRun = false;
+                                    uiDevice.pressBack();
+                                }
                             }
+                            Thread.sleep(1500);
                         }
-
                     } else {
                         //处理异常情况
                         UiObject uiClose = new UiObject(new UiSelector().resourceId("com.jifen.qukan:id/a5n"));
@@ -117,13 +115,11 @@ public class A06QuTouTiaotest extends TestCase {
                         }
                     }
                 }
-
                 Thread.sleep(500);
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
-
 
 }
