@@ -69,9 +69,9 @@ public class A09QuKanKanNewstest extends TestCase {
                             new UiObject(new UiSelector().resourceId("com.startnews.plugin:id/recycler_detail"));//收藏
                     UiObject uiPlayer = new UiObject(
                             new UiSelector().resourceId("com.startnews.plugin:id/news2345_media_player_root"));//视频播放器
-                    if (uiPlayer.exists()) {//是视频
+                    if (uiPlayer.exists()) {//是视频  趣看看可以多等一段时间
                         Random r = new Random();
-                        int number = r.nextInt(90) + 1;
+                        int number = r.nextInt(60 * 3) + 1;
                         Thread.sleep((45 + number) * 1000);
                         uiDevice.pressBack();
                     } else if (uiRecycler.exists()) {//是新闻

@@ -55,8 +55,8 @@ public class A11XiangKantest extends TestCase {
                             continue;
                         }
                         Thread.sleep(500);//没有时段领取 选择一条进行跳转
-                        UiObject uiTitle = new UiObject(new UiSelector().resourceId("com.xiangkan.android:id/tvTitle").instance(0));
-                        uiTitle.click();//这个不分是视频还是阅读了
+                        UiObject uiAuther = new UiObject(new UiSelector().resourceId("com.xiangkan.android:id/tvInfo").instance(0));
+                        uiAuther.click();//这个不分是视频还是阅读了
                         Thread.sleep(1500);//要听一下  给一些加载时间
                     }
                 } else {//去检测是不是我想要的界面  是就进行处理
@@ -64,10 +64,15 @@ public class A11XiangKantest extends TestCase {
                             new UiObject(new UiSelector().resourceId("com.xiangkan.android:id/vo_video_detail_title"));//标题
                     UiObject uiCollect = new UiObject(new UiSelector().resourceId("com.xiangkan.android:id/img_thumbUp"));//收藏
                     if (uiTVTitle.exists() && uiCollect.exists()) {//是视频
-                        Random r = new Random();
-                        int number = r.nextInt(90) + 1;
-                        Thread.sleep((45 + number) * 1000);
-                        uiDevice.pressBack();
+                        boolean isRun = true;
+                        while (isRun) {//循环观看视频
+                            UiObject uiRePlay = new UiObject(new UiSelector().resourceId("com.xiangkan.android:id/replay_tv"));
+                            if (uiRePlay.exists()) {
+                                isRun = false;
+                                uiDevice.pressBack();
+                            }
+                            Thread.sleep(2000);
+                        }
                     } else if (uiCollect.exists()) {//是新闻
                         boolean isRun = true;
                         boolean isGetMore = true;
@@ -79,7 +84,7 @@ public class A11XiangKantest extends TestCase {
                                 if (isGetMore) {//通过能查找的来进行判断
                                     int right = uiShare.getBounds().right / 2;
                                     int top = uiShare.getBounds().top;
-                                    uiDevice.swipe(right, top - 50, right, top - 50, 20);
+                                    uiDevice.swipe(right, top - 70, right, top - 70, 20);
                                     isGetMore = false;
                                     Thread.sleep(1500);
                                     continue;

@@ -81,10 +81,15 @@ public class A05KuaiKanDianNewstest extends TestCase {
                         uiNet.click();
                         Thread.sleep(3000);
                     } else if (uiCollect.exists() && uiWeixin02.exists()) {//是视频
-                        Random r = new Random();
-                        int number = r.nextInt(90) + 1;
-                        Thread.sleep((45 + number) * 1000);
-                        uiDevice.pressBack();
+                        boolean isRun = true;
+                        while (isRun) {//循环观看视频
+                            UiObject uiRePlay = new UiObject(new UiSelector().resourceId("com.yuncheapp.android.pearl:id/replay"));
+                            if (uiRePlay.exists()) {
+                                isRun = false;
+                                uiDevice.pressBack();
+                            }
+                            Thread.sleep(2000);
+                        }
                     } else if (uiCollect.exists()) {//新闻
                         boolean isRun = true;
                         while (isRun) {

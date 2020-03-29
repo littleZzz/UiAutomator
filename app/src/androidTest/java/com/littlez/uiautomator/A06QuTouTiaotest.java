@@ -62,15 +62,20 @@ public class A06QuTouTiaotest extends TestCase {
                     UiObject uicllect = new UiObject(new UiSelector().resourceId("com.jifen.qukan:id/bmx"));//收藏
                     UiObject uiTvOut = new UiObject(new UiSelector().resourceId("com.jifen.qukan:id/tp"));//视频最外层
                     if (uicllect.exists() && uiTvOut.exists()) {//是视频
-                        UiObject uiAward = new UiObject(new UiSelector().resourceId("com.jifen.qukan:id/aw_"));//阅读奖励
-                        if (uiAward.exists()) {
-                            uiAward.click();
-                            continue;//要跳过这次循环
+                        boolean isRun = true;
+                        while (isRun) {//循环观看视频
+                            UiObject uiAward = new UiObject(new UiSelector().resourceId("com.jifen.qukan:id/aw_"));//阅读奖励
+                            if (uiAward.exists()) {
+                                uiAward.click();
+                                continue;//要跳过这次循环
+                            }
+                            UiObject uiRePlay = new UiObject(new UiSelector().resourceId("com.jifen.qukan:id/btv"));
+                            if (uiRePlay.exists()) {
+                                isRun = false;
+                                uiDevice.pressBack();
+                            }
+                            Thread.sleep(2000);
                         }
-                        Random r = new Random();
-                        int number = r.nextInt(90) + 1;
-                        Thread.sleep((45 + number) * 1000);
-                        uiDevice.pressBack();
                     } else if (uicllect.exists()) {//是新闻
 
                         UiObject uiAward = new UiObject(new UiSelector().resourceId("com.jifen.qukan:id/aw_"));//阅读奖励

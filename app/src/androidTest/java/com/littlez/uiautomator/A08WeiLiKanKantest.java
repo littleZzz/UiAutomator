@@ -70,10 +70,15 @@ public class A08WeiLiKanKantest extends TestCase {
                     LogUtil.e("sdf000");
                     if (uiVideoTitle.exists()) {//是视频
                         LogUtil.e("sdf999999");
-                        Random r = new Random();
-                        int number = r.nextInt(90) + 1;
-                        Thread.sleep((45 + number) * 1000);
-                        uiDevice.pressBack();
+                        boolean isRun = true;
+                        while (isRun) {//循环观看视频
+                            UiObject uiRePlay = new UiObject(new UiSelector().resourceId("cn.weli.story:id/ll_close_ad"));
+                            if (uiRePlay.exists()) {
+                                isRun = false;
+                                uiDevice.pressBack();
+                            }
+                            Thread.sleep(2000);
+                        }
                     } else if (uiCollect.exists()) {//是新闻
 
                         LogUtil.e("sdf");
