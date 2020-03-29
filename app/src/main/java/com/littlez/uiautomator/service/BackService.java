@@ -7,12 +7,14 @@ import android.app.PendingIntent;
 import android.app.Service;
 import android.content.Intent;
 import android.graphics.BitmapFactory;
+import android.media.MediaPlayer;
 import android.os.Build;
 import android.os.IBinder;
 import android.util.Log;
 
 import com.littlez.uiautomator.MainActivity;
 import com.littlez.uiautomator.R;
+import com.littlez.uiautomator.base.Constant;
 import com.littlez.uiautomator.bean.VideosBean;
 import com.littlez.uiautomator.util.CommonUtil;
 import com.littlez.uiautomator.util.LogUtil;
@@ -31,12 +33,11 @@ public class BackService extends Service {
 
     private Thread thread;
 
-    private boolean isrun = true;
     private ArrayList<VideosBean> datas;
     private long startTime = 0L;//开始运行的时间
     private long notifyTime = 0L;//唤醒uiautomator的时间值标记
     private long gapTime = 30 * 60 * 1000;//间隔的时间 默认半小时
-    private int startFlag = 0;//运行到第几条的flag PS：是一直自增的 所以用的时候进行%运算
+
 
     @Nullable
     @Override
@@ -49,55 +50,9 @@ public class BackService extends Service {
         super.onCreate();
         LogUtil.e("BackService  onCreate");
         initNotifyication();//初始化前台通知 创建前台服务
-
-        thread = new Thread(new Runnable() {
-            @Override
-            public void run() {
-                while (isrun) {
-
-                    try {
-
-
-                        long time = System.currentTimeMillis();
-                        if (startTime <= 0 || time - startTime >= gapTime) {//已经到切换的时间了
-
-
-                            while (CommonUtil.isUiautomatorRuning()) {//循环保证一定停止当前任务
-                                CommonUtil.stopUiautomator();
-                                Thread.sleep(500);
-                            }
-
-                            //获取到开始那一条任务 并运行
-                            String testClass = datas.get(startFlag % datas.size()).getTestClass();
-                            gapTime = datas.get(startFlag % datas.size()).getGapTime();
-                            CommonUtil.startUiautomator(testClass);//开始一个任务
-
-                            startFlag++;
-                            startTime = System.currentTimeMillis();//重新设置开始时间
-                        }
-
-                        LogUtil.e("运行中.." + datas.get((startFlag - 1) % datas.size()).getTestClass() +
-                                ";gapTime=" + (gapTime / 1000 / 60) + "分钟;" + (time - startTime) / 1000 / 60);
-                        Thread.sleep(5000);
-
-                        //另外设一个时间值  判断当前运行uiautomator  是不是没有运行  是就去唤醒他
-                        if (time - notifyTime > 15000) {//15秒一个间隔去检查是不是
-                            boolean uiautomatorRuning = CommonUtil.isUiautomatorRuning();
-                            if (!uiautomatorRuning) {//如果没有uiautomator任务运行
-                                //重新启动UI任务
-                                String testClass = datas.get((startFlag - 1) % datas.size()).getTestClass();
-                                if (!"test".endsWith(testClass))//排除一下空数据
-                                    CommonUtil.startUiautomator(testClass);//开始一个任务
-                            }
-                        }
-
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
-
-                }
-            }
-        });
+        //后台弄一个无声播放器
+        mMediaPlayer = MediaPlayer.create(getApplicationContext(), R.raw.silent);
+        mMediaPlayer.setLooping(true);
 
     }
 
@@ -105,31 +60,82 @@ public class BackService extends Service {
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         LogUtil.e("BackService  onStartCommand");
-        datas = intent.getParcelableArrayListExtra("datas");
+//        datas = intent.getParcelableArrayListExtra("datas");
+        datas = Constant.videosBeans;
         LogUtil.e("datas----->" + datas.toString());
-        if (!thread.isAlive()) {
+        if (thread == null || !thread.isAlive()) {
+            thread = new MyThread();//启动线程  播放无声音乐和  做任务
             thread.start();
-            LogUtil.e("调用了 therad.start");
+            LogUtil.e("调用了 therad.start; startTime=" + startTime);
         } else {//否则就重置现在最新的数据
             //重置标记  重新开始任务
             startTime = 0;
-            startFlag = 0;
+            Constant.startFlag = 0;
+            LogUtil.e("没有没有调用了 therad.start; startTime=" + startTime);
         }
         notifyTime = System.currentTimeMillis();//设置唤醒ui任务的时间值
-        return super.onStartCommand(intent, flags, startId);
+        return START_STICKY/*super.onStartCommand(intent, flags, startId)*/;
     }
 
 
     @Override
     public void onDestroy() {
-        stopForeground(true);// 停止前台服务--参数：表示是否移除之前的通知
         super.onDestroy();
+        stopForeground(true);// 停止前台服务--参数：表示是否移除之前的通知
+        stopPlayMusic();//停止播放器服务
+
         LogUtil.e("BackService  onDestroy");
-
-        isrun = false;
-
+        if (!Constant.isCloseService) {
+            // 重启自己
+            Intent intent = new Intent(getApplicationContext(), BackService.class);
+            startService(intent);
+        }
     }
 
+    //自建线程
+    class MyThread extends Thread {
+        @Override
+        public void run() {
+            super.run();
+            try {
+                startPlayMusic();//播放音乐
+                while (Constant.isrun) {
+                    try {
+                        long time = System.currentTimeMillis();
+                        if (startTime <= 0 || time - startTime >= gapTime) {//已经到切换的时间了
+                            while (CommonUtil.isUiautomatorRuning()) {//循环保证一定停止当前任务
+                                CommonUtil.stopUiautomator();
+                                Thread.sleep(500);
+                            }
+                            //获取到开始那一条任务 并运行
+                            String testClass = datas.get(Constant.startFlag % datas.size()).getTestClass();
+                            gapTime = datas.get(Constant.startFlag % datas.size()).getGapTime();
+                            CommonUtil.startUiautomator(testClass);//开始一个任务
+                            Constant.startFlag++;
+                            startTime = System.currentTimeMillis();//重新设置开始时间
+                        }
+                        LogUtil.e("运行中.." + datas.get((Constant.startFlag - 1) % datas.size()).getTestClass() +
+                                ";gapTime=" + (gapTime / 1000 / 60) + "分钟;" + (time - startTime) / 1000 / 60);
+                        Thread.sleep(5000);
+                        //另外设一个时间值  判断当前运行uiautomator  是不是没有运行  是就去唤醒他
+                        if (time - notifyTime > 15000) {//15秒一个间隔去检查是不是
+                            boolean uiautomatorRuning = CommonUtil.isUiautomatorRuning();
+                            if (!uiautomatorRuning) {//如果没有uiautomator任务运行
+                                //重新启动UI任务
+                                String testClass = datas.get((Constant.startFlag - 1) % datas.size()).getTestClass();
+                                if (!"test".endsWith(testClass))//排除一下空数据
+                                    CommonUtil.startUiautomator(testClass);//开始一个任务
+                            }
+                        }
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }
+            } catch (Exception e) {
+                LogUtil.e(e.toString());
+            }
+        }
+    }
 
     /*初始化通知*/
     private void initNotifyication() {
@@ -166,7 +172,24 @@ public class BackService extends Service {
             notification.defaults = Notification.DEFAULT_SOUND; //设置为默认的声音
             startForeground(1, notification);// 开始前台服务
         }
-
     }
 
+    /**
+     * 做一个 后台无声的播放音乐
+     */
+    private MediaPlayer mMediaPlayer;
+
+    private void startPlayMusic() {
+        if (mMediaPlayer != null) {
+            LogUtil.e("启动后台播放音乐");
+            mMediaPlayer.start();
+        }
+    }
+
+    private void stopPlayMusic() {
+        if (mMediaPlayer != null) {
+            LogUtil.e("关闭后台播放音乐");
+            mMediaPlayer.stop();
+        }
+    }
 }

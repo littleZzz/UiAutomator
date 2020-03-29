@@ -81,19 +81,19 @@ public class A06QuTouTiaotest extends TestCase {
                         boolean isRun = true;
                         int count = 0;//记录滑动次数  超过一定次数就直接返回
                         while (isRun) {
-                            UiObject uilike =
-                                    new UiObject(new UiSelector().description("不喜欢").className("android.view.View"));//喜欢
-                            if (uilike.exists()) {
-                                uiDevice.pressBack();
+//                            UiObject uilike =
+//                                    new UiObject(new UiSelector().description("不喜欢").className("android.view.View"));//喜欢
+//                            if (uilike.exists()) {
+//                                uiDevice.pressBack();
+//                                isRun = false;
+//                            } else {
+                            uiDevice.swipe(400, 1200, 534, 602, 10);
+                            count++;
+                            if (count >= 35) {
                                 isRun = false;
-                            } else {
-                                uiDevice.swipe(400, 1200, 534, 602, 10);
-                                count++;
-                                if (count >= 35) {
-                                    isRun = false;
-                                    uiDevice.pressBack();
-                                }
+                                uiDevice.pressBack();
                             }
+//                            }
                             Thread.sleep(1500);
                         }
                     } else {

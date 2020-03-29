@@ -15,6 +15,7 @@ import android.widget.TextView;
 
 import com.littlez.uiautomator.adapter.LogsAdapter;
 import com.littlez.uiautomator.adapter.VideosAdapter;
+import com.littlez.uiautomator.base.Constant;
 import com.littlez.uiautomator.bean.VideosBean;
 import com.littlez.uiautomator.bean.eventbus.EventbusBean;
 import com.littlez.uiautomator.network.netsubscribe.PersionSubscribe;
@@ -108,14 +109,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
      */
     @Override
     public void onClick(View v) {
+
+        Constant.isCloseService = false;
         switch (v.getId()) {
 
             case R.id.btnStop://停止按钮
 
+                Constant.isrun = false;//重置启动的数据
                 while (CommonUtil.isUiautomatorRuning()) {
                     CommonUtil.stopUiautomator();//停止调用
                 }
-
                 break;
             case R.id.btnStartServe://启动服务
 
@@ -130,14 +133,21 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     ToastUtils.show("还没有选中平台");
                     return;
                 }
-
+                Constant.isrun = true;//开启运行
                 Intent intent = new Intent(mContext, BackService.class);
                 intent.putParcelableArrayListExtra("datas", videosBeans);
+                Constant.videosBeans = videosBeans;
                 startService(intent);
 
                 break;
             case R.id.btnStopServe://停止服务
+                Constant.isrun = false;//重置启动的数据
+                Constant.startFlag = 0;
+                Constant.isCloseService = true;
                 stopService(new Intent(mContext, BackService.class));
+                while (CommonUtil.isUiautomatorRuning()) {//停止服务同时停止调用
+                    CommonUtil.stopUiautomator();
+                }
                 break;
 
             case R.id.btnUpgradeApk://更新apk
