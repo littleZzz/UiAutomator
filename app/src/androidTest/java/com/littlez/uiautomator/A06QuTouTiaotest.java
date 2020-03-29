@@ -54,8 +54,8 @@ public class A06QuTouTiaotest extends TestCase {
                             continue;
                         }
                         Thread.sleep(500);
-                        UiObject uititle = new UiObject(new UiSelector().resourceId("com.jifen.qukan:id/ajh"));
-                        uititle.click();//跳转到查看任务
+                        UiObject uiAuther = new UiObject(new UiSelector().resourceId("com.jifen.qukan:id/aly"));
+                        uiAuther.click();//跳转到查看任务
                         Thread.sleep(600);//要听一下  给一些加载时间
                     }
                 } else {//去检测是不是我想要的界面  是就进行处理

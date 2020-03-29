@@ -233,7 +233,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         videos.add(new VideosBean("快看点新闻", "A05KuaiKanDianNewstest", 30 * 60 * 1000));
         videos.add(new VideosBean("趣头条", "A06QuTouTiaotest", 20 * 60 * 1000));//好像经常变动id
         videos.add(new VideosBean("微鲤看看", "A08WeiLiKanKantest", 10 * 60 * 1000));//操作微慢
-        videos.add(new VideosBean("趣看看", "A09QuKanKanNewstest", 20 * 60 * 1000));
+        videos.add(new VideosBean("趣看看", "A09QuKanKanNewstest", 30 * 60 * 1000));
         videos.add(new VideosBean("想看", "A11XiangKantest", 10 * 60 * 1000));
 
         videos.add(new VideosBean("空数据", "test", 30 * 60 * 1000));

@@ -84,6 +84,7 @@ public class A11XiangKantest extends TestCase {
                                     Thread.sleep(1500);
                                     continue;
                                 }
+                                isRun = false;
                                 uiDevice.pressBack();
                             } else {
                                 Thread.sleep(1000);
