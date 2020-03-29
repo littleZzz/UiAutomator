@@ -59,8 +59,13 @@ public class A08WeiLiKanKantest extends TestCase {
                             }
                         }
                         Thread.sleep(500);
-                        UiObject uititle = new UiObject(new UiSelector().resourceId("cn.weli.story:id/tv_title"));
-                        uititle.click();//跳转到查看任务
+                        UiObject uiTv = new UiObject(new UiSelector().resourceId("cn.weli.story:id/view_video_message"));
+                        if (uiTv.exists()) {//视频
+                            uiTv.click();
+                        } else {//新闻
+                            UiObject uititle = new UiObject(new UiSelector().resourceId("cn.weli.story:id/tv_title"));
+                            uititle.click();
+                        }
                         Thread.sleep(600);//要听一下  给一些加载时间
                     }
 
