@@ -64,6 +64,11 @@
         android:paddingBottom="5dp" />
 
 
+    <TextView
+        android:id="@+id/tvError"
+        android:layout_width="match_parent"
+        android:layout_height="20dp"
+        android:text="重启日志：" />
     <!--功能栏-->
     <LinearLayout
         android:layout_width="match_parent"

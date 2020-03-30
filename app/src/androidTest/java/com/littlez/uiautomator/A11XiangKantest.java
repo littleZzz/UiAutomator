@@ -47,13 +47,13 @@ public class A11XiangKantest extends TestCase {
                         } else if (number <= 100) {//下滑
                             A00UtilTest.swipDown(uiDevice, 10);
                         } //做一些其他额外的附加任务
-                        //首页领取  做一个时段任务奖励的领取
-                        UiObject uiGet = new UiObject(new UiSelector()
-                                .resourceId("com.xiangkan.android:id/tv_box_time_new").text("领金币"));
-                        if (uiGet.exists()) {
-                            uiGet.click();
-                            continue;
-                        }
+                        //首页领取  做一个时段任务奖励的领取  想看 时段任务暂时不领取了
+//                        UiObject uiGet = new UiObject(new UiSelector()
+//                                .resourceId("com.xiangkan.android:id/tv_box_time_new").text("领金币"));
+//                        if (uiGet.exists()) {
+//                            uiGet.click();
+//                            continue;
+//                        }
                         Thread.sleep(500);//没有时段领取 选择一条进行跳转
                         UiObject uiAuther = new UiObject(new UiSelector().resourceId("com.xiangkan.android:id/tvInfo").instance(0));
                         uiAuther.click();//这个不分是视频还是阅读了

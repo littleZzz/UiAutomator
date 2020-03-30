@@ -16,13 +16,17 @@ import com.littlez.uiautomator.MainActivity;
 import com.littlez.uiautomator.R;
 import com.littlez.uiautomator.base.Constant;
 import com.littlez.uiautomator.bean.VideosBean;
+import com.littlez.uiautomator.bean.eventbus.EventbusBean;
 import com.littlez.uiautomator.util.CommonUtil;
 import com.littlez.uiautomator.util.LogUtil;
 
 import java.util.ArrayList;
+import java.util.Date;
 
 import androidx.annotation.Nullable;
 import androidx.core.app.NotificationCompat;
+
+import org.greenrobot.eventbus.EventBus;
 
 /**
  * created by xiaozhi
@@ -129,6 +133,10 @@ public class BackService extends Service {
                                 if (!"test".endsWith(testClass) && isReStart) {//排除一下空数据
                                     CommonUtil.startUiautomator(testClass);//开始一个任务
                                     isReStart = false;
+                                    EventbusBean eventbusBean = new EventbusBean();
+                                    eventbusBean.setErrorStr(true);
+                                    eventbusBean.setErrorStr(CommonUtil.parseTime(new Date(), 1) + " : " + testClass + ";");
+                                    EventBus.getDefault().post(eventbusBean);
                                 }
                             }
                         }

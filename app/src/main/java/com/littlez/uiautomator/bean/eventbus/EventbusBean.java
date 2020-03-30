@@ -1,7 +1,6 @@
 package com.littlez.uiautomator.bean.eventbus;
 
 
-
 /**
  * created by xiaozhi
  * <p>
@@ -18,6 +17,26 @@ public class EventbusBean {
     private int type = -1;
 
     private String log;
+
+    private boolean isErrorStr = false;
+
+    public boolean isErrorStr() {
+        return isErrorStr;
+    }
+
+    public void setErrorStr(boolean errorStr) {
+        isErrorStr = errorStr;
+    }
+
+    private String errorStr;
+
+    public String getErrorStr() {
+        return errorStr;
+    }
+
+    public void setErrorStr(String errorStr) {
+        this.errorStr = errorStr;
+    }
 
     public int getType() {
         return type;

@@ -23,6 +23,7 @@ import com.littlez.uiautomator.network.netutils.DataCallbackListener;
 import com.littlez.uiautomator.service.BackService;
 import com.littlez.uiautomator.util.CommonUtil;
 import com.littlez.uiautomator.util.ExeCommand;
+import com.littlez.uiautomator.util.LogUtil;
 import com.littlez.uiautomator.util.ToastUtils;
 
 import org.greenrobot.eventbus.EventBus;
@@ -44,6 +45,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private LogsAdapter logsAdapter;
     private RecyclerView rvLogs;
     private PersionSubscribe persionSubscribe;
+    private TextView tvError;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,6 +62,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         RecyclerView recyclerView = (RecyclerView) findViewById(R.id.recycleView);
         rvLogs = (RecyclerView) findViewById(R.id.rvLogs);
         CheckBox cbCheckAll = (CheckBox) findViewById(R.id.cbCheckAll);
+        tvError = (TextView) findViewById(R.id.tvError);
         Button btnStop = (Button) findViewById(R.id.btnStop);
         Button btnStopServe = (Button) findViewById(R.id.btnStopServe);
         Button btnStartServe = (Button) findViewById(R.id.btnStartServe);
@@ -98,6 +101,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         btnStartServe.setOnClickListener(this);
         btnUpgradeApk.setOnClickListener(this);
         btnUpgradeJar.setOnClickListener(this);
+        tvError.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ToastUtils.show(tvError.getText().toString());
+            }
+        });
 
     }
 
@@ -193,11 +202,19 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
      */
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void getEvent(EventbusBean eventbusBean) {
-
-        /*添加 日志 记录 更新adapter*/
-        String log = eventbusBean.getLog();
-        logDatas.add(0, log);
-        logsAdapter.notifyDataSetChanged();
+        try {
+            if (eventbusBean.isErrorStr()) {
+                String errorStr = eventbusBean.getErrorStr();
+                tvError.setText(tvError.getText().toString().concat(errorStr));
+            } else {
+                /*添加 日志 记录 更新adapter*/
+                String log = eventbusBean.getLog();
+                logDatas.add(0, log);
+                logsAdapter.notifyDataSetChanged();
+            }
+        } catch (Exception e) {
+            LogUtil.e(e.toString());
+        }
 
     }
 
