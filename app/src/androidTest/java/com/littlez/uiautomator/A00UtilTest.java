@@ -42,6 +42,9 @@ public class A00UtilTest {
                             errorCount = 0;//重置失败次数
                             Thread.sleep(500);
                         }
+                        if (errorCount >= 8) {//重启两次都不行  关闭循环结束任务
+                            break;
+                        }
                     }
 
                     UiObject uiCrash = new UiObject(new UiSelector().resourceId("android:id/le_bottomsheet_default_cancel"));
@@ -91,6 +94,19 @@ public class A00UtilTest {
 
     public static void swipDown(UiDevice uiDevice, int steps) {
         uiDevice.swipe(460, 1300, 780, 480, steps);
+    }
+
+    /**
+     * 左滑动（右边数据）
+     *
+     * @param uiDevice
+     */
+    public static void swipleft(UiDevice uiDevice) {
+        uiDevice.swipe(960, 700, 300, 710, 10);
+    }
+
+    public static void swipleft(UiDevice uiDevice, int steps) {
+        uiDevice.swipe(960, 700, 300, 710, steps);
     }
 
     /**

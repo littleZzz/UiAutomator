@@ -34,8 +34,8 @@ public class A01KuaiSJiSutest extends TestCase {
 
         try {
             LogUtil.e("1");
-            A00UtilTest.baseMethod(uiDevice, 0, appName);//启动时  先关闭其他的
-            A00UtilTest.errorCount = 0;//设置errorcount为0
+//            A00UtilTest.baseMethod(uiDevice, 0, appName);//启动时  先关闭其他的
+//            A00UtilTest.errorCount = 0;//设置errorcount为0
             LogUtil.e("2");
 
 

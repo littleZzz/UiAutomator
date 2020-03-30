@@ -92,6 +92,8 @@ public class BackService extends Service {
         }
     }
 
+    boolean isReStart = true;
+
     //自建线程
     class MyThread extends Thread {
         @Override
@@ -113,6 +115,7 @@ public class BackService extends Service {
                             CommonUtil.startUiautomator(testClass);//开始一个任务
                             Constant.startFlag++;
                             startTime = System.currentTimeMillis();//重新设置开始时间
+                            isReStart = true;//设置可以重启
                         }
                         LogUtil.e("运行中.." + datas.get((Constant.startFlag - 1) % datas.size()).getTestClass() +
                                 ";gapTime=" + (gapTime / 1000 / 60) + "分钟;" + (time - startTime) / 1000 / 60);
@@ -123,8 +126,10 @@ public class BackService extends Service {
                             if (!uiautomatorRuning) {//如果没有uiautomator任务运行
                                 //重新启动UI任务
                                 String testClass = datas.get((Constant.startFlag - 1) % datas.size()).getTestClass();
-                                if (!"test".endsWith(testClass))//排除一下空数据
+                                if (!"test".endsWith(testClass) && isReStart) {//排除一下空数据
                                     CommonUtil.startUiautomator(testClass);//开始一个任务
+                                    isReStart = false;
+                                }
                             }
                         }
                     } catch (InterruptedException e) {
