@@ -59,7 +59,7 @@ public class A06QuTouTiaotest extends TestCase {
                         Thread.sleep(600);//要听一下  给一些加载时间
                     }
                 } else {//去检测是不是我想要的界面  是就进行处理
-                    UiObject uicllect = new UiObject(new UiSelector().resourceId("com.jifen.qukan:id/bmx"));//收藏
+                    UiObject uicllect = new UiObject(new UiSelector().resourceId("com.jifen.qukan:id/bna"));//收藏
                     UiObject uiTvOut = new UiObject(new UiSelector().resourceId("com.jifen.qukan:id/tp"));//视频最外层
                     if (uicllect.exists() && uiTvOut.exists()) {//是视频
                         boolean isRun = true;

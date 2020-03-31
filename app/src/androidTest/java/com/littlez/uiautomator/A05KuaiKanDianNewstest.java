@@ -110,6 +110,7 @@ public class A05KuaiKanDianNewstest extends TestCase {
                         UiObject close = new UiObject(new UiSelector().resourceId("com.yuncheapp.android.pearl:id/close_img"));
                         UiObject close02 = new UiObject(new UiSelector().resourceId("com.yuncheapp.android.pearl:id/coin_get"));
                         UiObject close03 = new UiObject(new UiSelector().resourceId("com.yuncheapp.android.pearl:id/iv_close"));
+                        UiObject close04 = new UiObject(new UiSelector().resourceId("com.yuncheapp.android.pearl:id/dialog_close"));
 
                         if (uiTV.exists()) {//
                             uiDevice.pressBack();
@@ -117,23 +118,19 @@ public class A05KuaiKanDianNewstest extends TestCase {
                             close.click();
                         } else if (close02.exists()) {
                             close02.click();
-                        }else if (close03.exists()) {
+                        } else if (close03.exists()) {
                             close03.click();
+                        } else if (close04.exists()) {//砸金蛋
+                            close04.click();
                         } else {//最终的强制搞一波
                             A00UtilTest.baseMethod(uiDevice, 1, appName);
                         }
                     }
                 }
-
                 Thread.sleep(500);
-
             } catch (Exception e) {
                 e.printStackTrace();
             }
         }
-
-
     }
-
-
 }

@@ -110,9 +110,12 @@ public class A08WeiLiKanKantest extends TestCase {
                     } else {
                         //处理异常情况
                         UiObject uiClose = new UiObject(new UiSelector().resourceId("cn.weli.story:id/tv_ok"));
+                        UiObject uiClose02 = new UiObject(new UiSelector().resourceId("cn.weli.story:id/image_close"));
 
                         if (uiClose.exists()) {
                             uiClose.click();
+                        } else if (uiClose02.exists()) {
+                            uiClose02.click();
                         } else {//最终的强制搞一波
                             A00UtilTest.baseMethod(uiDevice, 1, appName);
                         }
