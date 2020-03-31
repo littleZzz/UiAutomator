@@ -42,12 +42,12 @@ public class A11XiangKantest extends TestCase {
                         //主页滑动选择条目
                         Random r = new Random();
                         int number = r.nextInt(100) + 1;
-                        if (number <= 2) {//上滑
+                        if (number <= 1) {//上滑
                             A00UtilTest.swipUp(uiDevice, 10);
                         } else if (number <= 100) {//下滑
                             A00UtilTest.swipDown(uiDevice, 10);
                         } //做一些其他额外的附加任务
-                        //首页领取  做一个时段任务奖励的领取  想看 时段任务暂时不领取了
+                        //首页领取  做一个时段任务奖励的领取  想看 时段任务暂时不领取了 太慢了
 //                        UiObject uiGet = new UiObject(new UiSelector()
 //                                .resourceId("com.xiangkan.android:id/tv_box_time_new").text("领金币"));
 //                        if (uiGet.exists()) {

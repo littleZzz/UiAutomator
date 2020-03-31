@@ -59,7 +59,7 @@ public class A00UtilTest {
                     UiObject uiVideo = new UiObject(new UiSelector().text(appName));
                     if (uiVideo.exists()) {
                         uiVideo.click();
-                        Thread.sleep(4000);
+                        Thread.sleep(10000);
                     }
 
                     errorCount++;//增加异常启动次数

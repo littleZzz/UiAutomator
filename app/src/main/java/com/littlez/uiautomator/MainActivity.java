@@ -249,8 +249,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         videos.add(new VideosBean("彩蛋视频", "A03CaiDantest", 30 * 60 * 1000));
         videos.add(new VideosBean("快看点新闻", "A05KuaiKanDianNewstest", 30 * 60 * 1000));//app 有点慢
         videos.add(new VideosBean("趣头条", "A06QuTouTiaotest", 20 * 60 * 1000));//好像经常变动id
+//        videos.add(new VideosBean("中青看点", "A07ZhongQinKanDiantest", 10 * 60 * 1000));//还要待测试一下
         videos.add(new VideosBean("想看", "A11XiangKantest", 20 * 60 * 1000));
         videos.add(new VideosBean("牛角免费小说", "A21NiuJiaoYueDutest", 35 * 60 * 1000));
+        videos.add(new VideosBean("米读极速版", "A22MiDuJiSutest", 10 * 60 * 1000));
         videos.add(new VideosBean("空数据", "test", 30 * 60 * 1000));
         videos.add(new VideosBean("趣看看", "A09QuKanKanNewstest", 0 * 60 * 1000));//165 暂时被封号了
 
@@ -259,6 +261,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         //下面  是无用|或使用过废弃的数据  如 火山  淘看点 等等
 //        videos.add(new VideosBean("火山极速版", "HuoShanJiSutest", 35 * 60 * 1000));//id 经常变  效率实在是差
 //        videos.add(new VideosBean("微鲤看看", "A08WeiLiKanKantest", 10 * 60 * 1000));//操作微慢 查找id 特别慢
+
+        //淘新闻 注册第二天就异常
     }
 
 }
