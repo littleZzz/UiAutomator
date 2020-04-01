@@ -249,10 +249,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         videos.add(new VideosBean("彩蛋视频", "A03CaiDantest", 30 * 60 * 1000));
         videos.add(new VideosBean("快看点新闻", "A05KuaiKanDianNewstest", 30 * 60 * 1000));//app 有点慢
         videos.add(new VideosBean("趣头条", "A06QuTouTiaotest", 20 * 60 * 1000));//好像经常变动id
-//        videos.add(new VideosBean("中青看点", "A07ZhongQinKanDiantest", 10 * 60 * 1000));//还要待测试一下
         videos.add(new VideosBean("想看", "A11XiangKantest", 20 * 60 * 1000));
         videos.add(new VideosBean("牛角免费小说", "A21NiuJiaoYueDutest", 35 * 60 * 1000));
         videos.add(new VideosBean("米读极速版", "A22MiDuJiSutest", 10 * 60 * 1000));
+        videos.add(new VideosBean("玩赚星球", "A04WanZhuanXingQiutest", 20 * 60 * 1000));//还要待测试一下
+        videos.add(new VideosBean("中青看点", "A07ZhongQinKanDiantest", 10 * 60 * 1000));//还要待测试一下
         videos.add(new VideosBean("空数据", "test", 30 * 60 * 1000));
         videos.add(new VideosBean("趣看看", "A09QuKanKanNewstest", 0 * 60 * 1000));//165 暂时被封号了
 

@@ -32,7 +32,7 @@ public class A07ZhongQinKanDiantest extends TestCase {
         UiDevice uiDevice = UiDevice.getInstance(instrumentation);
 
         A00UtilTest.baseMethod(uiDevice, 0, appName);//启动时  先关闭其他的
-        A00UtilTest.errorCount = 0;//重置
+//        A00UtilTest.errorCount = 0;//重置
 
         while (true) {
             try {
@@ -55,18 +55,17 @@ public class A07ZhongQinKanDiantest extends TestCase {
                     UiObject uiAward = new UiObject(new UiSelector().resourceId("cn.youth.news:id/aeq"));//阅读奖励
                     UiObject uiPro = new UiObject(new UiSelector().resourceId("cn.youth.news:id/f_"));//peogress
                     if (uiAward.exists() && !uiPro.exists()) {
-                        LogUtil.e("sdfsdf");
                         uiAward.click();
-                        Thread.sleep(5000);
+                        Thread.sleep(8000);
                     } else {
                         Random r = new Random();
                         int number = r.nextInt(100) + 1;
                         /*随机数 进行判断 点击心或者滑动到下一个视频*/
                         if (number <= 1) {//上一条
                             A00UtilTest.swipUp(uiDevice);
-                        } else if (number <= 95) {//下一条
+                        } else if (number <= 97) {//下一条
                             A00UtilTest.swipDown(uiDevice);
-                            Thread.sleep(10000);//播放 时长
+                            Thread.sleep(15000);//播放 时长
                         } else {//3点击心
                             if (uiHeart.exists()) uiHeart.click();
                         }
@@ -74,9 +73,12 @@ public class A07ZhongQinKanDiantest extends TestCase {
 
                 } else {//处理异常情况  1.0 点击重播 2.0 广告滑动一下
                     UiObject uiAwardDialog = new UiObject(new UiSelector().resourceId("cn.youth.news:id/nz"));
+                    UiObject uiDialog = new UiObject(new UiSelector().resourceId("android:id/button2"));
 
                     if (uiAwardDialog.exists()) {//阅读奖励dialog
                         uiAwardDialog.click();
+                    } else if (uiDialog.exists()) {
+                        uiDialog.click();
                     } else {//最终的强制搞一波
                         A00UtilTest.baseMethod(uiDevice, 1, appName);
                     }
