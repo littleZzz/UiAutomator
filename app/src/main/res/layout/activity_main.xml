@@ -27,6 +27,7 @@
         <TextView
             android:id="@+id/tvVersion"
             android:layout_width="0dp"
+            android:textSize="12sp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:gravity="center" />
@@ -50,6 +51,16 @@
             android:paddingTop="5dp"
             android:paddingBottom="5dp"
             android:text="更新jar" />
+
+        <Button
+            android:id="@+id/btnMakeUpTime"
+            android:layout_width="0dp"
+            android:layout_height="35dp"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:paddingTop="5dp"
+            android:paddingBottom="5dp"
+            android:text="补足时间" />
 
     </LinearLayout>
 

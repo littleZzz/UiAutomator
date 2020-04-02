@@ -60,6 +60,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         TextView tvVersion = (TextView) findViewById(R.id.tvVersion);
         Button btnUpgradeApk = (Button) findViewById(R.id.btnUpgradeApk);
         Button btnUpgradeJar = (Button) findViewById(R.id.btnUpgradeJar);
+        Button btnMakeUpTime = (Button) findViewById(R.id.btnMakeUpTime);
         RecyclerView recyclerView = (RecyclerView) findViewById(R.id.recycleView);
         rvLogs = (RecyclerView) findViewById(R.id.rvLogs);
         CheckBox cbCheckAll = (CheckBox) findViewById(R.id.cbCheckAll);
@@ -103,6 +104,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         btnStartServe.setOnClickListener(this);
         btnUpgradeApk.setOnClickListener(this);
         btnUpgradeJar.setOnClickListener(this);
+        btnMakeUpTime.setOnClickListener(this);
         tvError.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -174,6 +176,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 cmd.run("chmod -R 777 /data/local/tmp/", 30000);
 
                 persionSubscribe.downloadJar();//跟新jar包
+                break;
+            case R.id.btnMakeUpTime://补足时间
+                makeUpTime();
                 break;
 
         }
@@ -256,7 +261,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         videos.add(new VideosBean("米读极速版", "A22MiDuJiSutest", 10 * 60 * 1000));
         videos.add(new VideosBean("玩赚星球", "A04WanZhuanXingQiutest", 20 * 60 * 1000));//还要待测试一下
         videos.add(new VideosBean("中青看点", "A07ZhongQinKanDiantest", 10 * 60 * 1000));//还要待测试一下
-        videos.add(new VideosBean("空数据", "test", 30 * 60 * 1000));
+        videos.add(new VideosBean("空数据", "test", testGapTime));
         videos.add(new VideosBean("趣看看", "A09QuKanKanNewstest", 0 * 60 * 1000));//165 暂时被封号了
 
         /*待确定的数据*/
@@ -266,6 +271,25 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 //        videos.add(new VideosBean("微鲤看看", "A08WeiLiKanKantest", 10 * 60 * 1000));//操作微慢 查找id 特别慢
 
         //淘新闻 注册第二天就异常
+    }
+
+    long testGapTime = 30 * 60 * 1000;
+
+    //补足时间
+    public void makeUpTime() {
+        long gapTime = 0l;
+        for (int i = 0; i < videos.size(); i++) {
+            if ("test".equals(videos.get(i).getTestClass())) break;
+            gapTime += videos.get(i).getGapTime();
+        }
+        testGapTime = 6 * 60 * 60 * 1000 - gapTime;
+        //跟新数据
+        for (int i = 0; i < videos.size(); i++) {
+            if ("test".equals(videos.get(i).getTestClass())) {
+                videos.get(i).setGapTime(testGapTime);
+            }
+        }
+        adapter.notifyDataSetChanged();
     }
 
 }
