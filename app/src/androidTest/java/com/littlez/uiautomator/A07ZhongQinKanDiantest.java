@@ -32,7 +32,7 @@ public class A07ZhongQinKanDiantest extends TestCase {
         UiDevice uiDevice = UiDevice.getInstance(instrumentation);
 
         A00UtilTest.baseMethod(uiDevice, 0, appName);//启动时  先关闭其他的
-//        A00UtilTest.errorCount = 0;//重置
+        A00UtilTest.errorCount = 0;//重置
 
         while (true) {
             try {
@@ -40,7 +40,6 @@ public class A07ZhongQinKanDiantest extends TestCase {
                 UiObject uiSearch = new UiObject(new UiSelector().resourceId("cn.youth.news:id/a4a"));
                 UiObject uiHeart = new UiObject(new UiSelector().resourceId("cn.youth.news:id/sm"));
                 UiObject uiToGet = new UiObject(new UiSelector().resourceId("cn.youth.news:id/rc"));//广告的待领取
-
                 if (uiSearch.exists()) {//选中的是首页
                     UiObject uiTv = new UiObject(new UiSelector().resourceId("cn.youth.news:id/a_r"));
                     uiTv.click();

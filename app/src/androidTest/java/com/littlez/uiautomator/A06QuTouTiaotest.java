@@ -29,10 +29,11 @@ public class A06QuTouTiaotest extends TestCase {
         Instrumentation instrumentation = InstrumentationRegistry.getInstrumentation();
         UiDevice uiDevice = UiDevice.getInstance(instrumentation);
 
-        try {
-            A00UtilTest.baseMethod(uiDevice, 0, appName);//启动时  先关闭其他的
-            A00UtilTest.errorCount = 0;//重置
-            while (true) {
+        while (true) {
+            try {
+                A00UtilTest.baseMethod(uiDevice, 0, appName);//启动时  先关闭其他的
+                A00UtilTest.errorCount = 0;//重置
+
                 //主页
                 UiObject uiHome = new UiObject(new UiSelector().resourceId("com.jifen.qukan:id/m6"));
                 if (uiHome.exists()) {//是主页  滑动选择条目
@@ -120,10 +121,10 @@ public class A06QuTouTiaotest extends TestCase {
                     }
                 }
                 Thread.sleep(500);
+
+            } catch (Exception e) {
+                e.printStackTrace();
             }
-        } catch (Exception e) {
-            e.printStackTrace();
         }
     }
-
 }
