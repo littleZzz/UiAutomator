@@ -1,6 +1,7 @@
 package com.littlez.uiautomator;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -76,9 +77,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         rvLogs.setAdapter(logsAdapter);
 
         //设置产品列表
-        LinearLayoutManager layoutManager =
-                new LinearLayoutManager(mContext, RecyclerView.VERTICAL, false);
-        recyclerView.setLayoutManager(layoutManager);
+//        LinearLayoutManager layoutManager =
+//                new LinearLayoutManager(mContext, RecyclerView.VERTICAL, false);
+        GridLayoutManager gridLayoutManager = new GridLayoutManager(mContext, 2);
+        recyclerView.setLayoutManager(gridLayoutManager);
 
         initData();//添加数据源
 
