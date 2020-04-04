@@ -84,28 +84,19 @@ public class A23FanQieXiaoshuotest extends TestCase {
         }
     }
 
-
     //福利页面处理
     private void welare(UiDevice uiDevice) throws UiObjectNotFoundException, InterruptedException {
-
-        int count = 0;
-        while (count <= 5) {
-            UiObject uiGet = new UiObject(new UiSelector().description("领200金币"));
-            UiObject uiGet02 = new UiObject(new UiSelector().description("领500金币"));
-            UiObject uiGet03 = new UiObject(new UiSelector().description("领800金币"));
-            UiObject uiGet04 = new UiObject(new UiSelector().description("领1500金币"));
-            UiObject uiGet05 = new UiObject(new UiSelector().description("领2000金币"));
-            if (uiGet.exists()) uiGet.clickTopLeft();
-            if (uiGet02.exists()) uiGet02.clickTopLeft();
-            if (uiGet03.exists()) uiGet03.clickTopLeft();
-            if (uiGet04.exists()) uiGet04.clickTopLeft();
-            if (uiGet05.exists()) uiGet05.clickTopLeft();
-            else {
-                uiDevice.swipe(620, 1300, 700, 830, 15);
-                count++;
-            }
-            Thread.sleep(2000);
+        UiObject uiSignDialog = new UiObject(new UiSelector().description("好的").className("android.view.View"));
+        if (uiSignDialog.exists()) uiSignDialog.click();
+        Thread.sleep(1000);
+        UiObject uiOpenBox = new UiObject(new UiSelector().description("开宝箱得金币").className("android.view.View"));
+        if (uiOpenBox.exists()) uiOpenBox.click();
+        Thread.sleep(1000);
+        UiObject uiBooks = new UiObject(new UiSelector().resourceId("com.dragon.read:id/ip"));
+        if (uiBooks.exists()) uiBooks.click();
+        else {
+            uiDevice.pressBack();
         }
+        Thread.sleep(1000);
     }
-
 }

@@ -42,11 +42,16 @@ public class A22MiDuJiSutest extends TestCase {
                     if (uiBooks.exists()) uiBooks.click();
 
                 } else if (uiBooks.exists() && uiBooks.isChecked()) {//是书架界面
-                    UiObject uiRead = new UiObject(new UiSelector().resourceId("com.lechuan.mdwz:id/ajq"));
-                    uiRead.click();
+                    UiObject uiRead = new UiObject(new UiSelector().resourceId("com.lechuan.mdwz:id/ajq"));//有两种列表
+                    UiObject uiRead02 = new UiObject(new UiSelector().resourceId("com.lechuan.mdwz:id/gp"));
+                    if (uiRead.exists()) uiRead.click();
+                    else if (uiRead02.exists()) uiRead02.click();
                     Thread.sleep(2000);
 
-                } else if (new UiObject(new UiSelector().resourceId("com.lechuan.mdwz:id/a_q")).exists()) {//是阅读界面
+                } else if (new UiObject(new UiSelector().resourceId("com.lechuan.mdwz:id/a8b")).exists()) {//是阅读界面 drawer id
+                    UiObject uimenu = new UiObject(new UiSelector().resourceId("com.lechuan.mdwz:id/adf"));
+                    if (uimenu.exists()) uiDevice.swipe(640, 640, 640, 640, 10);
+
                     long currentTimeMillis = System.currentTimeMillis();
                     if (currentTimeMillis - startTime >= 30 * 60 * 1000) {//回到主页 获取奖励
                         uiDevice.pressBack();

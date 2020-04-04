@@ -33,14 +33,12 @@ public class A04WanZhuanXingQiutest extends TestCase {
             A00UtilTest.baseMethod(uiDevice, 0, appName);//启动时  先关闭其他的
             A00UtilTest.errorCount = 0;//重置
             while (true) {
-
                 //首页
                 UiObject uiNewsTask = new UiObject(new UiSelector().resourceId("com.planet.light2345:id/tv_task_button"));
-
                 UiObject uiTvBack =
                         new UiObject(new UiSelector().resourceId("com.startnews.plugin:id/news2345_iv_back_small_video_detail"));
-
                 if (uiNewsTask.exists()) {//是首页选中
+
                     uiNewsTask.click();
                     Thread.sleep(2000);
                     UiObject uiTv = new UiObject(new UiSelector().resourceId("com.startnews.plugin:id/channel_name").text("小视频"));
@@ -71,9 +69,12 @@ public class A04WanZhuanXingQiutest extends TestCase {
                         }
                     }
                     UiObject uiDialogClose = new UiObject(new UiSelector().resourceId("com.planet.light2345:id/iv_close"));
+                    UiObject uiDialogClose02 = new UiObject(new UiSelector().resourceId("com.planet.light2345:id/iv_delete"));
 
                     if (uiDialogClose.exists()) {//弹框
                         uiDialogClose.click();
+                    } else if (uiDialogClose02.exists()) {//弹框
+                        uiDialogClose02.click();
                     } else {//最终的强制搞一波
                         A00UtilTest.baseMethod(uiDevice, 1, appName);
                     }
