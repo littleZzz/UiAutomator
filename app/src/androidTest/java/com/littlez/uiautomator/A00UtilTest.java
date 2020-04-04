@@ -47,7 +47,7 @@ public class A00UtilTest {
                         }
                     }
 
-                    UiObject uiCrash = new UiObject(new UiSelector().resourceId("android:id/le_bottomsheet_default_cancel"));
+                    UiObject uiCrash = new UiObject(new UiSelector().resourceId("android:id/le_bottomsheet_default_confirm"));
                     if (uiCrash.exists()) {
                         uiCrash.click();//应用奔溃了 的页面
                     }

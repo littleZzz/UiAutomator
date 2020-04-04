@@ -36,6 +36,7 @@ public class A05KuaiKanDianNewstest extends TestCase {
         A00UtilTest.baseMethod(uiDevice, 0, appName);//启动时  先关闭其他的
         A00UtilTest.errorCount = 0;//重置
 
+
         while (true) {
             try {
                 //主页
@@ -100,7 +101,7 @@ public class A05KuaiKanDianNewstest extends TestCase {
                                 uiDevice.pressBack();
                             } else {
                                 uiDevice.swipe(400, 1200, 534, 802, 10);
-                                Thread.sleep(2000);
+                                Thread.sleep(3000);
                             }
                         }
 
@@ -111,6 +112,9 @@ public class A05KuaiKanDianNewstest extends TestCase {
                         UiObject close02 = new UiObject(new UiSelector().resourceId("com.yuncheapp.android.pearl:id/coin_get"));
                         UiObject close03 = new UiObject(new UiSelector().resourceId("com.yuncheapp.android.pearl:id/iv_close"));
                         UiObject close04 = new UiObject(new UiSelector().resourceId("com.yuncheapp.android.pearl:id/dialog_close"));
+                        UiObject close05 =
+                                new UiObject(new UiSelector().resourceId("com.yuncheapp.android.pearl:id/dialog_negative_button"));
+                        UiObject close06 = new UiObject(new UiSelector().resourceId("com.yuncheapp.android.pearl:id/btn_positive"));
 
                         if (uiTV.exists()) {//
                             uiDevice.pressBack();
@@ -122,6 +126,10 @@ public class A05KuaiKanDianNewstest extends TestCase {
                             close03.click();
                         } else if (close04.exists()) {//砸金蛋
                             close04.click();
+                        } else if (close05.exists()) {//版本跟新 忽略版本
+                            close05.click();
+                        } else if (close06.exists()) {//版本跟新 忽略版本
+                            close06.click();
                         } else {//最终的强制搞一波
                             A00UtilTest.baseMethod(uiDevice, 1, appName);
                         }

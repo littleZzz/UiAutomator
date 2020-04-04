@@ -48,12 +48,12 @@ public class A11XiangKantest extends TestCase {
                             A00UtilTest.swipDown(uiDevice, 10);
                         } //做一些其他额外的附加任务
                         //首页领取  做一个时段任务奖励的领取  想看 时段任务暂时不领取了 太慢了
-//                        UiObject uiGet = new UiObject(new UiSelector()
-//                                .resourceId("com.xiangkan.android:id/tv_box_time_new").text("领金币"));
-//                        if (uiGet.exists()) {
-//                            uiGet.click();
-//                            continue;
-//                        }
+                        UiObject uiGet = new UiObject(new UiSelector()
+                                .resourceId("com.xiangkan.android:id/tv_box_time_new").text("领金币"));
+                        if (uiGet.exists()) {
+                            uiGet.click();
+                            continue;
+                        }
                         Thread.sleep(500);//没有时段领取 选择一条进行跳转
                         UiObject uiAuther = new UiObject(new UiSelector().resourceId("com.xiangkan.android:id/tvInfo").instance(0));
                         uiAuther.click();//这个不分是视频还是阅读了
@@ -98,13 +98,18 @@ public class A11XiangKantest extends TestCase {
                         }
                     } else {
                         //处理异常情况 首页领取奖励后的dialog
-                        UiObject uiClose = new UiObject(new UiSelector().resourceId("com.xiangkan.android:id/btn_close"));//时段奖励
+                        UiObject uiClose = new UiObject(
+                                new UiSelector().resourceId("com.xiangkan.android:id/tv_integer_coin_action"));//时段奖励 看视频再领取
                         UiObject uiClose02 = new UiObject(new UiSelector().resourceId("com.xiangkan.android:id/iv_close"));//福袋dialog
+                        UiObject uiClose03 = new UiObject(new UiSelector().resourceId("com.xiangkan.android:id/closeIv"));//福袋dialog
+                        UiObject uiClose4 = new UiObject(new UiSelector().resourceId("com.xiangkan.android:id/btn_close"));//时段奖励
 
                         if (uiClose.exists()) {
                             uiClose.click();
                         } else if (uiClose02.exists()) {
                             uiClose02.click();
+                        } else if (uiClose03.exists()) {
+                            uiClose03.click();
                         } else {//最终的强制搞一波
                             A00UtilTest.baseMethod(uiDevice, 1, appName);
                         }

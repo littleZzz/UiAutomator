@@ -34,6 +34,8 @@ import org.greenrobot.eventbus.ThreadMode;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Set;
+import java.util.Timer;
+import java.util.TimerTask;
 
 //  https://www.testwo.com/blog/7057  这个是标准的配置文档
 public class MainActivity extends AppCompatActivity implements View.OnClickListener, DataCallbackListener {
@@ -65,6 +67,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         rvLogs = (RecyclerView) findViewById(R.id.rvLogs);
         CheckBox cbCheckAll = (CheckBox) findViewById(R.id.cbCheckAll);
         tvError = (TextView) findViewById(R.id.tvError);
+        TextView tvGetScreen = (TextView) findViewById(R.id.tvGetScreen);
         Button btnStop = (Button) findViewById(R.id.btnStop);
         Button btnStopServe = (Button) findViewById(R.id.btnStopServe);
         Button btnStartServe = (Button) findViewById(R.id.btnStartServe);
@@ -111,6 +114,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 ToastUtils.show(tvError.getText().toString());
             }
         });
+        tvGetScreen.setOnClickListener(this);
 
     }
 
@@ -179,6 +183,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 break;
             case R.id.btnMakeUpTime://补足时间
                 makeUpTime();
+                break;
+            case R.id.tvGetScreen://截取dump  信息
+                LogUtil.e("8秒后执行dump任务");
+                Timer timer = new Timer();// 实例化Timer类  
+                timer.schedule(new TimerTask() {
+                    public void run() {
+                        CommonUtil.startUiautomator("A000ScreenTest");//dump 任务
+                    }
+                }, 8000);// 这里百毫秒  
                 break;
 
         }
@@ -251,25 +264,27 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private void initData() {
         /*这里就是数据源*/
         /*稳定数据*/
-//        videos.add(new VideosBean("快手极速版", "A01KuaiSJiSutest", 25 * 60 * 1000));//需要验证
         videos.add(new VideosBean("刷宝短视频", "A02ShuaBaotest", 30 * 60 * 1000));
         videos.add(new VideosBean("彩蛋视频", "A03CaiDantest", 30 * 60 * 1000));
-        videos.add(new VideosBean("快看点新闻", "A05KuaiKanDianNewstest", 30 * 60 * 1000));//app 有点慢
         videos.add(new VideosBean("趣头条", "A06QuTouTiaotest", 20 * 60 * 1000));//好像经常变动id
         videos.add(new VideosBean("想看", "A11XiangKantest", 20 * 60 * 1000));
         videos.add(new VideosBean("牛角免费小说", "A21NiuJiaoYueDutest", 35 * 60 * 1000));
         videos.add(new VideosBean("米读极速版", "A22MiDuJiSutest", 10 * 60 * 1000));//测试中
         videos.add(new VideosBean("搜狐资讯", "A12SouHuZiXuntest", 10 * 60 * 1000));//测试中
-        videos.add(new VideosBean("玩赚星球", "A04WanZhuanXingQiutest", 20 * 60 * 1000));//还要待测试一下
+        videos.add(new VideosBean("趣看点", "A13QuKanDiantest", 10 * 60 * 1000));//测试中
+        videos.add(new VideosBean("番茄免费小说", "A23FanQieXiaoshuotest", 20 * 60 * 1000));//测试中
         videos.add(new VideosBean("空数据", "test", testGapTime));
-        videos.add(new VideosBean("趣看看", "A09QuKanKanNewstest", 0 * 60 * 1000));//165 暂时被封号了
+        videos.add(new VideosBean("玩赚星球", "A04WanZhuanXingQiutest", 20 * 60 * 1000));//165被封号了
 
         /*待确定的数据*/
+//        videos.add(new VideosBean("快手极速版", "A01KuaiSJiSutest", 25 * 60 * 1000));//需要验证
 //        videos.add(new VideosBean("东方头条", "A10DongFangTTtest", 10 * 60 * 1000));
+//        videos.add(new VideosBean("趣看看", "A09QuKanKanNewstest", 0 * 60 * 1000));//165 暂时被封号了 和玩赚同数据
         //下面  是无用|或使用过废弃的数据  如 火山  淘看点 等等
 //        videos.add(new VideosBean("中青看点", "A07ZhongQinKanDiantest", 10 * 60 * 1000));//很慢放弃了
 //        videos.add(new VideosBean("火山极速版", "HuoShanJiSutest", 35 * 60 * 1000));//id 经常变  效率实在是差
 //        videos.add(new VideosBean("微鲤看看", "A08WeiLiKanKantest", 10 * 60 * 1000));//操作微慢 查找id 特别慢
+//        videos.add(new VideosBean("快看点新闻", "A05KuaiKanDianNewstest", 30 * 60 * 1000));//收益低 而且提现165 171手机不通过
 
         //淘新闻 注册第二天就异常
     }
