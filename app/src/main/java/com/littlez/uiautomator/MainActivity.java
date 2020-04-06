@@ -268,9 +268,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         /*稳定数据*/
         videos.add(new VideosBean("刷宝短视频", "A02ShuaBaotest", 30 * 60 * 1000));
         videos.add(new VideosBean("彩蛋视频", "A03CaiDantest", 30 * 60 * 1000));
+        videos.add(new VideosBean("牛角免费小说", "A21NiuJiaoYueDutest", 35 * 60 * 1000));
         videos.add(new VideosBean("趣头条", "A06QuTouTiaotest", 30 * 60 * 1000));//好像经常变动id
         videos.add(new VideosBean("想看", "A11XiangKantest", 30 * 60 * 1000));//165 手机号会异常
-        videos.add(new VideosBean("牛角免费小说", "A21NiuJiaoYueDutest", 35 * 60 * 1000));
         videos.add(new VideosBean("米读极速版", "A22MiDuJiSutest", 35 * 60 * 1000));
         videos.add(new VideosBean("番茄免费小说", "A23FanQieXiaoshuotest", 30 * 60 * 1000));
         videos.add(new VideosBean("搜狐资讯", "A12SouHuZiXuntest", 30 * 60 * 1000));
