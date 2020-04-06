@@ -60,15 +60,9 @@ public class A12SouHuZiXuntest extends TestCase {
                     UiObject uiTvTitle = new UiObject(new UiSelector().resourceId("com.sohu.infonews:id/textTitle"));//视频
 
                     if (uiTvTitle.exists()) {//是视频
-                        boolean isRun = true;
-                        while (isRun) {//循环观看视频
-                            UiObject uiRePlay = new UiObject(new UiSelector().resourceId("com.sohu.infonews:id/tv_replay"));
-                            if (uiRePlay.exists()) {
-                                isRun = false;
-                                uiDevice.pressBack();
-                            }
-                            Thread.sleep(2000);
-                        }
+                        UiObject uiRePlay = new UiObject(new UiSelector().resourceId("com.sohu.infonews:id/tv_replay"));
+                        A00UtilTest.backUntilObjOrTime(uiDevice, uiRePlay, 300);
+
                     } else if (uiComment.exists()) {//新闻
                         boolean isRun = true;
                         while (isRun) {
@@ -97,7 +91,7 @@ public class A12SouHuZiXuntest extends TestCase {
                         }
                     }
                 }
-                Thread.sleep(500);
+                Thread.sleep(1000);
             } catch (Exception e) {
                 e.printStackTrace();
             }

@@ -48,7 +48,8 @@ public class A22MiDuJiSutest extends TestCase {
                     else if (uiRead02.exists()) uiRead02.click();
                     Thread.sleep(2000);
 
-                } else if (new UiObject(new UiSelector().resourceId("com.lechuan.mdwz:id/a8b")).exists()) {//是阅读界面 drawer id
+                } else if (new UiObject(new UiSelector().resourceId("com.lechuan.mdwz:id/a8b")).exists()
+                        || new UiObject(new UiSelector().resourceId("com.lechuan.mdwz:id/a_o")).exists()) {//是阅读界面 drawer id
                     UiObject uimenu = new UiObject(new UiSelector().resourceId("com.lechuan.mdwz:id/adf"));
                     if (uimenu.exists()) uiDevice.swipe(640, 640, 640, 640, 10);
 

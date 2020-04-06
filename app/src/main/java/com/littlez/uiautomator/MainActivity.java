@@ -32,6 +32,7 @@ import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Set;
 import java.util.Timer;
@@ -154,6 +155,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 Intent intent = new Intent(mContext, BackService.class);
                 intent.putParcelableArrayListExtra("datas", videosBeans);
                 Constant.videosBeans = videosBeans;
+                Collections.shuffle(Constant.videosBeans);//打乱list运行的顺序
                 startService(intent);
 
                 break;
@@ -266,24 +268,24 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         /*稳定数据*/
         videos.add(new VideosBean("刷宝短视频", "A02ShuaBaotest", 30 * 60 * 1000));
         videos.add(new VideosBean("彩蛋视频", "A03CaiDantest", 30 * 60 * 1000));
-        videos.add(new VideosBean("趣头条", "A06QuTouTiaotest", 20 * 60 * 1000));//好像经常变动id
-        videos.add(new VideosBean("想看", "A11XiangKantest", 20 * 60 * 1000));
+        videos.add(new VideosBean("趣头条", "A06QuTouTiaotest", 30 * 60 * 1000));//好像经常变动id
+        videos.add(new VideosBean("想看", "A11XiangKantest", 30 * 60 * 1000));//165 手机号会异常
         videos.add(new VideosBean("牛角免费小说", "A21NiuJiaoYueDutest", 35 * 60 * 1000));
         videos.add(new VideosBean("米读极速版", "A22MiDuJiSutest", 35 * 60 * 1000));
-        videos.add(new VideosBean("搜狐资讯", "A12SouHuZiXuntest", 10 * 60 * 1000));//测试中
+        videos.add(new VideosBean("番茄免费小说", "A23FanQieXiaoshuotest", 30 * 60 * 1000));
+        videos.add(new VideosBean("搜狐资讯", "A12SouHuZiXuntest", 30 * 60 * 1000));
         videos.add(new VideosBean("趣看点", "A13QuKanDiantest", 10 * 60 * 1000));//测试中
-        videos.add(new VideosBean("番茄免费小说", "A23FanQieXiaoshuotest", 20 * 60 * 1000));//测试中
-        videos.add(new VideosBean("空数据", "test", testGapTime));
-        videos.add(new VideosBean("玩赚星球", "A04WanZhuanXingQiutest", 20 * 60 * 1000));//165被封号了
+        videos.add(new VideosBean("回首页待运行", "A001ToHometest", testGapTime));
 
         /*待确定的数据*/
 //        videos.add(new VideosBean("快手极速版", "A01KuaiSJiSutest", 25 * 60 * 1000));//需要验证
 //        videos.add(new VideosBean("东方头条", "A10DongFangTTtest", 10 * 60 * 1000));
-//        videos.add(new VideosBean("趣看看", "A09QuKanKanNewstest", 0 * 60 * 1000));//165 暂时被封号了 和玩赚同数据
+//        videos.add(new VideosBean("微鲤看看", "A08WeiLiKanKantest", 10 * 60 * 1000));//操作微慢 查找id 特别慢
         //下面  是无用|或使用过废弃的数据  如 火山  淘看点 等等
+//        videos.add(new VideosBean("趣看看", "A09QuKanKanNewstest", 0 * 60 * 1000));//165 暂时被封号了 和玩赚同数据
+//        videos.add(new VideosBean("玩赚星球", "A04WanZhuanXingQiutest", 20 * 60 * 1000));//165被封号了
 //        videos.add(new VideosBean("中青看点", "A07ZhongQinKanDiantest", 10 * 60 * 1000));//很慢放弃了
 //        videos.add(new VideosBean("火山极速版", "HuoShanJiSutest", 35 * 60 * 1000));//id 经常变  效率实在是差
-//        videos.add(new VideosBean("微鲤看看", "A08WeiLiKanKantest", 10 * 60 * 1000));//操作微慢 查找id 特别慢
 //        videos.add(new VideosBean("快看点新闻", "A05KuaiKanDianNewstest", 30 * 60 * 1000));//收益低 而且提现165 171手机不通过
 
         //淘新闻 注册第二天就异常
@@ -295,7 +297,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public void makeUpTime() {
         long gapTime = 0l;
         for (int i = 0; i < videos.size(); i++) {
-            if ("test".equals(videos.get(i).getTestClass())) break;
+            if ("test".equals(videos.get(i).getTestClass())) continue;
             gapTime += videos.get(i).getGapTime();
         }
         testGapTime = 6 * 60 * 60 * 1000 - gapTime;

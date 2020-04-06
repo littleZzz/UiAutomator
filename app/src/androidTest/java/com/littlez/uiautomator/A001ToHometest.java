@@ -12,33 +12,31 @@ import com.littlez.uiautomator.util.LogUtil;
 
 import junit.framework.TestCase;
 
-import java.io.File;
 import java.util.Random;
 
 /**
- * 非常重要的 截图动态ui的
+ * created by xiaozhi
+ * <p>回到首页的测试用例
+ * Date 2019/12/3
  */
-public class A000ScreenTest extends TestCase {
-
+public class A001ToHometest extends TestCase {
 
     //    @Test
     public void test() throws UiObjectNotFoundException {
         // 获取设备对象
         Instrumentation instrumentation = InstrumentationRegistry.getInstrumentation();
-
         UiDevice uiDevice = UiDevice.getInstance(instrumentation);
-
+        int count = 0;
         try {
-
-            try {
-//                uiDevice.dumpWindowHierarchy("window_dump.uix") ;
-                uiDevice.dumpWindowHierarchy(new File("/sdcard/screen.uix"));
-                uiDevice.takeScreenshot(new File("/sdcard/screen.png"));
-
-            } catch (Exception e) {
-                LogUtil.e(e.toString());
+            while (count <= 3) {
+                UiObject uiHomeLive = new UiObject(new UiSelector().resourceId("com.android.launcher3:id/live"));
+                if (uiHomeLive.exists()) {
+                    count++;
+                } else {
+                    uiDevice.pressHome();
+                }
+                Thread.sleep(5000);
             }
-
         } catch (Exception e) {
             e.printStackTrace();
             LogUtil.e(e.toString());

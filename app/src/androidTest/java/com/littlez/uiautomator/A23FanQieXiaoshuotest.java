@@ -9,6 +9,8 @@ import androidx.test.uiautomator.UiObjectNotFoundException;
 import androidx.test.uiautomator.UiSelector;
 import androidx.test.uiautomator.UiWatcher;
 
+import com.littlez.uiautomator.base.Constant;
+
 import junit.framework.TestCase;
 
 import java.util.Random;
@@ -38,6 +40,7 @@ public class A23FanQieXiaoshuotest extends TestCase {
                 UiObject uiHome = new UiObject(new UiSelector().resourceId("com.dragon.read:id/ih"));
                 UiObject uiReadPage = new UiObject(new UiSelector().resourceId("com.dragon.read:id/a_s"));
                 UiObject uiWelare = new UiObject(new UiSelector().resourceId("com.dragon.read:id/io"));
+                UiObject uiAdvClose = new UiObject(new UiSelector().resourceId("com.dragon.read:id/tt_video_ad_close"));
 
                 if (uiHome.exists()) {//是主页
                     UiObject uiBookCity = new UiObject(new UiSelector().resourceId("com.dragon.read:id/im"));
@@ -45,7 +48,7 @@ public class A23FanQieXiaoshuotest extends TestCase {
                     if (uiBookCity.isChecked()) {//选中的书城
                         uiBooks.click();
                     } else if (uiWelare.isChecked()) {//选中的福利
-                        welare(uiDevice);   //福利页面
+                        welare(uiDevice, uiAdvClose);   //福利页面
                     } else if (uiBooks.exists()) {//选中的书架
                         UiObject uiBookTitle = new UiObject(new UiSelector().resourceId("com.dragon.read:id/wp"));
                         if (uiBookTitle.exists()) uiBookTitle.click();//点击阅读历史阅读
@@ -55,7 +58,7 @@ public class A23FanQieXiaoshuotest extends TestCase {
                     }
                 } else if (uiReadPage.exists()) {//是阅读界面
                     long currentTimeMillis = System.currentTimeMillis();
-                    if (currentTimeMillis - startTime >= 30 * 60 * 1000) {//回到主页 获取奖励
+                    if (currentTimeMillis - startTime >= 1 * 60 * 1000) {//回到主页 获取奖励
                         uiDevice.pressBack();
                         Thread.sleep(2000);
                         if (uiWelare.exists()) {
@@ -69,10 +72,12 @@ public class A23FanQieXiaoshuotest extends TestCase {
                         Thread.sleep((15 + number) * 1000);
                     }
                 } else {//处理异常情况
-                    UiObject uiClose = new UiObject(new UiSelector().resourceId("sdfs"));
+                    UiObject uiSeeTvGetMoreDia =
+                            new UiObject(new UiSelector().resourceId("adsfadsf"));
 
-                    if (uiClose.exists()) {
-                        uiClose.click();
+                    if (uiSeeTvGetMoreDia.exists()) {
+                        uiSeeTvGetMoreDia.click();
+                        A00UtilTest.backUntilObjOrTime(uiDevice, uiAdvClose, 50);
                     } else {//最终的强制搞一波
                         A00UtilTest.baseMethod(uiDevice, 1, appName);
                     }
@@ -85,14 +90,41 @@ public class A23FanQieXiaoshuotest extends TestCase {
     }
 
     //福利页面处理
-    private void welare(UiDevice uiDevice) throws UiObjectNotFoundException, InterruptedException {
+    private void welare(UiDevice uiDevice, UiObject uiAdvClose) throws UiObjectNotFoundException, InterruptedException {
+        UiObject uiSignSuss = new UiObject(new UiSelector().descriptionContains("看视频再领").className("android.widget.Button"));
+        if (uiSignSuss.exists()) {
+            uiSignSuss.click();
+            A00UtilTest.backUntilObjOrTime(uiDevice, uiAdvClose, 50);
+        }
+        Thread.sleep(1000);
         UiObject uiSignDialog = new UiObject(new UiSelector().description("好的").className("android.view.View"));
         if (uiSignDialog.exists()) uiSignDialog.click();
         Thread.sleep(1000);
         UiObject uiOpenBox = new UiObject(new UiSelector().description("开宝箱得金币").className("android.view.View"));
-        if (uiOpenBox.exists()) uiOpenBox.click();
+        if (uiOpenBox.exists()) {
+            uiOpenBox.click();
+        }
         Thread.sleep(1000);
-        UiObject uiBooks = new UiObject(new UiSelector().resourceId("com.dragon.read:id/ip"));
+        UiObject uiSeeTvGetMoreDia = new UiObject(new UiSelector().descriptionContains("看视频领取最高").className("android.widget.Button"));
+        if (uiSeeTvGetMoreDia.exists()) {
+            uiSeeTvGetMoreDia.click();
+            A00UtilTest.backUntilObjOrTime(uiDevice, uiAdvClose, 50);
+        }
+        //滑动到去看广告
+        int count = 0;
+        while (count <= 3) {
+            UiObject uiToSee = new UiObject(new UiSelector().descriptionContains("立即观看").className("android.view.View"));
+            if (uiToSee.exists()) {
+                uiToSee.clickTopLeft();
+                A00UtilTest.backUntilObjOrTime(uiDevice, uiAdvClose, 50);
+                continue;
+            } else {
+                uiDevice.swipe(460, 1300, 1200, 480, 16);
+            }
+            count++;
+            Thread.sleep(1000);
+        }
+        UiObject uiBooks = new UiObject(new UiSelector().resourceId("com.dragon.read:id/ip"));//回到书城
         if (uiBooks.exists()) uiBooks.click();
         else {
             uiDevice.pressBack();

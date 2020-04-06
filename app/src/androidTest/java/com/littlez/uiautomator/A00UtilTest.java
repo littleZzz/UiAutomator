@@ -128,5 +128,68 @@ public class A00UtilTest {
         }
     }
 
+    /**
+     * @param uiDevice
+     * @param uiExitToClose 可以为空  为空就是不判断 等待固定时间
+     * @param time          时间 时间值是int
+     */
+    public static void backUntilObjOrTime(UiDevice uiDevice, UiObject uiExitToClose, int time) {
+        try {
+            boolean isRun = true;
+            long startTime = System.currentTimeMillis();//开始时间
+            while (isRun) {
+                long currentTimeMillis = System.currentTimeMillis();
+                if (currentTimeMillis - startTime >= time * 1000) {//超过某个时间
+                    uiDevice.pressBack();
+                    isRun = false;
+                    break;
+                } else if (uiExitToClose != null && uiExitToClose.exists()) {
+                    uiExitToClose.click();
+                    isRun = false;
+                    break;
+                }
+                Thread.sleep(5000);
+            }
+        } catch (UiObjectNotFoundException e) {
+            e.printStackTrace();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * @param uiDevice
+     * @param otherClick    其他的一个跳出循环判断  比如福袋临朐  阅读奖励等
+     * @param uiExitToClose 可以为空  为空就是不判断 等待固定时间
+     * @param time          时间 时间值是int
+     */
+    public static void backUntilObjOrTime(UiDevice uiDevice, UiObject otherClick, UiObject uiExitToClose, int time) {
+        try {
+            boolean isRun = true;
+            long startTime = System.currentTimeMillis();//开始时间
+            while (isRun) {
+                long currentTimeMillis = System.currentTimeMillis();
+                if (currentTimeMillis - startTime >= time * 1000) {//超过某个时间
+                    uiDevice.pressBack();
+                    isRun = false;
+                    break;
+                } else if (otherClick != null && otherClick.exists()) {
+                    otherClick.click();
+                    isRun = false;
+                    break;
+                } else if (uiExitToClose != null && uiExitToClose.exists()) {
+                    uiExitToClose.click();
+                    isRun = false;
+                    break;
+                }
+                Thread.sleep(5000);
+            }
+        } catch (UiObjectNotFoundException e) {
+            e.printStackTrace();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+
 
 }

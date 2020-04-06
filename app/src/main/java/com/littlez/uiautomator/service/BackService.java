@@ -121,16 +121,16 @@ public class BackService extends Service {
                             startTime = System.currentTimeMillis();//重新设置开始时间
                             isReStart = true;//设置可以重启
                         }
-                        LogUtil.e("运行中.." + datas.get((Constant.startFlag - 1) % datas.size()).getTestClass() +
+                        LogUtil.e("运行中.." + (Constant.startFlag - 1) % datas.size() + "/" + datas.size()
+                                + datas.get((Constant.startFlag - 1) % datas.size()).getTestClass() +
                                 ";gapTime=" + (gapTime / 1000 / 60) + "分钟;" + (time - startTime) / 1000 / 60);
                         Thread.sleep(5000);
                         //另外设一个时间值  判断当前运行uiautomator  是不是没有运行  是就去唤醒他
                         if (time - notifyTime > 15000) {//15秒一个间隔去检查是不是
                             boolean uiautomatorRuning = CommonUtil.isUiautomatorRuning();
                             if (!uiautomatorRuning) {//如果没有uiautomator任务运行
-                                //重新启动UI任务
                                 String testClass = datas.get((Constant.startFlag - 1) % datas.size()).getTestClass();
-                                if (!"test".endsWith(testClass) && isReStart) {//排除一下空数据
+                                if (isReStart) {//重新启动UI任务
                                     CommonUtil.startUiautomator(testClass);//开始一个任务
                                     isReStart = false;
                                     EventbusBean eventbusBean = new EventbusBean();
