@@ -297,13 +297,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public void makeUpTime() {
         long gapTime = 0l;
         for (int i = 0; i < videos.size(); i++) {
-            if ("test".equals(videos.get(i).getTestClass())) continue;
+            if ("A001ToHometest".equals(videos.get(i).getTestClass())) continue;
             gapTime += videos.get(i).getGapTime();
         }
         testGapTime = 6 * 60 * 60 * 1000 - gapTime;
         //跟新数据
         for (int i = 0; i < videos.size(); i++) {
-            if ("test".equals(videos.get(i).getTestClass())) {
+            if ("A001ToHometest".equals(videos.get(i).getTestClass())) {
                 videos.get(i).setGapTime(testGapTime);
             }
         }

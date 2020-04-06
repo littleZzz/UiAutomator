@@ -12,7 +12,7 @@ public class A00UtilTest {
     /**
      * 基本的运行方法封装
      */
-    public static void baseMethod(UiDevice uiDevice, int flag, String appName) {
+    public static void baseMethod(UiDevice uiDevice, int flag, String appName, MyCallBack myCallBack) {
         try {
             switch (flag) {
                 case 0://CLEAR_APP
@@ -30,6 +30,18 @@ public class A00UtilTest {
                     Thread.sleep(200);
                     break;
                 case 1://Error_Base
+                    UiObject uiCrash = new UiObject(new UiSelector().resourceId("android:id/le_bottomsheet_default_confirm"));
+                    if (uiCrash.exists()) {
+                        uiCrash.click();//应用奔溃了 的页面
+                    }
+                    uiDevice.pressHome();
+                    Thread.sleep(500);
+                    //启动应用
+                    UiObject uiVideo = new UiObject(new UiSelector().text(appName));
+                    if (uiVideo.exists()) {
+                        uiVideo.click();
+                        Thread.sleep(10000);
+                    }
                     if (errorCount > 6) {//这个强制方法走了10次  出现什么异常问题了 直接关闭应用  重新启动
                         uiDevice.pressHome();
                         Thread.sleep(500);
@@ -39,29 +51,13 @@ public class A00UtilTest {
                                 new UiSelector().resourceId("com.android.systemui:id/leui_recent_clear_all_btn_layout"));
                         if (appClearAll.exists()) {
                             appClearAll.click();
-                            errorCount = 0;//重置失败次数
+//                            errorCount = 0;//重置失败次数
                             Thread.sleep(500);
                         }
                         if (errorCount >= 8) {//重启两次都不行  关闭循环结束任务
-                            break;
+                            if (myCallBack != null) myCallBack.callback(true);
                         }
                     }
-
-                    UiObject uiCrash = new UiObject(new UiSelector().resourceId("android:id/le_bottomsheet_default_confirm"));
-                    if (uiCrash.exists()) {
-                        uiCrash.click();//应用奔溃了 的页面
-                    }
-
-                    uiDevice.pressHome();
-                    Thread.sleep(500);
-
-                    //启动应用
-                    UiObject uiVideo = new UiObject(new UiSelector().text(appName));
-                    if (uiVideo.exists()) {
-                        uiVideo.click();
-                        Thread.sleep(10000);
-                    }
-
                     errorCount++;//增加异常启动次数
                     break;
             }
@@ -191,5 +187,11 @@ public class A00UtilTest {
         }
     }
 
+    /**
+     * 回调
+     */
+    interface MyCallBack {
+        void callback(boolean isStop);
+    }
 
 }

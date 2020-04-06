@@ -22,7 +22,7 @@ public class A03CaiDantest extends TestCase {
 
     /*app 名字*/
     private String appName = "彩蛋视频";
-
+    private boolean appRun = true;//appRun
     //    @Test
     public void test() throws UiObjectNotFoundException {
         // 获取设备对象
@@ -30,9 +30,9 @@ public class A03CaiDantest extends TestCase {
         UiDevice uiDevice = UiDevice.getInstance(instrumentation);
 
         try {
-            A00UtilTest.baseMethod(uiDevice, 0, appName);//启动时  先关闭其他的
+            A00UtilTest.baseMethod(uiDevice, 0, appName,null);;//启动时  先关闭其他的
             A00UtilTest.errorCount=0;//重置
-            while (true) {
+            while (appRun) {
 
                 //首页
                 UiObject uiHome = new UiObject(new UiSelector().resourceId("com.jifen.dandan:id/view_home_top_shadow"));
@@ -68,7 +68,12 @@ public class A03CaiDantest extends TestCase {
                     } else if (uiWebView.exists()) {//个人中心 webView 控件
                         uiDevice.pressBack();
                     } else {//最终的强制搞一波
-                        A00UtilTest.baseMethod(uiDevice, 1, appName);
+                        A00UtilTest.baseMethod(uiDevice, 1, appName, new A00UtilTest.MyCallBack() {
+                            @Override
+                            public void callback(boolean isStop) {
+                                appRun = false;//出问题了停止运行
+                            }
+                        });
                     }
                 }
                 Thread.sleep(500);

@@ -39,7 +39,6 @@ public class A001ToHometest extends TestCase {
             }
         } catch (Exception e) {
             e.printStackTrace();
-            LogUtil.e(e.toString());
         }
     }
 

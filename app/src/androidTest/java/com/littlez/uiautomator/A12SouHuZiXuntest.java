@@ -21,6 +21,7 @@ public class A12SouHuZiXuntest extends TestCase {
 
     /*app 名字*/
     private String appName = "搜狐资讯";
+    private boolean appRun = true;//appRun
 
     //    @Test
     public void test() throws UiObjectNotFoundException {
@@ -28,10 +29,11 @@ public class A12SouHuZiXuntest extends TestCase {
         Instrumentation instrumentation = InstrumentationRegistry.getInstrumentation();
         UiDevice uiDevice = UiDevice.getInstance(instrumentation);
 
-        A00UtilTest.baseMethod(uiDevice, 0, appName);//启动时  先关闭其他的
+        A00UtilTest.baseMethod(uiDevice, 0, appName, null);
+        ;//启动时  先关闭其他的
         A00UtilTest.errorCount = 0;//重置
 
-        while (true) {
+        while (appRun) {
             try {
                 //主页
                 UiObject uiItem = new UiObject(new UiSelector().resourceId("com.sohu.infonews:id/item_title"));
@@ -61,8 +63,19 @@ public class A12SouHuZiXuntest extends TestCase {
 
                     if (uiTvTitle.exists()) {//是视频
                         UiObject uiRePlay = new UiObject(new UiSelector().resourceId("com.sohu.infonews:id/tv_replay"));
-                        A00UtilTest.backUntilObjOrTime(uiDevice, uiRePlay, 300);
-
+                        boolean isRun = true;
+                        long startTime = System.currentTimeMillis();//开始时间
+                        while (isRun) {
+                            long currentTimeMillis = System.currentTimeMillis();
+                            if (currentTimeMillis - startTime >= 300 * 1000) {//超过某个时间
+                                uiDevice.pressBack();
+                                isRun = false;
+                            } else if (uiRePlay.exists()) {
+                                uiDevice.pressBack();
+                                isRun = false;
+                            }
+                            Thread.sleep(5000);
+                        }
                     } else if (uiComment.exists()) {//新闻
                         boolean isRun = true;
                         while (isRun) {
@@ -87,7 +100,12 @@ public class A12SouHuZiXuntest extends TestCase {
                         } else if (uiDialog.exists()) {//
                             uiDialog.click();
                         } else {//最终的强制搞一波
-                            A00UtilTest.baseMethod(uiDevice, 1, appName);
+                            A00UtilTest.baseMethod(uiDevice, 1, appName, new A00UtilTest.MyCallBack() {
+                                @Override
+                                public void callback(boolean isStop) {
+                                    appRun = false;//出问题了停止运行
+                                }
+                            });
                         }
                     }
                 }

@@ -23,18 +23,18 @@ public class A21NiuJiaoYueDutest extends TestCase {
 
     /*app 名字*/
     private String appName = "牛角免费小说";
-
+    private boolean appRun = true;//appRun
     //    @Test
     public void test() throws UiObjectNotFoundException {
         // 获取设备对象
         Instrumentation instrumentation = InstrumentationRegistry.getInstrumentation();
         UiDevice uiDevice = UiDevice.getInstance(instrumentation);
 
-        A00UtilTest.baseMethod(uiDevice, 0, appName);//启动时  先关闭其他的
+        A00UtilTest.baseMethod(uiDevice, 0, appName,null);;//启动时  先关闭其他的
         A00UtilTest.errorCount = 0;//重置次数
         long startTime = System.currentTimeMillis();//开始时间
         try {
-            while (true) {
+            while (appRun) {
                 //主页
                 UiObject uiHome = new UiObject(new UiSelector().resourceId("com.yincheng.njread:id/bottom_tab_layout"));
                 UiObject uiReadPage = new UiObject(new UiSelector().resourceId("com.yincheng.njread:id/read_pv_page_layout"));
@@ -76,7 +76,12 @@ public class A21NiuJiaoYueDutest extends TestCase {
                     } else if (uiGide.exists()) {
                         uiGide.click();
                     } else {//最终的强制搞一波
-                        A00UtilTest.baseMethod(uiDevice, 1, appName);
+                        A00UtilTest.baseMethod(uiDevice, 1, appName, new A00UtilTest.MyCallBack() {
+                            @Override
+                            public void callback(boolean isStop) {
+                                appRun = false;//出问题了停止运行
+                            }
+                        });
                     }
                 }
                 Thread.sleep(1000);

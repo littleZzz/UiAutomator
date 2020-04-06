@@ -24,6 +24,7 @@ public class A06QuTouTiaotest extends TestCase {
 
     /*app 名字*/
     private String appName = "趣头条";
+    private boolean appRun = true;//appRun
 
     //    @Test
     public void test() throws UiObjectNotFoundException {
@@ -31,13 +32,13 @@ public class A06QuTouTiaotest extends TestCase {
         Instrumentation instrumentation = InstrumentationRegistry.getInstrumentation();
         UiDevice uiDevice = UiDevice.getInstance(instrumentation);
 
-        A00UtilTest.baseMethod(uiDevice, 0, appName);//启动时  先关闭其他的
+        A00UtilTest.baseMethod(uiDevice, 0, appName, null);//启动时  先关闭其他的
         A00UtilTest.errorCount = 0;//重置
         long startTime = System.currentTimeMillis();//开始时间
         boolean isToMoney = true;
-        while (true) {
+        while (appRun) {
             try {
-                UiObject uiHome = new UiObject(new UiSelector().resourceId("com.jifen.qukan:id/m6"));//主页 tabid
+                UiObject uiHome = new UiObject(new UiSelector().resourceId("com.jifen.qukan:id/m7"));//主页 tabid
                 UiObject uiFunItem = new UiObject(new UiSelector().resourceId("com.jifen.qukan:id/bml"));//聊天 收藏栏
                 UiObject uiTvOut = new UiObject(new UiSelector().resourceId("com.jifen.qukan:id/tp"));//视频最外层
                 //看视频的广告结束后的关闭按钮
@@ -158,7 +159,12 @@ public class A06QuTouTiaotest extends TestCase {
                     } else if (uiClose06.exists()) {
                         uiClose06.click();
                     } else {//最终的强制搞一波
-                        A00UtilTest.baseMethod(uiDevice, 1, appName);
+                        A00UtilTest.baseMethod(uiDevice, 1, appName, new A00UtilTest.MyCallBack() {
+                            @Override
+                            public void callback(boolean isStop) {
+                                appRun = false;//出问题了停止运行
+                            }
+                        });
                     }
                 }
                 Thread.sleep(500);

@@ -21,16 +21,16 @@ public class A13QuKanDiantest extends TestCase {
 
     /*app 名字*/
     private String appName = "趣看点";
-
+    private boolean appRun = true;//appRun
     //    @Test
     public void test() throws UiObjectNotFoundException {
         // 获取设备对象
         Instrumentation instrumentation = InstrumentationRegistry.getInstrumentation();
         UiDevice uiDevice = UiDevice.getInstance(instrumentation);
 
-        A00UtilTest.baseMethod(uiDevice, 0, appName);//启动时  先关闭其他的
+        A00UtilTest.baseMethod(uiDevice, 0, appName,null);;//启动时  先关闭其他的
         A00UtilTest.errorCount = 0;//重置
-        while (true) {
+        while (appRun) {
             try {
                 //主页
                 UiObject uiHome = new UiObject(new UiSelector().resourceId("com.zhangku.qukandian:id/mBottomHomeView"));
@@ -120,7 +120,12 @@ public class A13QuKanDiantest extends TestCase {
                         } else if (uiSignDialog.exists()) {
                             uiSignDialog.click();
                         } else {//最终的强制搞一波
-                            A00UtilTest.baseMethod(uiDevice, 1, appName);
+                            A00UtilTest.baseMethod(uiDevice, 1, appName, new A00UtilTest.MyCallBack() {
+                            @Override
+                            public void callback(boolean isStop) {
+                                appRun = false;//出问题了停止运行
+                            }
+                        });
                         }
                     }
                 }

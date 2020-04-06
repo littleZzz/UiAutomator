@@ -25,7 +25,7 @@ public class A02ShuaBaotest extends TestCase {
 
     /*app 名字*/
     private String appName = "刷宝短视频";
-
+    private boolean appRun = true;//appRun
     //    @Test
     public void test() throws UiObjectNotFoundException {
         // 获取设备对象
@@ -34,10 +34,10 @@ public class A02ShuaBaotest extends TestCase {
 
         try {
 
-            A00UtilTest.baseMethod(uiDevice, 0, appName);//启动时  先关闭其他的
+            A00UtilTest.baseMethod(uiDevice, 0, appName,null);;//启动时  先关闭其他的
             A00UtilTest.errorCount = 0;//重置错误次数
 
-            while (true) {
+            while (appRun) {
 
                 UiObject uiHeart = new UiObject(new UiSelector().resourceId("com.jm.video:id/image_view"));
                 UiObject uiGold = new UiObject(new UiSelector().resourceId("com.jm.video:id/constraintLayout_gold"));
@@ -75,7 +75,12 @@ public class A02ShuaBaotest extends TestCase {
                     } else if (uiTimeAward.exists()) {//时段奖励
                         uiTimeAward.click();
                     } else {//最终的强制搞一波
-                        A00UtilTest.baseMethod(uiDevice, 1, appName);
+                        A00UtilTest.baseMethod(uiDevice, 1, appName, new A00UtilTest.MyCallBack() {
+                            @Override
+                            public void callback(boolean isStop) {
+                                appRun = false;//出问题了停止运行
+                            }
+                        });
                     }
                 }
                 Thread.sleep(500);

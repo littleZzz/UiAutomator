@@ -23,18 +23,18 @@ public class A11XiangKantest extends TestCase {
 
     /*app 名字*/
     private String appName = "想看";
-
+    private boolean appRun = true;//appRun
     //    @Test
     public void test() throws UiObjectNotFoundException {
         // 获取设备对象
         Instrumentation instrumentation = InstrumentationRegistry.getInstrumentation();
         UiDevice uiDevice = UiDevice.getInstance(instrumentation);
 
-        A00UtilTest.baseMethod(uiDevice, 0, appName);//启动时  先关闭其他的
+        A00UtilTest.baseMethod(uiDevice, 0, appName,null);;//启动时  先关闭其他的
         A00UtilTest.errorCount = 0;//重置次数
         boolean isToEarn = true;
         try {
-            while (true) {
+            while (appRun) {
                 //主页
                 UiObject uiMain = new UiObject(new UiSelector().resourceId("com.xiangkan.android:id/bottom_tab_layout"));
                 UiObject uiTVTitle = new UiObject(new UiSelector().resourceId("com.xiangkan.android:id/vo_video_detail_title"));//标题
@@ -128,7 +128,12 @@ public class A11XiangKantest extends TestCase {
                         uiFudaiWareDia.click();
                         A00UtilTest.backUntilObjOrTime(uiDevice, uiAdvClose, 50);
                     } else {//最终的强制搞一波
-                        A00UtilTest.baseMethod(uiDevice, 1, appName);
+                        A00UtilTest.baseMethod(uiDevice, 1, appName, new A00UtilTest.MyCallBack() {
+                            @Override
+                            public void callback(boolean isStop) {
+                                appRun = false;//出问题了停止运行
+                            }
+                        });
                     }
                 }
                 Thread.sleep(1000);
