@@ -34,6 +34,7 @@ import org.greenrobot.eventbus.ThreadMode;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Set;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -73,7 +74,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         Button btnStopServe = (Button) findViewById(R.id.btnStopServe);
         Button btnStartServe = (Button) findViewById(R.id.btnStartServe);
 
-        tvVersion.setText("版本：".concat(CommonUtil.packageName(mContext)));
+        tvVersion.setText("版本:".concat(CommonUtil.packageName(mContext)));
+        tvVersion.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                boolean belongPeriodTime = CommonUtil.isBelongPeriodTime("17:20", "17:28");
+                ToastUtils.show(belongPeriodTime + "");
+            }
+        });
 
         //设置logs adapter
         LinearLayoutManager logslayoutManager = new LinearLayoutManager(mContext);
@@ -134,19 +142,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             case R.id.btnStop://停止按钮
 
                 Constant.isrun = false;//重置启动的数据
-                while (CommonUtil.isUiautomatorRuning()) {
-                    CommonUtil.stopUiautomator();//停止调用
-                }
+                CommonUtil.stopUiautomator();//停止调用
                 break;
             case R.id.btnStartServe://启动服务
-
                 ArrayList<VideosBean> videosBeans = new ArrayList<>();
-
                 HashMap<Integer, Boolean> checkMaps = adapter.getCheckMaps();
                 for (int i = 0; i < videos.size(); i++) {
                     if (checkMaps.get(i)) videosBeans.add(videos.get(i));
                 }
-
                 if (videosBeans.size() <= 0) {
                     ToastUtils.show("还没有选中平台");
                     return;
@@ -154,8 +157,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 Constant.isrun = true;//开启运行
                 Intent intent = new Intent(mContext, BackService.class);
                 intent.putParcelableArrayListExtra("datas", videosBeans);
+                //打乱list运行的顺序
+                if (videosBeans.get(videosBeans.size() - 1).getTestClass().equals("A001ToHometest")) {
+                    VideosBean videosBean = videosBeans.get(videosBeans.size() - 1);
+                    videosBeans.remove(videosBeans.size() - 1);
+                    Collections.shuffle(videosBeans);//打乱list运行的顺序
+                    videosBeans.add(videosBean);
+                } else {
+                    Collections.shuffle(videosBeans);
+                }
                 Constant.videosBeans = videosBeans;
-                Collections.shuffle(Constant.videosBeans);//打乱list运行的顺序
                 startService(intent);
 
                 break;
@@ -164,9 +175,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 Constant.startFlag = 0;
                 Constant.isCloseService = true;
                 stopService(new Intent(mContext, BackService.class));
-                while (CommonUtil.isUiautomatorRuning()) {//停止服务同时停止调用
-                    CommonUtil.stopUiautomator();
-                }
+                CommonUtil.stopUiautomator();//停止服务同时停止调用
+
                 break;
 
             case R.id.btnUpgradeApk://更新apk
@@ -199,7 +209,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
     }
 
-
     /**
      * 网络请求
      *
@@ -215,7 +224,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public void onFault(Object error, String flag) {
 
     }
-
 
     /**
      * eventBus事件处理
@@ -296,13 +304,19 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     //补足时间
     public void makeUpTime() {
         long gapTime = 0l;
+        //筛选出已checkitem
+        ArrayList<VideosBean> videosBeans = new ArrayList<>();
+        HashMap<Integer, Boolean> checkMaps = adapter.getCheckMaps();
         for (int i = 0; i < videos.size(); i++) {
-            if ("A001ToHometest".equals(videos.get(i).getTestClass())) continue;
-            gapTime += videos.get(i).getGapTime();
+            if (checkMaps.get(i)) videosBeans.add(videos.get(i));
         }
-        testGapTime = 6 * 60 * 60 * 1000 - gapTime;
-        //跟新数据
-        for (int i = 0; i < videos.size(); i++) {
+        //计算已经选中的时间
+        for (int i = 0; i < videosBeans.size(); i++) {
+            if ("A001ToHometest".equals(videosBeans.get(i).getTestClass())) continue;
+            gapTime += videosBeans.get(i).getGapTime();
+        }
+        testGapTime = 6 * 60 * 60 * 1000 - gapTime;//得出时间
+        for (int i = 0; i < videos.size(); i++) {//跟新数据
             if ("A001ToHometest".equals(videos.get(i).getTestClass())) {
                 videos.get(i).setGapTime(testGapTime);
             }

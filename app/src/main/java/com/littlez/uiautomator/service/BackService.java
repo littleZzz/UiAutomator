@@ -36,12 +36,10 @@ import org.greenrobot.eventbus.EventBus;
 public class BackService extends Service {
 
     private Thread thread;
-
     private ArrayList<VideosBean> datas;
     private long startTime = 0L;//开始运行的时间
     private long notifyTime = 0L;//唤醒uiautomator的时间值标记
     private long gapTime = 30 * 60 * 1000;//间隔的时间 默认半小时
-
 
     @Nullable
     @Override
@@ -57,9 +55,7 @@ public class BackService extends Service {
         //后台弄一个无声播放器
         mMediaPlayer = MediaPlayer.create(getApplicationContext(), R.raw.silent);
         mMediaPlayer.setLooping(true);
-
     }
-
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
@@ -89,8 +85,7 @@ public class BackService extends Service {
         stopPlayMusic();//停止播放器服务
 
         LogUtil.e("BackService  onDestroy");
-        if (!Constant.isCloseService) {
-            // 重启自己
+        if (!Constant.isCloseService) {// 重启自己
             Intent intent = new Intent(getApplicationContext(), BackService.class);
             startService(intent);
         }
@@ -106,13 +101,15 @@ public class BackService extends Service {
             try {
                 startPlayMusic();//播放音乐
                 while (Constant.isrun) {
+                    if (CommonUtil.isBelongPeriodTime("01:00", "7:00")) {//外挂去检测是否在某一时间段内
+                        CommonUtil.startUiautomator("A001ToHometest");//开始一个任务
+                        Thread.sleep(10 * 60 * 1000);//十分钟检测一次
+                        continue;
+                    }
                     try {
                         long time = System.currentTimeMillis();
                         if (startTime <= 0 || time - startTime >= gapTime) {//已经到切换的时间了
-                            while (CommonUtil.isUiautomatorRuning()) {//循环保证一定停止当前任务
-                                CommonUtil.stopUiautomator();
-                                Thread.sleep(500);
-                            }
+                            CommonUtil.stopUiautomator();//停止当前任务
                             //获取到开始那一条任务 并运行
                             String testClass = datas.get(Constant.startFlag % datas.size()).getTestClass();
                             gapTime = datas.get(Constant.startFlag % datas.size()).getGapTime();
@@ -121,7 +118,7 @@ public class BackService extends Service {
                             startTime = System.currentTimeMillis();//重新设置开始时间
                             isReStart = true;//设置可以重启
                         }
-                        LogUtil.e("运行中.." + (Constant.startFlag - 1) % datas.size() + "/" + datas.size()
+                        LogUtil.e("运行中.." + (Constant.startFlag - 1 + 1) % datas.size() + "/" + datas.size()
                                 + datas.get((Constant.startFlag - 1) % datas.size()).getTestClass() +
                                 ";gapTime=" + (gapTime / 1000 / 60) + "分钟;" + (time - startTime) / 1000 / 60);
                         Thread.sleep(5000);

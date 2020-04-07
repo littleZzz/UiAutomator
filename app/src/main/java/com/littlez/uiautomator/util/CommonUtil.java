@@ -4,8 +4,11 @@ import android.content.Context;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.text.TextUtils;
+import android.util.Log;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 
 /**
@@ -15,6 +18,7 @@ import java.util.Date;
  */
 public class CommonUtil {
 
+    private static final String TAG = "CommonUtil";
 
     /**
      * 开始uiautomator的调用
@@ -34,27 +38,33 @@ public class CommonUtil {
      * 停止uiautomator的调用
      */
     public static void stopUiautomator() {
-
-        //通过文件来停止 和启动 uiautomator
-        ExeCommand run = new ExeCommand(true)
-                .run("ps | grep uiautomator", 30000);
-        if (!TextUtils.isEmpty(run.getResult())) {//不是空
-            String result = run.getResult();
-            if (result.contains("root")) {//有
-                int root = result.indexOf("root");
-                String substring = result.substring(root + "root".length());
-                String[] s = substring.split(" ");
-                for (int i = 0; i < s.length; i++) {
-                    if (!TextUtils.isEmpty(s[i])) {
-                        ExeCommand run1 = new ExeCommand(true)
-                                .run("su -c kill " + s[i], 30000);
-                        LogUtil.e("stop uiautomator---" + run1.getResult());
-                        break;
+        while (isUiautomatorRuning()) {//循环保证一定停止当前任务
+            try {
+                //通过文件来停止 和启动 uiautomator
+                ExeCommand run = new ExeCommand(true)
+                        .run("ps | grep uiautomator", 30000);
+                if (!TextUtils.isEmpty(run.getResult())) {//不是空
+                    String result = run.getResult();
+                    if (result.contains("root")) {//有
+                        int root = result.indexOf("root");
+                        String substring = result.substring(root + "root".length());
+                        String[] s = substring.split(" ");
+                        for (int i = 0; i < s.length; i++) {
+                            if (!TextUtils.isEmpty(s[i])) {
+                                ExeCommand run1 = new ExeCommand(true)
+                                        .run("su -c kill " + s[i], 30000);
+                                LogUtil.e("stop uiautomator---" + run1.getResult());
+                                break;
+                            }
+                        }
                     }
                 }
+                LogUtil.e("result---" + run.getResult());
+                Thread.sleep(1000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
             }
         }
-        LogUtil.e("result---" + run.getResult());
     }
 
     /**
@@ -119,6 +129,57 @@ public class CommonUtil {
         }
 
         return name;
+    }
+
+    /*
+     *  判断当前时间是否在设置的dark mode时间段内
+     *  @param date1: 开始时间（hh:mm）
+     *  @param date2: 结束时间（hh:mm）
+     */
+    public static boolean isBelongPeriodTime(String date1, String date2){
+        SimpleDateFormat df = new SimpleDateFormat("HH:mm");
+        Date currentTime = new Date(System.currentTimeMillis());
+        Date startTimeDate;
+        Date endTimeDate;
+        Calendar date = Calendar.getInstance();
+        Calendar begin = Calendar.getInstance();
+        Calendar end = Calendar.getInstance();
+        try{
+            date.setTime(df.parse(df.format(currentTime)));
+            startTimeDate = df.parse(date1);
+            endTimeDate = df.parse(date2);
+            begin.setTime(startTimeDate);
+            end.setTime(endTimeDate);
+            if (endTimeDate.getHours() < startTimeDate.getHours()) {
+                if (date.after(begin) || date.before(end)) {
+                    Log.d(TAG, "current time is belong to " + date1 + " - " + date2);
+                    return true;
+                }else {
+                    Log.d(TAG, "current time isn't belong to " + date1 + " - " + date2);
+                    return false;
+                }
+            }else if(endTimeDate.getHours() == startTimeDate.getHours()){
+                if (endTimeDate.getMinutes() < startTimeDate.getMinutes()) {
+                    if (date.after(begin) || date.before(end)) {
+                        Log.d(TAG, "current time is belong to " + date1 + " - " + date2);
+                        return true;
+                    }else {
+                        Log.d(TAG, "current time isn't belong to " + date1 + " - " + date2);
+                        return false;
+                    }
+                }
+            }
+        }catch(ParseException e){
+            e.printStackTrace();
+        }
+        //这里是时间段的起止都在同一天的情况，只需要判断当前时间是否在这个时间段内即可
+        if (date.after(begin) && date.before(end)) {
+            Log.d(TAG, "current time is belong to " + date1 + " - " + date2);
+            return true;
+        }else {
+            Log.d(TAG, "current time isn't belong to " + date1 + " - " + date2);
+            return false;
+        }
     }
 
 }
