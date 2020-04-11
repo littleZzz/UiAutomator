@@ -65,6 +65,8 @@ public class A21NiuJiaoYueDutest extends TestCase {
                     welare(uiDevice);
 
                 } else {//处理异常情况
+
+                    //com.yincheng.njread:id/app_up_progress升级按钮   com.yincheng.njread:id/app_up_close//升级取消
                     UiObject uiClose = new UiObject(new UiSelector().resourceId("com.yincheng.njread:id/home_rad_submit"));
                     UiObject uiShare = new UiObject(new UiSelector().resourceId("com.yincheng.njread:id/sign_sueecss_close"));
                     UiObject uiGide = new UiObject(new UiSelector().resourceId("com.yincheng.njread:id/guide_invite_close"));

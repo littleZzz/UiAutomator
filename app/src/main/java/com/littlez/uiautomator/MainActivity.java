@@ -277,19 +277,21 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         videos.add(new VideosBean("刷宝短视频", "A02ShuaBaotest", 30 * 60 * 1000));
         videos.add(new VideosBean("彩蛋视频", "A03CaiDantest", 30 * 60 * 1000));
         videos.add(new VideosBean("牛角免费小说", "A21NiuJiaoYueDutest", 35 * 60 * 1000));
-        videos.add(new VideosBean("趣头条", "A06QuTouTiaotest", 30 * 60 * 1000));//好像经常变动id
-        videos.add(new VideosBean("想看", "A11XiangKantest", 30 * 60 * 1000));//165 手机号会异常
-        videos.add(new VideosBean("米读极速版", "A22MiDuJiSutest", 35 * 60 * 1000));
-        videos.add(new VideosBean("番茄免费小说", "A23FanQieXiaoshuotest", 30 * 60 * 1000));
+        videos.add(new VideosBean("音浪短视频", "A04YinLangtest", 30 * 60 * 1000));
         videos.add(new VideosBean("搜狐资讯", "A12SouHuZiXuntest", 30 * 60 * 1000));
-        videos.add(new VideosBean("趣看点", "A13QuKanDiantest", 10 * 60 * 1000));//测试中
+
+        videos.add(new VideosBean("番茄免费小说", "A23FanQieXiaoshuotest", 30 * 60 * 1000));
         videos.add(new VideosBean("回首页待运行", "A001ToHometest", testGapTime));
 
         /*待确定的数据*/
+//        videos.add(new VideosBean("趣看点", "A13QuKanDiantest", 10 * 60 * 1000));//测试中  收益低
+//        videos.add(new VideosBean("想看", "A11XiangKantest", 30 * 60 * 1000));//165 手机号会异常 控件检查页面
+//        videos.add(new VideosBean("趣头条", "A06QuTouTiaotest", 30 * 60 * 1000));//好像经常变动id
 //        videos.add(new VideosBean("快手极速版", "A01KuaiSJiSutest", 25 * 60 * 1000));//需要验证
 //        videos.add(new VideosBean("东方头条", "A10DongFangTTtest", 10 * 60 * 1000));
 //        videos.add(new VideosBean("微鲤看看", "A08WeiLiKanKantest", 10 * 60 * 1000));//操作微慢 查找id 特别慢
         //下面  是无用|或使用过废弃的数据  如 火山  淘看点 等等
+//        videos.add(new VideosBean("米读极速版", "A22MiDuJiSutest", 35 * 60 * 1000));//收益太低了  不想搞
 //        videos.add(new VideosBean("趣看看", "A09QuKanKanNewstest", 0 * 60 * 1000));//165 暂时被封号了 和玩赚同数据
 //        videos.add(new VideosBean("玩赚星球", "A04WanZhuanXingQiutest", 20 * 60 * 1000));//165被封号了
 //        videos.add(new VideosBean("中青看点", "A07ZhongQinKanDiantest", 10 * 60 * 1000));//很慢放弃了

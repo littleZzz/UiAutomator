@@ -29,8 +29,7 @@ public class A12SouHuZiXuntest extends TestCase {
         Instrumentation instrumentation = InstrumentationRegistry.getInstrumentation();
         UiDevice uiDevice = UiDevice.getInstance(instrumentation);
 
-        A00UtilTest.baseMethod(uiDevice, 0, appName, null);
-        ;//启动时  先关闭其他的
+        A00UtilTest.baseMethod(uiDevice, 0, appName, null);//启动时  先关闭其他的
         A00UtilTest.errorCount = 0;//重置
 
         while (appRun) {
@@ -51,7 +50,12 @@ public class A12SouHuZiXuntest extends TestCase {
                             A00UtilTest.swipDown(uiDevice, 15);
                         }
                         UiObject uiMediaName = new UiObject(new UiSelector().resourceId("com.sohu.infonews:id/article_mediaName"));
-                        uiMediaName.click();
+                        UiObject uiAdvFlag = uiMediaName.getFromParent(new UiSelector().resourceId("com.sohu.infonews:id/tv_ad_flag"));
+                        if (uiAdvFlag.exists()) {//同级有广告 滑动下一个
+                            UiObject uiMediaName01 = new UiObject(
+                                    new UiSelector().resourceId("com.sohu.infonews:id/article_mediaName").instance(1));
+                            if (uiMediaName01.exists()) uiMediaName01.click();
+                        } else uiMediaName.click();
                         Thread.sleep(1000);//要听一下  给一些加载时间
                     } else {//其他
                         uiItem.click();

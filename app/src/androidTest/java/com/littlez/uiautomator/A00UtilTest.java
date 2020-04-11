@@ -155,7 +155,7 @@ public class A00UtilTest {
 
     /**
      * @param uiDevice
-     * @param otherClick    其他的一个跳出循环判断  比如福袋临朐  阅读奖励等
+     * @param otherClick    其他的一个跳出循环判断  比如福袋临朐  阅读奖励等  其实就是多一个点击退出的条件
      * @param uiExitToClose 可以为空  为空就是不判断 等待固定时间
      * @param time          时间 时间值是int
      */

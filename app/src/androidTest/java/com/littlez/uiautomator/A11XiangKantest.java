@@ -24,14 +24,15 @@ public class A11XiangKantest extends TestCase {
     /*app 名字*/
     private String appName = "想看";
     private boolean appRun = true;//appRun
+
     //    @Test
     public void test() throws UiObjectNotFoundException {
         // 获取设备对象
         Instrumentation instrumentation = InstrumentationRegistry.getInstrumentation();
         UiDevice uiDevice = UiDevice.getInstance(instrumentation);
 
-        A00UtilTest.baseMethod(uiDevice, 0, appName,null);;//启动时  先关闭其他的
-        A00UtilTest.errorCount = 0;//重置次数
+//        A00UtilTest.baseMethod(uiDevice, 0, appName,null);;//启动时  先关闭其他的
+//        A00UtilTest.errorCount = 0;//重置次数
         boolean isToEarn = true;
         try {
             while (appRun) {
@@ -40,12 +41,17 @@ public class A11XiangKantest extends TestCase {
                 UiObject uiTVTitle = new UiObject(new UiSelector().resourceId("com.xiangkan.android:id/vo_video_detail_title"));//标题
                 UiObject uiCollect = new UiObject(new UiSelector().resourceId("com.xiangkan.android:id/img_thumbUp"));//收藏
                 UiObject uiAdvClose = new UiObject(new UiSelector().resourceId("com.xiangkan.android:id/tt_video_ad_close_layout"));//广告的关闭按钮
-
+                LogUtil.e("0");
                 if (uiMain.exists()) {//是主页  滑动选择条目
+                    LogUtil.e("1");
                     UiObject uiHomeTitle = new UiObject(new UiSelector().resourceId("com.xiangkan.android:id/ll_home_title_bar"));
                     UiObject uiEarn = new UiObject(new UiSelector().resourceId("com.xiangkan.android:id/earn_coins_scroll_view"));//scrllView
                     if (uiHomeTitle.exists()) {//选中的是首页
+                        LogUtil.e("2");
+
                         if (isToEarn) {
+                            LogUtil.e("3");
+
                             UiObject uiEarnMoney = new UiObject(new UiSelector().resourceId("com.xiangkan.android:id/ll_tap").instance(2));
                             if (uiEarnMoney.exists()) {//赚金币存在
                                 uiEarnMoney.click();
@@ -73,14 +79,21 @@ public class A11XiangKantest extends TestCase {
                         Thread.sleep(1500);//要听一下  给一些加载时间
 
                     } else if (uiEarn.exists()) {//选中的是赚金币页面 外层scrollView 判断
+                        LogUtil.e("4");
+
                         A00UtilTest.swipUp(uiDevice);
                         UiObject uiSeeTv = new UiObject(new UiSelector().resourceId("com.xiangkan.android:id/tv_watch_video").text("看视频"));
                         if (uiSeeTv.exists()) {//看视频的金币存在
+                            LogUtil.e("5");
+
                             uiSeeTv.click();
                             A00UtilTest.backUntilObjOrTime(uiDevice, uiAdvClose, 50);
+                        } else {//前往首页阅读
+                            UiObject uiHomeTab = new UiObject(new UiSelector().resourceId("com.xiangkan.android:id/tv_tab_title"));
+                            if (uiHomeTab.exists()) uiHomeTab.click();
                         }
-                        UiObject uiToRead = new UiObject(new UiSelector().resourceId("com.xiangkan.android:id/fudai_goto_read"));
-                        if (uiToRead.exists()) uiToRead.click();//前往首页阅读
+                        LogUtil.e("6");
+
                     }
                 } else if (uiTVTitle.exists() && uiCollect.exists()) {//是视频
                     UiObject uiRePlay = new UiObject(new UiSelector().resourceId("com.xiangkan.android:id/replay_tv"));
@@ -113,6 +126,7 @@ public class A11XiangKantest extends TestCase {
                         }
                     }
                 } else {
+                    //com.xiangkan.android:id/updateSingleTv  升级按钮   com.xiangkan.android:id/closeIv  升级关闭
                     //处理异常情况 首页领取奖励后的dialog
                     UiObject uiSingDia = new UiObject(new UiSelector().resourceId("com.xiangkan.android:id/tv_sign_btn"));//签到弹框看视频在领取
                     UiObject uiTimeWare = new UiObject(new UiSelector().resourceId("com.xiangkan.android:id/tv_integer_coin_action"));//时段奖励看视频再领取
