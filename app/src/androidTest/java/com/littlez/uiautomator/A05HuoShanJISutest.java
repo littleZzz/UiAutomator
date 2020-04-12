@@ -53,7 +53,7 @@ public class A05HuoShanJISutest extends TestCase {
                     } else if (number <= 97) {//下一条
                         A00UtilTest.swipDown(uiDevice);
                         Random rr = new Random();
-                        Thread.sleep((10 + rr.nextInt(20) + 1) * 1000);//播放 时长
+                        Thread.sleep((2 + rr.nextInt(20) + 1) * 1000);//播放 时长
                     }/* else if (number <= 97) {//点击我的
                         if (uiMeTxt.exists()) uiMeTxt.click();
                     }*/  else {//3点击心
