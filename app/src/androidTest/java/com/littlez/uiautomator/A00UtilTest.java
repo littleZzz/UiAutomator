@@ -34,6 +34,7 @@ public class A00UtilTest {
                     if (uiCrash.exists()) {
                         uiCrash.click();//应用奔溃了 的页面
                     }
+
                     uiDevice.pressHome();
                     Thread.sleep(500);
                     //启动应用
