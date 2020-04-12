@@ -53,11 +53,11 @@ public class PersionSubscribe {
         Random random = new Random();
         int id = random.nextInt();
 
-        HashMap<String, Object> map = new HashMap<>();
+        HashMap<String, Object> map = new HashMap<>();// AutoRunner.jar
         map.put("id", id);//默認值: 10
         //这里对地址的格式有很多要求
         Call<ResponseBody> bodyCall = HttpMethods.getInstance().getRetrofit().newBuilder()
-                .baseUrl("http://q3o00ce7n.bkt.clouddn.com/").build().create(HttpApi.class).downloadJar(map);
+                .baseUrl("http://q81rc1yof.bkt.clouddn.com/").build().create(HttpApi.class).downloadJar(map);
         bodyCall.enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
@@ -90,7 +90,7 @@ public class PersionSubscribe {
         map.put("id", id);//默認值: 10
         //这里对地址的格式有很多要求
         Call<ResponseBody> bodyCall = HttpMethods.getInstance().getRetrofit().newBuilder()
-                .baseUrl("http://q3o00ce7n.bkt.clouddn.com/").build().create(HttpApi.class).updateApk(map);
+                .baseUrl("http://q81rc1yof.bkt.clouddn.com/").build().create(HttpApi.class).updateApk(map);
         bodyCall.enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {

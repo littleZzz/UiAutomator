@@ -26,6 +26,7 @@ public class A02ShuaBaotest extends TestCase {
     /*app 名字*/
     private String appName = "刷宝短视频";
     private boolean appRun = true;//appRun
+
     //    @Test
     public void test() throws UiObjectNotFoundException {
         // 获取设备对象
@@ -33,8 +34,7 @@ public class A02ShuaBaotest extends TestCase {
         UiDevice uiDevice = UiDevice.getInstance(instrumentation);
 
         try {
-
-            A00UtilTest.baseMethod(uiDevice, 0, appName,null);;//启动时  先关闭其他的
+            A00UtilTest.baseMethod(uiDevice, 0, appName, null);//启动时  先关闭其他的
             A00UtilTest.errorCount = 0;//重置错误次数
 
             while (appRun) {
@@ -67,6 +67,7 @@ public class A02ShuaBaotest extends TestCase {
                     UiObject uiPrivacy = new UiObject(new UiSelector().resourceId("com.jm.video:id/btn_privacy_action"));
                     UiObject uiNet = new UiObject(new UiSelector().resourceId("com.jm.video:id/empty_button"));//无网络
                     UiObject uiTimeAward = new UiObject(new UiSelector().resourceId("com.jm.video:id/tv_go"));//时段奖励
+                    UiObject uinotifiCancle = new UiObject(new UiSelector().resourceId("com.jm.video:id/cancel"));//通知权限关闭
                     if (uiPrivacy.exists()) {//用户协议
                         uiPrivacy.click();
                     } else if (uiNet.exists()) {//用户协议
@@ -74,6 +75,8 @@ public class A02ShuaBaotest extends TestCase {
                         Thread.sleep(2000);
                     } else if (uiTimeAward.exists()) {//时段奖励
                         uiTimeAward.click();
+                    } else if (uinotifiCancle.exists()) {//通知权限关闭
+                        uinotifiCancle.click();
                     } else {//最终的强制搞一波
                         A00UtilTest.baseMethod(uiDevice, 1, appName, new A00UtilTest.MyCallBack() {
                             @Override

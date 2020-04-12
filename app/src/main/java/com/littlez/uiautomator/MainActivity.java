@@ -39,7 +39,7 @@ import java.util.Set;
 import java.util.Timer;
 import java.util.TimerTask;
 
-//  https://www.testwo.com/blog/7057  这个是标准的配置文档
+
 public class MainActivity extends AppCompatActivity implements View.OnClickListener, DataCallbackListener {
     Context mContext = this;
     /*各个平台对应的信息*/
@@ -279,8 +279,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         videos.add(new VideosBean("牛角免费小说", "A21NiuJiaoYueDutest", 35 * 60 * 1000));
         videos.add(new VideosBean("音浪短视频", "A04YinLangtest", 30 * 60 * 1000));
         videos.add(new VideosBean("搜狐资讯", "A12SouHuZiXuntest", 30 * 60 * 1000));
-
-        videos.add(new VideosBean("番茄免费小说", "A23FanQieXiaoshuotest", 30 * 60 * 1000));
+        videos.add(new VideosBean("火山极速版", "A05HuoShanJISutest", 35 * 60 * 1000));//测试中
+//        videos.add(new VideosBean("番茄免费小说", "A23FanQieXiaoshuotest", 30 * 60 * 1000));
         videos.add(new VideosBean("回首页待运行", "A001ToHometest", testGapTime));
 
         /*待确定的数据*/
@@ -294,7 +294,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 //        videos.add(new VideosBean("米读极速版", "A22MiDuJiSutest", 35 * 60 * 1000));//收益太低了  不想搞
 //        videos.add(new VideosBean("趣看看", "A09QuKanKanNewstest", 0 * 60 * 1000));//165 暂时被封号了 和玩赚同数据
 //        videos.add(new VideosBean("玩赚星球", "A04WanZhuanXingQiutest", 20 * 60 * 1000));//165被封号了
-//        videos.add(new VideosBean("中青看点", "A07ZhongQinKanDiantest", 10 * 60 * 1000));//很慢放弃了
+//        videos.add(new VideosBean("中青看点", "A07ZhongQinKanDiantest", 10 * 60 * 100ma0));//很慢放弃了
 //        videos.add(new VideosBean("火山极速版", "HuoShanJiSutest", 35 * 60 * 1000));//id 经常变  效率实在是差
 //        videos.add(new VideosBean("快看点新闻", "A05KuaiKanDianNewstest", 30 * 60 * 1000));//收益低 而且提现165 171手机不通过
 
