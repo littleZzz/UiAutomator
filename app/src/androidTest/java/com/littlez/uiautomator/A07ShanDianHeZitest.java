@@ -8,6 +8,8 @@ import androidx.test.uiautomator.UiObject;
 import androidx.test.uiautomator.UiObjectNotFoundException;
 import androidx.test.uiautomator.UiSelector;
 
+import com.littlez.uiautomator.util.LogUtil;
+
 import junit.framework.TestCase;
 
 import java.util.IdentityHashMap;
@@ -32,8 +34,8 @@ public class A07ShanDianHeZitest extends TestCase {
         UiDevice uiDevice = UiDevice.getInstance(instrumentation);
 
         try {
-//            A00UtilTest.baseMethod(uiDevice, 0, appName, null);//启动时  先关闭其他的
-//            A00UtilTest.errorCount = 0;//重置
+            A00UtilTest.baseMethod(uiDevice, 0, appName, null);//启动时  先关闭其他的
+            A00UtilTest.errorCount = 0;//重置
             while (appRun) {
 
                 UiObject uiMain = new UiObject(new UiSelector().resourceId("c.l.b:id/bottom_container"));//主页
@@ -47,29 +49,29 @@ public class A07ShanDianHeZitest extends TestCase {
 
                 if (uiMain.exists()) {//是主页
                     if (uiHomeTxt.isSelected()) {//选中的首页
-                        UiObject uiGetMoney = new UiObject(new UiSelector().resourceId("c.l.b:id/btn_get_money").text("领取奖励"));
+                        UiObject uiGetMoney = new UiObject(new UiSelector().resourceId("c.l.b:id/btn_get_money"));//.text("领取奖励")
                         if (uiGetMoney.exists()) uiGetMoney.click();
-                        UiObject uiNewsItem = new UiObject(new UiSelector().resourceId("c.l.b:id/text").text("头条资讯"));
-                        UiObject uiTvItem = new UiObject(new UiSelector().resourceId("c.l.b:id/text").text("小视频"));
-                        UiObject uiredTypeName = new UiObject(new UiSelector().resourceId("c.l.b:id/red_type_name"));
-                        if (uiredTypeName.exists()) {
-                            try {
-                                String[] xes = uiredTypeName.getText().split("X");
-                                String substring = xes[1].substring(0, xes[1].length() - 1);
-                                if (Integer.getInteger(substring) > 60) {
-                                    isNewsOrTv = true;
-                                } else isNewsOrTv = false;
-                            } catch (Exception e) {
-                                isNewsOrTv = false;
-                            }
-                        }
-                        if (isNewsOrTv) {
-                            uiNewsItem.click();
-                            isNewsOrTv = false;
-                        } else {
-                            uiTvItem.click();
-                            isNewsOrTv = true;
-                        }
+//                        UiObject uiNewsItem = new UiObject(new UiSelector().resourceId("c.l.b:id/text").text("头条资讯"));
+//                        UiObject uiTvItem = new UiObject(new UiSelector().resourceId("c.l.b:id/text").text("小视频"));
+//                        UiObject uiredTypeName = new UiObject(new UiSelector().resourceId("c.l.b:id/red_type_name"));
+//                        if (uiredTypeName.exists()) {
+//                            try {
+//                                String[] xes = uiredTypeName.getText().split("X");
+//                                String substring = xes[1].substring(0, xes[1].length() - 1);
+//                                if (Integer.getInteger(substring) > 60) {
+//                                    isNewsOrTv = true;
+//                                } else isNewsOrTv = false;
+//                            } catch (Exception e) {
+//                                isNewsOrTv = false;
+//                            }
+//                        }
+//                        if (isNewsOrTv) {
+//                            uiNewsItem.click();
+//                            isNewsOrTv = false;
+//                        } else {
+//                            uiTvItem.click();
+//                            isNewsOrTv = true;
+//                        }
                     } else if (uiMissionTxt.isSelected()) {//选中任务
                         uiHomeTxt.click();
                     } else if (uiMeTxt.isSelected()) {//选中我的
@@ -118,6 +120,7 @@ public class A07ShanDianHeZitest extends TestCase {
                     UiObject uiDialogClose02 = new UiObject(new UiSelector().resourceId("c.l.b:id/tv_btn"));
                     UiObject uiTvRewardButton = new UiObject(new UiSelector().resourceId("c.l.b:id/tv_rewardButton"));//看视频获取更多
                     UiObject uiAdvClose = new UiObject(new UiSelector().resourceId("c.l.b:id/reward_ad_close"));
+                    UiObject uiAdvClose02 = new UiObject(new UiSelector().resourceId("c.l.b:id/tt_video_ad_close_layout"));
                     UiObject uiAdvplaying = new UiObject(new UiSelector().resourceId("c.l.b:id/reward_ad_countdown"));//播放广告界面
                     if (uiDialogClose.exists()) {//获得金币关闭按钮
                         uiDialogClose.click();
@@ -128,6 +131,8 @@ public class A07ShanDianHeZitest extends TestCase {
                         A00UtilTest.backUntilObjOrTime(uiDevice, uiAdvClose, 50);
                     } else if (uiAdvClose.exists()) {//关闭按钮
                         uiAdvClose.click();
+                    } else if (uiAdvClose02.exists()) {//关闭广告按钮
+                        uiAdvClose02.click();
                     } else if (uiAdvplaying.exists()) {//播放广告界面
                     } else {//最终的强制搞一波
                         A00UtilTest.baseMethod(uiDevice, 1, appName, new A00UtilTest.MyCallBack() {
@@ -143,6 +148,7 @@ public class A07ShanDianHeZitest extends TestCase {
 
         } catch (Exception e) {
             e.printStackTrace();
+
         }
     }
 

@@ -49,13 +49,7 @@ public class A12SouHuZiXuntest extends TestCase {
                         } else if (number <= 100) {//下滑
                             A00UtilTest.swipDown(uiDevice, 15);
                         }
-                        UiObject uiMediaName = new UiObject(new UiSelector().resourceId("com.sohu.infonews:id/article_mediaName"));
-                        UiObject uiAdvFlag = uiMediaName.getFromParent(new UiSelector().resourceId("com.sohu.infonews:id/tv_ad_flag"));
-                        if (uiAdvFlag.exists()) {//同级有广告 滑动下一个
-                            UiObject uiMediaName01 = new UiObject(
-                                    new UiSelector().resourceId("com.sohu.infonews:id/article_mediaName").instance(1));
-                            if (uiMediaName01.exists()) uiMediaName01.click();
-                        } else uiMediaName.click();
+                        UiObject uiMediaTime = new UiObject(new UiSelector().resourceId("com.sohu.infonews:id/article_time"));
                         Thread.sleep(1000);//要听一下  给一些加载时间
                     } else {//其他
                         uiItem.click();
@@ -98,11 +92,14 @@ public class A12SouHuZiXuntest extends TestCase {
                         //靠点赞按钮判断是不是在播放视频那个整个界面
                         UiObject uinet = new UiObject(new UiSelector().resourceId("com.sohu.infonews:id/blank_btn1"));
                         UiObject uiDialog = new UiObject(new UiSelector().resourceId("com.sohu.infonews:id/act_close_image"));
+                        UiObject uiDialog02 = new UiObject(new UiSelector().resourceId("android:id/button2"));
 
                         if (uinet.exists()) {//
                             uiDevice.pressBack();
                         } else if (uiDialog.exists()) {//
                             uiDialog.click();
+                        } else if (uiDialog02.exists()) {//提示对话框
+                            uiDialog02.click();
                         } else {//最终的强制搞一波
                             A00UtilTest.baseMethod(uiDevice, 1, appName, new A00UtilTest.MyCallBack() {
                                 @Override

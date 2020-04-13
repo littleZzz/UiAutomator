@@ -32,8 +32,8 @@ public class A05HuoShanJISutest extends TestCase {
         UiDevice uiDevice = UiDevice.getInstance(instrumentation);
 
         try {
-//            A00UtilTest.baseMethod(uiDevice, 0, appName, null);//启动时  先关闭其他的
-//            A00UtilTest.errorCount = 0;//重置错误次数
+            A00UtilTest.baseMethod(uiDevice, 0, appName, null);//启动时  先关闭其他的
+            A00UtilTest.errorCount = 0;//重置错误次数
             while (appRun) {
 
                 UiObject uiHomeTxt = new UiObject(new UiSelector().resourceId("com.ss.android.ugc.livelite:id/wg").text("首页"));
@@ -53,7 +53,7 @@ public class A05HuoShanJISutest extends TestCase {
                     } else if (number <= 97) {//下一条
                         A00UtilTest.swipDown(uiDevice);
                         Random rr = new Random();
-                        Thread.sleep((2 + rr.nextInt(20) + 1) * 1000);//播放 时长
+                        Thread.sleep((2 + rr.nextInt(15) + 1) * 1000);//播放 时长
                     }/* else if (number <= 97) {//点击我的
                         if (uiMeTxt.exists()) uiMeTxt.click();
                     }*/  else {//3点击心
