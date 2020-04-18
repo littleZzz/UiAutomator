@@ -50,6 +50,7 @@ public class A12SouHuZiXuntest extends TestCase {
                             A00UtilTest.swipDown(uiDevice, 15);
                         }
                         UiObject uiMediaTime = new UiObject(new UiSelector().resourceId("com.sohu.infonews:id/article_time"));
+                        if (uiMediaTime.exists())uiMediaTime.click();
                         Thread.sleep(1000);//要听一下  给一些加载时间
                     } else {//其他
                         uiItem.click();
