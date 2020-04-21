@@ -6,9 +6,13 @@ import android.content.pm.PackageManager;
 import android.text.TextUtils;
 import android.util.Log;
 
+import com.littlez.uiautomator.bean.VideosBean;
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.Date;
 
 /**
@@ -180,6 +184,19 @@ public class CommonUtil {
             Log.d(TAG, "current time isn't belong to " + date1 + " - " + date2);
             return false;
         }
+    }
+
+    public static ArrayList<VideosBean> shuffleList(ArrayList<VideosBean> videosBeans) {
+        //打乱list运行的顺序
+        if (videosBeans.get(videosBeans.size() - 1).getTestClass().equals("A001ToHometest")) {
+            VideosBean videosBean = videosBeans.get(videosBeans.size() - 1);
+            videosBeans.remove(videosBeans.size() - 1);
+            Collections.shuffle(videosBeans);//打乱list运行的顺序
+            videosBeans.add(videosBean);
+        } else {
+            Collections.shuffle(videosBeans);
+        }
+        return videosBeans;
     }
 
 }

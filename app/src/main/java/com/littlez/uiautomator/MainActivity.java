@@ -155,20 +155,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     return;
                 }
                 Constant.isrun = true;//开启运行
+                Constant.videosBeans = CommonUtil.shuffleList(videosBeans);//打乱顺序
                 Intent intent = new Intent(mContext, BackService.class);
-                intent.putParcelableArrayListExtra("datas", videosBeans);
-                //打乱list运行的顺序
-                if (videosBeans.get(videosBeans.size() - 1).getTestClass().equals("A001ToHometest")) {
-                    VideosBean videosBean = videosBeans.get(videosBeans.size() - 1);
-                    videosBeans.remove(videosBeans.size() - 1);
-                    Collections.shuffle(videosBeans);//打乱list运行的顺序
-                    videosBeans.add(videosBean);
-                } else {
-                    Collections.shuffle(videosBeans);
-                }
-                Constant.videosBeans = videosBeans;
                 startService(intent);
-
                 break;
             case R.id.btnStopServe://停止服务
                 Constant.isrun = false;//重置启动的数据
@@ -178,19 +167,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 CommonUtil.stopUiautomator();//停止服务同时停止调用
 
                 break;
-
             case R.id.btnUpgradeApk://更新apk
                 ToastUtils.show("更新apk中");
-
                 persionSubscribe.updateApk();//跟新apk
                 break;
             case R.id.btnUpgradeJar://更新jar包
                 ToastUtils.show("更新jar中");
-
                 //修改文件可写入权限
                 ExeCommand cmd = new ExeCommand(true);
                 cmd.run("chmod -R 777 /data/local/tmp/", 30000);
-
                 persionSubscribe.downloadJar();//跟新jar包
                 break;
             case R.id.btnMakeUpTime://补足时间
@@ -205,9 +190,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     }
                 }, 8000);// 这里百毫秒  
                 break;
-
         }
     }
+
 
     /**
      * 网络请求

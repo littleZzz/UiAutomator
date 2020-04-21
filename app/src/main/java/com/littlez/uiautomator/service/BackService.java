@@ -10,7 +10,6 @@ import android.graphics.BitmapFactory;
 import android.media.MediaPlayer;
 import android.os.Build;
 import android.os.IBinder;
-import android.util.Log;
 
 import com.littlez.uiautomator.MainActivity;
 import com.littlez.uiautomator.R;
@@ -41,6 +40,9 @@ public class BackService extends Service {
     private long notifyTime = 0L;//唤醒uiautomator的时间值标记
     private long gapTime = 30 * 60 * 1000;//间隔的时间 默认半小时
 
+    boolean isReStartUiTask = true;//是否重启ui任务
+    boolean isStartToHomeUiTask = true;//是否重启ui任务
+
     @Nullable
     @Override
     public IBinder onBind(Intent intent) {
@@ -60,7 +62,6 @@ public class BackService extends Service {
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         LogUtil.e("BackService  onStartCommand");
-//        datas = intent.getParcelableArrayListExtra("datas");
         datas = Constant.videosBeans;
         LogUtil.e("datas----->" + datas.toString());
         if (thread == null || !thread.isAlive()) {
@@ -77,22 +78,6 @@ public class BackService extends Service {
         return START_STICKY/*super.onStartCommand(intent, flags, startId)*/;
     }
 
-
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        stopForeground(true);// 停止前台服务--参数：表示是否移除之前的通知
-        stopPlayMusic();//停止播放器服务
-
-        LogUtil.e("BackService  onDestroy");
-        if (!Constant.isCloseService) {// 重启自己
-            Intent intent = new Intent(getApplicationContext(), BackService.class);
-            startService(intent);
-        }
-    }
-
-    boolean isReStart = true;
-
     //自建线程
     class MyThread extends Thread {
         @Override
@@ -101,9 +86,19 @@ public class BackService extends Service {
             try {
                 startPlayMusic();//播放音乐
                 while (Constant.isrun) {
-                    if (CommonUtil.isBelongPeriodTime("01:00", "7:00")) {//外挂去检测是否在某一时间段内
-                        CommonUtil.startUiautomator("A001ToHometest");//开始一个任务
-                        Thread.sleep(10 * 60 * 1000);//十分钟检测一次
+                    if (CommonUtil.isBelongPeriodTime("01:00", "07:00")) {//外挂去检测是否在某一时间段内
+                        if (isStartToHomeUiTask) {//启动ToHome任务
+                            CommonUtil.stopUiautomator();//停止当前任务
+                            CommonUtil.startUiautomator("A001ToHometest");//开始一个任务
+                            ArrayList<VideosBean> videosBeans = CommonUtil.shuffleList(datas);
+                            datas = null;
+                            datas = videosBeans;
+                            Constant.startFlag=0;//重置flag
+                            LogUtil.e(datas.toString());
+                            isStartToHomeUiTask = false;
+                        }
+                        Thread.sleep(60 * 1000);//一分钟检测一次
+                        LogUtil.e("时间段内 01:00- 07:00 停止运行");
                         continue;
                     }
                     try {
@@ -116,9 +111,10 @@ public class BackService extends Service {
                             CommonUtil.startUiautomator(testClass);//开始一个任务
                             Constant.startFlag++;
                             startTime = System.currentTimeMillis();//重新设置开始时间
-                            isReStart = true;//设置可以重启
+                            isReStartUiTask = true;//设置可以重启
+                            isStartToHomeUiTask = true;//设置可以启动
                         }
-                        LogUtil.e("运行中.." + (Constant.startFlag - 1 + 1) % datas.size() + "/" + datas.size()
+                        LogUtil.e((Constant.startFlag - 1 + 1) % datas.size() + "/" + datas.size()
                                 + datas.get((Constant.startFlag - 1) % datas.size()).getTestClass() +
                                 ";gapTime=" + (gapTime / 1000 / 60) + "分钟;" + (time - startTime) / 1000 / 60);
                         Thread.sleep(5000);
@@ -127,9 +123,9 @@ public class BackService extends Service {
                             boolean uiautomatorRuning = CommonUtil.isUiautomatorRuning();
                             if (!uiautomatorRuning) {//如果没有uiautomator任务运行
                                 String testClass = datas.get((Constant.startFlag - 1) % datas.size()).getTestClass();
-                                if (isReStart) {//重新启动UI任务
+                                if (isReStartUiTask) {//重新启动UI任务
                                     CommonUtil.startUiautomator(testClass);//开始一个任务
-                                    isReStart = false;
+                                    isReStartUiTask = false;
                                     EventbusBean eventbusBean = new EventbusBean();
                                     eventbusBean.setErrorStr(true);
                                     eventbusBean.setErrorStr(CommonUtil.parseTime(new Date(), 1) + " : " + testClass + ";");
@@ -144,6 +140,19 @@ public class BackService extends Service {
             } catch (Exception e) {
                 LogUtil.e(e.toString());
             }
+        }
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        stopForeground(true);// 停止前台服务--参数：表示是否移除之前的通知
+        stopPlayMusic();//停止播放器服务
+
+        LogUtil.e("BackService  onDestroy");
+        if (!Constant.isCloseService) {// 重启自己
+            Intent intent = new Intent(getApplicationContext(), BackService.class);
+            startService(intent);
         }
     }
 
