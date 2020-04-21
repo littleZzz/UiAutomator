@@ -93,7 +93,7 @@ public class BackService extends Service {
                             ArrayList<VideosBean> videosBeans = CommonUtil.shuffleList(datas);
                             datas = null;
                             datas = videosBeans;
-                            Constant.startFlag=0;//重置flag
+                            Constant.startFlag = 0;//重置flag
                             LogUtil.e(datas.toString());
                             isStartToHomeUiTask = false;
                         }
@@ -128,7 +128,8 @@ public class BackService extends Service {
                                     isReStartUiTask = false;
                                     EventbusBean eventbusBean = new EventbusBean();
                                     eventbusBean.setErrorStr(true);
-                                    eventbusBean.setErrorStr(CommonUtil.parseTime(new Date(), 1) + " : " + testClass + ";");
+                                    String parseTime = CommonUtil.parseTime(new Date(), 1);
+                                    eventbusBean.setErrorStr(parseTime + " : " + testClass + ";");
                                     EventBus.getDefault().post(eventbusBean);
                                 }
                             }

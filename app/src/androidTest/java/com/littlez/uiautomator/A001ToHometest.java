@@ -16,7 +16,7 @@ import java.util.Random;
 
 /**
  * created by xiaozhi
- * <p>回到首页的测试用例
+ * <p>回到首页  并进行内存清理的测试用例
  * Date 2019/12/3
  */
 public class A001ToHometest extends TestCase {

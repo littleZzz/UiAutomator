@@ -100,7 +100,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         adapter = new VideosAdapter(R.layout.adapter_videos_item, videos);
         recyclerView.setAdapter(adapter);
 
-
         cbCheckAll.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -120,13 +119,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         tvError.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ToastUtils.show(tvError.getText().toString());
+                ToastUtils.showLong(tvError.getText().toString());
             }
         });
         tvGetScreen.setOnClickListener(this);
-
     }
-
 
     /**
      * 点击事件
@@ -138,9 +135,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         Constant.isCloseService = false;
         switch (v.getId()) {
-
             case R.id.btnStop://停止按钮
-
                 Constant.isrun = false;//重置启动的数据
                 CommonUtil.stopUiautomator();//停止调用
                 break;
@@ -165,7 +160,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 Constant.isCloseService = true;
                 stopService(new Intent(mContext, BackService.class));
                 CommonUtil.stopUiautomator();//停止服务同时停止调用
-
                 break;
             case R.id.btnUpgradeApk://更新apk
                 ToastUtils.show("更新apk中");
@@ -193,7 +187,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
     }
 
-
     /**
      * 网络请求
      *
@@ -220,7 +213,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         try {
             if (eventbusBean.isErrorStr()) {
                 String errorStr = eventbusBean.getErrorStr();
-                tvError.setText(tvError.getText().toString().concat(errorStr));
+                if (!errorStr.contains("A001ToHometest"))
+                    tvError.setText(tvError.getText().toString().concat(errorStr));
             } else {
                 /*添加 日志 记录 更新adapter*/
                 String log = eventbusBean.getLog();
@@ -230,7 +224,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         } catch (Exception e) {
             LogUtil.e(e.toString());
         }
-
     }
 
     @Override
@@ -243,7 +236,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         startActivity(i);
     }
 
-
     @Override
     protected void onDestroy() {
         super.onDestroy();
@@ -251,7 +243,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             EventBus.getDefault().unregister(this);
         }
     }
-
 
     /**
      * 添加数据
@@ -264,7 +255,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         videos.add(new VideosBean("牛角免费小说", "A21NiuJiaoYueDutest", 35 * 60 * 1000));
         videos.add(new VideosBean("音浪短视频", "A04YinLangtest", 30 * 60 * 1000));
         videos.add(new VideosBean("搜狐资讯", "A12SouHuZiXuntest", 30 * 60 * 1000));
-        videos.add(new VideosBean("闪电盒子极速版", "A07ShanDianHeZitest", 20 * 60 * 1000));//测试中
         videos.add(new VideosBean("火山极速版", "A05HuoShanJISutest", 30 * 60 * 1000));//测试中
         videos.add(new VideosBean("回首页待运行", "A001ToHometest", testGapTime));
 
@@ -275,14 +265,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 //        videos.add(new VideosBean("趣头条", "A06QuTouTiaotest", 30 * 60 * 1000));//好像经常变动id
 //        videos.add(new VideosBean("快手极速版", "A01KuaiSJiSutest", 25 * 60 * 1000));//需要验证
 //        vdeos.add(new VideosBean("趣看看", "A09QuKanKanNewstest", 0 * 60 * 1000));//165 暂时被封号了 和玩赚同数据
-////        videos.add(new VideosBean("玩赚星球", "A04WanZhuanXingQiutest", 20 * 60 * 1000));//165被封号了
-////        videos.add(new VideosBean("中青看点", "A07ZhongQinKanDiantest", 10 * 60 * 100ma0));//很慢放弃了ideos.add(new VideosBean("东方头条", "A10DongFangTTtest", 10 * 60 * 1000));
+//        videos.add(new VideosBean("玩赚星球", "A04WanZhuanXingQiutest", 20 * 60 * 1000));//165被封号了
+//        videos.add(new VideosBean("中青看点", "A07ZhongQinKanDiantest", 10 * 60 * 100ma0));//很慢放弃了ideos.add(new VideosBean("东方头条", "A10DongFangTTtest", 10 * 60 * 1000));
 //        videos.add(new VideosBean("微鲤看看", "A08WeiLiKanKantest", 10 * 60 * 1000));//操作微慢 查找id 特别慢
         //下面  是无用|或使用过废弃的数据  如 火山  淘看点 等等
 //        videos.add(new VideosBean("米读极速版", "A22MiDuJiSutest", 35 * 60 * 1000));//收益太低了  不想搞
-//        vi
 //        videos.add(new VideosBean("快看点新闻", "A05KuaiKanDianNewstest", 30 * 60 * 1000));//收益低 而且提现165 171手机不通过
-
+//        videos.add(new VideosBean("闪电盒子极速版", "A07ShanDianHeZitest", 20 * 60 * 1000));//提现必须要支付宝
         //淘新闻 注册第二天就异常
     }
 
