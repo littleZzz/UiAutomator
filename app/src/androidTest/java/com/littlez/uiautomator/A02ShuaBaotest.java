@@ -40,10 +40,11 @@ public class A02ShuaBaotest extends TestCase {
             while (appRun) {
 
                 UiObject uiHeart = new UiObject(new UiSelector().resourceId("com.jm.video:id/image_view"));
+                UiObject uiName = new UiObject(new UiSelector().resourceId("com.jm.video:id/name"));
                 UiObject uiGold = new UiObject(new UiSelector().resourceId("com.jm.video:id/constraintLayout_gold"));
                 UiObject uiBalance = new UiObject(new UiSelector().resourceId("com.jm.video:id/constraintLayout_balance"));
 
-                if (uiHeart.exists()) {//是首页
+                if (uiHeart.exists()||uiName.exists()) {//是首页
                     Random r = new Random();
                     int number = r.nextInt(100) + 1;
                     /*随机数 进行判断 点击心或者滑动到下一个视频*/

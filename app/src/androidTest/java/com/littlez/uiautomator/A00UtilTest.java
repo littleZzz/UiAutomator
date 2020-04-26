@@ -31,9 +31,10 @@ public class A00UtilTest {
                     break;
                 case 1://Error_Base
                     UiObject uiCrash = new UiObject(new UiSelector().resourceId("android:id/le_bottomsheet_default_confirm"));
+                    UiObject uiwandoujiaQingli = new UiObject(new UiSelector().resourceId("com.wandoujia.phoenix2:id/y8").text("忽略"));
                     if (uiCrash.exists()) {
                         uiCrash.click();//应用奔溃了 的页面
-                    }
+                    }else if (uiwandoujiaQingli.exists())uiwandoujiaQingli.click();
 
                     uiDevice.pressHome();
                     Thread.sleep(500);

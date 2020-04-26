@@ -20,7 +20,7 @@ import java.util.Random;
 public class A08MeiRiAiQingLitest extends TestCase {
 
     /*app 名字*/
-    private String appName = "每日爱清理";
+    private String appName = "天天爱清理";
     private boolean appRun = true;//appRun
 
     //    @Test
