@@ -27,7 +27,7 @@
     <uses-permission android:name="com.zssc.zcwmall.permission.JPUSH_MESSAGE" />
     <uses-permission android:name="android.permission.RECEIVE_USER_PRESENT" />
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
-
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
 
     <application
         android:name=".base.MyApplication"
@@ -56,6 +56,13 @@
             android:name=".service.BackService"
             android:priority="1000" />
 
+        <!--监听开机广播-->
+        <receiver android:name=".receiver.BootBroadcastReceiver">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+                <category android:name="android.intent.category.HOME" />
+            </intent-filter>
+        </receiver>
         <provider
             android:name="androidx.core.content.FileProvider"
             android:authorities="com.littlez.uiautomator.fileprovider"
