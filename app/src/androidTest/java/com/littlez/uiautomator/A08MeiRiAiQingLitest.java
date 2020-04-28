@@ -38,10 +38,11 @@ public class A08MeiRiAiQingLitest extends TestCase {
                 UiObject uiTvHeart = new UiObject(new UiSelector().resourceId("com.xiaoqiao.qclean:id/tv_like"));//
                 UiObject uiRecycleView = new UiObject(new UiSelector().resourceId("com.xiaoqiao.qclean:id/community_recycler_view"));//外层recycleView
                 UiObject uiRewardButton = new UiObject(new UiSelector().resourceId("com.xiaoqiao.qclean:id/tv_gold_double"));//看广告获取更多金币
+                UiObject uiTV = new UiObject(new UiSelector().resourceId("com.xiaoqiao.qclean:id/ll_video"));
+                UiObject uiTaskWeb = new UiObject(new UiSelector().resourceId("com.xiaoqiao.qclean:id/web_task"));//任务界面的 外层webview
 
                 if (uiMainTitle.exists()) {//在首页
-                    UiObject uiTV = new UiObject(new UiSelector().resourceId("com.xiaoqiao.qclean:id/ll_video"));
-                    uiTV.click();
+                    if (uiTV.exists()) uiTV.click();
                 } else if (uiTvHeart.exists() || uiRecycleView.exists()) {//是视频界面
                     Random r = new Random();
                     int number = r.nextInt(100) + 1;
@@ -52,21 +53,31 @@ public class A08MeiRiAiQingLitest extends TestCase {
                         A00UtilTest.swipDown(uiDevice);
                         Random rr = new Random();
                         Thread.sleep((15 + rr.nextInt(15) + 1) * 1000);//播放 时长
-                    } else if (number <= 100) {//点击任务
+                    } else if (number <= 99) {//点击任务
+                        UiObject uiTask = new UiObject(new UiSelector().resourceId("com.xiaoqiao.qclean:id/ll_task"));
+                        if (uiTask.exists()) uiTask.click();
+                        Thread.sleep(3000);
+                    } else if (number <= 100) {//点击heart
                         if (uiTvHeart.exists()) uiTvHeart.click();
                     }
                 } else if (uiRewardButton.exists()) {//看广告获取更多
                     uiRewardButton.click();
-                    A00UtilTest.backUntilObjOrTime(uiDevice, null, 55);
+                    UiObject uiadv = new UiObject(new UiSelector().resourceId("com.xiaoqiao.qclean:id/tt_video_ad_close_layout"));
+                    A00UtilTest.backUntilObjOrTime(uiDevice, uiadv, 55);
                     Thread.sleep(2000);
+                } else if (uiTV.exists()) {//不在视频界面
+                    uiTV.click();
                 } else {//处理异常情况
                     UiObject uiDialog = new UiObject(new UiSelector().resourceId("com.xiaoqiao.qclean:id/tv_close"));
                     UiObject uiDialog02 = new UiObject(new UiSelector().resourceId("com.xiaoqiao.qclean:id/ib_close_btn"));
+                    UiObject uiadv = new UiObject(new UiSelector().resourceId("com.xiaoqiao.qclean:id/tt_video_ad_close_layout"));
                     UiObject uiWebView = new UiObject(new UiSelector().className("android.webkit.WebView").descriptionContains("腾讯社交联盟广告"));
                     if (uiDialog.exists()) {//暂不领取
                         uiDialog.click();
                     } else if (uiDialog02.exists()) {//获得金币dia
                         uiDialog02.click();
+                    } else if (uiadv.exists()) {//广告关闭按钮
+                        uiadv.click();
                     } else if (uiWebView.exists()) {//广告页面
                         uiDevice.pressBack();
                     } else {//最终的强制搞一波

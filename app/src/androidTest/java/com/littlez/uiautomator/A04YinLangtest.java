@@ -50,7 +50,7 @@ public class A04YinLangtest extends TestCase {
                     } else if (number <= 97) {//下一条
                         A00UtilTest.swipDown(uiDevice);
                         Random rr = new Random();
-                        Thread.sleep((40 + rr.nextInt(15) + 1) * 1000);//播放 时长
+                        Thread.sleep((30 + rr.nextInt(15) + 1) * 1000);//播放 时长
                     } else if (number <= 100) {//点击我的
                         UiObject uiMe = new UiObject(new UiSelector().resourceId("com.video.yl:id/tab_text").text("我"));
                         if (uiMe.exists()) uiMe.click();
@@ -63,6 +63,8 @@ public class A04YinLangtest extends TestCase {
                     UiObject uiAdvClose02 = new UiObject(new UiSelector().resourceId("com.video.yl:id/reward_ad_close"));
                     A00UtilTest.backUntilObjOrTime(uiDevice, uiAdvClose, uiAdvClose02, 50);
                 } else {//处理异常情况
+                    UiObject uiUpdateCancel = new UiObject(new UiSelector().resourceId("com.video.yl:id/btn_left"));//跟新取消
+                    UiObject uiUpdateDown = new UiObject(new UiSelector().resourceId("com.video.yl:id/btn_right"));//跟新下载
                     UiObject uiadv = new UiObject(new UiSelector().resourceId("com.video.yl:id/tt_video_ad_close_layout"));
                     UiObject uiadv02 = new UiObject(new UiSelector().resourceId("com.video.yl:id/reward_ad_close"));
                     if (uiadv.exists()) {//用户协议

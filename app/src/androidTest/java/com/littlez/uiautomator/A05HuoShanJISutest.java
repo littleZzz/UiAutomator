@@ -36,10 +36,10 @@ public class A05HuoShanJISutest extends TestCase {
             A00UtilTest.errorCount = 0;//重置错误次数
             while (appRun) {
 
+                UiObject uiBottomItem = new UiObject(new UiSelector().resourceId("com.ss.android.ugc.livelite:id/we"));//底部栏
                 UiObject uiHomeTxt = new UiObject(new UiSelector().resourceId("com.ss.android.ugc.livelite:id/wg").text("首页"));
-                UiObject uiMeTxt = new UiObject(new UiSelector().resourceId("com.ss.android.ugc.livelite:id/wo").text("我的"));
+                UiObject uiRedPackTxt = new UiObject(new UiSelector().resourceId("com.ss.android.ugc.livelite:id/wl").text("红包"));
                 UiObject uiViewGroup = new UiObject(new UiSelector().resourceId("com.ss.android.ugc.livelite:id/gi"));//判断首页
-                UiObject uiSetting = new UiObject(new UiSelector().resourceId("com.ss.android.ugc.livelite:id/mp"));//判断我的
                 UiObject uiHeart = new UiObject(new UiSelector().resourceId("com.ss.android.ugc.livelite:id/of"));
 
                 if (uiViewGroup.exists()) {//外层Viewpager的下面两层的 Viewgroup 判断是首页
@@ -54,12 +54,12 @@ public class A05HuoShanJISutest extends TestCase {
                         A00UtilTest.swipDown(uiDevice);
                         Random rr = new Random();
                         Thread.sleep((2 + rr.nextInt(10) + 1) * 1000);//播放 时长
-                    }/* else if (number <= 97) {//点击我的
-                        if (uiMeTxt.exists()) uiMeTxt.click();
-                    }*/  else {//3点击心
+                    } else if (number <= 99) {//点击红包
+                        if (uiRedPackTxt.exists()) uiRedPackTxt.click();
+                    }  else {//3点击心
                         if (uiHeart.exists()) uiHeart.click();
                     }
-                } else if (uiSetting.exists()) {//现金余额 判断是我的界面
+                } else if (uiBottomItem.exists()) {//不在首页  点击首页就是了
                     uiHomeTxt.click();
                 }  else {//处理异常情况  1.0 点击重播 2.0 广告滑动一下
                     UiObject uiInviteDia = new UiObject(new UiSelector().resourceId("com.ss.android.ugc.livelite:id/a5v"));
