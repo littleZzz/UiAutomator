@@ -254,7 +254,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         videos.add(new VideosBean("彩蛋视频", "A03CaiDantest", 30 * 60 * 1000));
         videos.add(new VideosBean("牛角免费小说", "A21NiuJiaoYueDutest", 35 * 60 * 1000));
         videos.add(new VideosBean("音浪短视频", "A04YinLangtest", 30 * 60 * 1000));
-        videos.add(new VideosBean("搜狐资讯", "A12SouHuZiXuntest", 30 * 60 * 1000));
         videos.add(new VideosBean("火山极速版", "A05HuoShanJISutest", 30 * 60 * 1000));
         videos.add(new VideosBean("每日爱清理", "A08MeiRiAiQingLitest", 30 * 60 * 1000));//测试中
         videos.add(new VideosBean("回首页待运行", "A001ToHometest", testGapTime));
@@ -273,6 +272,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 //        videos.add(new VideosBean("米读极速版", "A22MiDuJiSutest", 35 * 60 * 1000));//收益太低了  不想搞
 //        videos.add(new VideosBean("快看点新闻", "A05KuaiKanDianNewstest", 30 * 60 * 1000));//收益低 而且提现165 171手机不通过
 //        videos.add(new VideosBean("闪电盒子极速版", "A07ShanDianHeZitest", 20 * 60 * 1000));//提现必须要支付宝
+        //        videos.add(new VideosBean("搜狐资讯", "A12SouHuZiXuntest", 30 * 60 * 1000));//收益低到窒息
+
         //淘新闻 注册第二天就异常
     }
 
