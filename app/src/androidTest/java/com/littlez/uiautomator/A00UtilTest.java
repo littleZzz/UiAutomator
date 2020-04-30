@@ -35,7 +35,10 @@ public class A00UtilTest {
 //                    UiObject uiwandoujiaQingli = new UiObject(new UiSelector().resourceId("com.wandoujia.phoenix2:id/y9"));//清理按钮
                     if (uiCrash.exists()) {
                         uiCrash.click();//应用奔溃了 的页面
-                    }else if (uiwandoujiaQingli.exists())uiwandoujiaQingli.click();
+                    } else if (uiwandoujiaQingli.exists()) {
+                        uiwandoujiaQingli.click();
+                        return;
+                    }
 
                     uiDevice.pressHome();
                     Thread.sleep(500);

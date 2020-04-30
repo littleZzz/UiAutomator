@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 
 import com.littlez.uiautomator.MainActivity;
+import com.littlez.uiautomator.util.CommonUtil;
 import com.littlez.uiautomator.util.LogUtil;
 
 /**
@@ -15,12 +16,11 @@ import com.littlez.uiautomator.util.LogUtil;
 public class BootBroadcastReceiver extends BroadcastReceiver {
     private static final String TAG = "BootBroadcastReceiver";
     private static final String ACTION_BOOT = "android.intent.action.BOOT_COMPLETED";
+
     @Override
     public void onReceive(Context context, Intent intent) {
         if (intent.getAction().equals(ACTION_BOOT)) { //开机启动完成后，要做的事情
-            Intent bootActivityIntent=new Intent(context, MainActivity.class);
-            bootActivityIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-            context.startActivity(bootActivityIntent);//要启动应用程序的首界面
+            CommonUtil.startUiautomator("A01BootLuanchertest");//开始一个任务
             LogUtil.e("这个是开机监听");
         }
     }

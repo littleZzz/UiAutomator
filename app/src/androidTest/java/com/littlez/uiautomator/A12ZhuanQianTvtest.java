@@ -31,104 +31,60 @@ public class A12ZhuanQianTvtest extends TestCase {
         Instrumentation instrumentation = InstrumentationRegistry.getInstrumentation();
         UiDevice uiDevice = UiDevice.getInstance(instrumentation);
 
-//        A00UtilTest.baseMethod(uiDevice, 0, appName,null);;//启动时  先关闭其他的
-//        A00UtilTest.errorCount = 0;//重置次数
-        boolean isToEarn = true;
+        A00UtilTest.baseMethod(uiDevice, 0, appName, null);
+        ;//启动时  先关闭其他的
+        A00UtilTest.errorCount = 0;//重置次数
         try {
             while (appRun) {
                 //主页
-                UiObject uiMain = new UiObject(new UiSelector().resourceId("com.xiangkan.android:id/bottom_tab_layout"));
-                UiObject uiTVTitle = new UiObject(new UiSelector().resourceId("com.xiangkan.android:id/vo_video_detail_title"));//标题
-                UiObject uiCollect = new UiObject(new UiSelector().resourceId("com.xiangkan.android:id/img_thumbUp"));//收藏
-                UiObject uiAdvClose = new UiObject(new UiSelector().resourceId("com.xiangkan.android:id/tt_video_ad_close_layout"));//广告的关闭按钮
+                UiObject uiMain = new UiObject(new UiSelector().resourceId("com.sljh.zqxsp:id/fixed_bottombar_container"));//底部最外层控件
+                UiObject uiTVRecycle = new UiObject(new UiSelector().resourceId("com.sljh.zqxsp:id/short_video_recyclerView"));//看短视频界面
+                UiObject uiSeeTVGetMore = new UiObject(new UiSelector().resourceId("com.sljh.zqxsp:id/gold_dialog_bt_ll"));
+
                 if (uiMain.exists()) {//是主页  滑动选择条目
-                    UiObject uiHomeTitle = new UiObject(new UiSelector().resourceId("com.xiangkan.android:id/ll_home_title_bar"));
-                    UiObject uiEarn = new UiObject(new UiSelector().resourceId("com.xiangkan.android:id/earn_coins_scroll_view"));//scrllView
+                    UiObject uiHomeTitle = new UiObject(new UiSelector().resourceId("com.sljh.zqxsp:id/toolbar_tab"));//首页标题
                     if (uiHomeTitle.exists()) {//选中的是首页
-                        if (isToEarn) {
-                            UiObject uiEarnMoney = new UiObject(new UiSelector().resourceId("com.xiangkan.android:id/ll_tap").instance(2));
-                            if (uiEarnMoney.exists()) {//赚金币存在
-                                uiEarnMoney.click();
-                                Thread.sleep(2000);
-                                isToEarn = false;
-                                continue;
-                            }
-                        }
-                        Random r = new Random(); //主页滑动选择条目
+                        UiObject uiSmallTv = new UiObject(new UiSelector().resourceId("com.sljh.zqxsp:id/menu_small_video"));
+                        if (uiSmallTv.exists()) uiSmallTv.click();
+                    }
+
+                } else if (uiTVRecycle.exists()) {//是视频
+                    UiObject uiConin = new UiObject(new UiSelector().resourceId("com.sljh.zqxsp:id/newsgold_coin_tx1"));
+                    if (uiConin.exists()) {
+                        uiConin.click();
+                        A00UtilTest.backUntilObjOrTime(uiDevice, uiSeeTVGetMore, 15);
+                    } else {
+                        Random r = new Random();
                         int number = r.nextInt(100) + 1;
-                        if (number <= 1) {//上滑
-                            A00UtilTest.swipUp(uiDevice, 10);
-                        } else if (number <= 100) {//下滑
-                            A00UtilTest.swipDown(uiDevice, 10);
-                        } //做一些其他额外的附加任务
-                        //首页领取  做一个时段任务奖励的领取  想看 时段任务暂时不领取了 太慢了
-                        UiObject uiGet = new UiObject(new UiSelector().resourceId("com.xiangkan.android:id/tv_box_time_new").text("领金币"));
-                        if (uiGet.exists()) {
-                            uiGet.click();
-                            continue;
-                        }
-                        Thread.sleep(500);//没有时段领取 选择一条进行跳转
-                        UiObject uiAuther = new UiObject(new UiSelector().resourceId("com.xiangkan.android:id/tvInfo").instance(0));
-                        uiAuther.click();//这个不分是视频还是阅读了
-                        Thread.sleep(1500);//要听一下  给一些加载时间
-
-                    } else if (uiEarn.exists()) {//选中的是赚金币页面 外层scrollView 判断
-                        A00UtilTest.swipUp(uiDevice);
-                        UiObject uiSeeTv = new UiObject(new UiSelector().resourceId("com.xiangkan.android:id/tv_watch_video").text("看视频"));
-                        if (uiSeeTv.exists()) {//看视频的金币存在
-                            uiSeeTv.click();
-                            A00UtilTest.backUntilObjOrTime(uiDevice, uiAdvClose, 50);
-                        } else {//前往首页阅读
-                            UiObject uiHomeTab = new UiObject(new UiSelector().resourceId("com.xiangkan.android:id/tv_tab_title"));
-                            if (uiHomeTab.exists()) uiHomeTab.click();
+                        /*随机数 进行判断 点击心或者滑动到下一个视频*/
+                        if (number <= 3) {//上一条
+                            A00UtilTest.swipUp(uiDevice);
+                        } else if (number <= 98) {//下一条
+                            A00UtilTest.swipDown(uiDevice);
+                            Random rr = new Random();
+                            Thread.sleep((20 + rr.nextInt(15) + 1) * 1000);//播放 时长
+                        } else {//3点击心
+                            UiObject uiHeart = new UiObject(new UiSelector().resourceId("com.sljh.zqxsp:id/item_short_video_heart"));
+                            if (uiHeart.exists()) uiHeart.click();
                         }
                     }
-                } else if (uiTVTitle.exists() && uiCollect.exists()) {//是视频
-                    UiObject uiRePlay = new UiObject(new UiSelector().resourceId("com.xiangkan.android:id/replay_tv"));
-                    UiObject uiFuDai = new UiObject(new UiSelector().resourceId("com.xiangkan.android:id/fudai_icon"));
-                    A00UtilTest.backUntilObjOrTime(uiDevice, uiFuDai, uiRePlay, 300);//遇到福袋、重播、大于300秒跳出判断
-
-                } else if (uiCollect.exists()) {//是新闻
-                    boolean isRun = true;
-                    boolean isGetMore = true;
-                    while (isRun) {
-                        UiObject uiShare = new UiObject(new UiSelector().resourceId("com.xiangkan.android:id/share_wechat_tv"));//分享微信
-                        UiObject uiFuDai = new UiObject(new UiSelector().resourceId("com.xiangkan.android:id/fudai_icon"));
-                        if (uiFuDai.exists()) {//福袋奖励
-                            uiFuDai.click();
-                            isRun = false;
-                        } else if (uiShare.exists()) {
-                            if (isGetMore) {//通过能查找的来进行判断
-                                int right = uiShare.getBounds().right / 2;
-                                int top = uiShare.getBounds().top;
-                                uiDevice.swipe(right, top - 70, right, top - 70, 20);
-                                isGetMore = false;
-                                Thread.sleep(1500);
-                                continue;
-                            }
-                            isRun = false;
-                            uiDevice.pressBack();
-                        } else {
-                            Thread.sleep(1000);
-                            uiDevice.swipe(400, 1200, 534, 802, 10);
-                        }
-                    }
+                } else if (uiSeeTVGetMore.exists()) {//看视频获得更多
+                    uiSeeTVGetMore.click();
+                    A00UtilTest.backUntilObjOrTime(uiDevice, null, 50);
                 } else {
-                    //com.xiangkan.android:id/updateSingleTv  升级按钮   com.xiangkan.android:id/closeIv  升级关闭
-                    //处理异常情况 首页领取奖励后的dialog
-                    UiObject uiSingDia = new UiObject(new UiSelector().resourceId("com.xiangkan.android:id/tv_sign_btn"));//签到弹框看视频在领取
-                    UiObject uiTimeWare = new UiObject(new UiSelector().resourceId("com.xiangkan.android:id/tv_integer_coin_action"));//时段奖励看视频再领取
-                    UiObject uiFudaiWareDia = new UiObject(new UiSelector().resourceId("com.xiangkan.android:id/tv_go_read"));//福袋奖励
+                    UiObject uiDia02 = new UiObject(new UiSelector().resourceId("com.sljh.zqxsp:id/dialog_close"));//应用评价不评价 第二个弹框
+                    UiObject uiDia01 = new UiObject(new UiSelector().resourceId("com.sljh.zqxsp:id/msg_dialog_left"));//应用评价不评价
+                    UiObject uiGetMoreClose = new UiObject(new UiSelector().resourceId("com.sljh.zqxsp:id/money_dialog_getcash_new2_close"));//获取更多的关闭按钮
+                    UiObject uiAdvClose = new UiObject(new UiSelector().resourceId("com.sljh.zqxsp:id/tt_video_ad_close_layout"));//广告关闭
 
-                    if (uiSingDia.exists()) {//签到弹框 看视频再领取
-                        uiSingDia.click();
-                        A00UtilTest.backUntilObjOrTime(uiDevice, uiAdvClose, 50);
-                    } else if (uiTimeWare.exists()) {//时段奖励看视频再领取
-                        uiTimeWare.click();
-                        A00UtilTest.backUntilObjOrTime(uiDevice, uiAdvClose, 50);
-                    } else if (uiFudaiWareDia.exists()) {//福袋奖励 点击再得金币
-                        uiFudaiWareDia.click();
-                        A00UtilTest.backUntilObjOrTime(uiDevice, uiAdvClose, 50);
+                    if (uiDia02.exists()) {
+                        uiDia02.click();
+                    } else if (uiDia01.exists()) {
+                        uiDia01.click();
+                    } else if (uiGetMoreClose.exists()) {//获取更多关闭
+                        uiGetMoreClose.click();
+                    } else if (uiAdvClose.exists()) {//广告关闭
+                        uiAdvClose.click();
                     } else {//最终的强制搞一波
                         A00UtilTest.baseMethod(uiDevice, 1, appName, new A00UtilTest.MyCallBack() {
                             @Override

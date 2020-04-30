@@ -64,11 +64,14 @@ public class A05HuoShanJISutest extends TestCase {
                 }  else {//处理异常情况  1.0 点击重播 2.0 广告滑动一下
                     UiObject uiInviteDia = new UiObject(new UiSelector().resourceId("com.ss.android.ugc.livelite:id/a5v"));
                     UiObject uiShaoNianBaohu = new UiObject(new UiSelector().resourceId("com.ss.android.ugc.livelite:id/qt"));
+                    UiObject uiUpdateLate = new UiObject(new UiSelector().resourceId("com.ss.android.ugc.livelite:id/aih"));//跟新 取消
 
                     if (uiInviteDia.exists()) {//邀请码弹框关闭按钮  邀请好友弹框
                         uiInviteDia.click();
                     } else if (uiShaoNianBaohu.exists()) {//青少年保护弹框
                         uiShaoNianBaohu.click();
+                    }else if (uiUpdateLate.exists()) {//跟新升级 暂不跟新
+                        uiUpdateLate.click();
                     } else {//最终的强制搞一波
                         A00UtilTest.baseMethod(uiDevice, 1, appName, new A00UtilTest.MyCallBack() {
                             @Override
