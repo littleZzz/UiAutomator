@@ -46,16 +46,16 @@ public class HttpMethods {
     public String TAG = "HttpMethods";
     public static final String CACHE_NAME = "littleZ";
     public static String BASE_URL = URLConstant.BASE_URL;
-    private static final int DEFAULT_CONNECT_TIMEOUT = 20;
-    private static final int DEFAULT_WRITE_TIMEOUT = 20;
-    private static final int DEFAULT_READ_TIMEOUT = 20;
+    private static final int DEFAULT_CONNECT_TIMEOUT = 60;
+    private static final int DEFAULT_WRITE_TIMEOUT = 60;
+    private static final int DEFAULT_READ_TIMEOUT = 60;
     private Retrofit retrofit;
     private HttpApi httpApi;
 
     /**
      * 请求失败重连次数
      */
-    private int RETRY_COUNT = 0;
+    private int RETRY_COUNT = 1;
     private OkHttpClient.Builder okHttpBuilder;
     public final OkHttpClient okHttpClient;
 
