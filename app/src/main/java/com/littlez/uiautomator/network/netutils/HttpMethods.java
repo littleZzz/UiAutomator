@@ -47,8 +47,8 @@ public class HttpMethods {
     public static final String CACHE_NAME = "littleZ";
     public static String BASE_URL = URLConstant.BASE_URL;
     private static final int DEFAULT_CONNECT_TIMEOUT = 60;
-    private static final int DEFAULT_WRITE_TIMEOUT = 60;
-    private static final int DEFAULT_READ_TIMEOUT = 60;
+    private static final int DEFAULT_WRITE_TIMEOUT = 120;
+    private static final int DEFAULT_READ_TIMEOUT = 120;
     private Retrofit retrofit;
     private HttpApi httpApi;
 

@@ -80,8 +80,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         tvVersion.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                boolean belongPeriodTime = CommonUtil.isBelongPeriodTime("17:20", "17:28");
-                ToastUtils.show(belongPeriodTime + "");
+                boolean isUiautomatorRuning = CommonUtil.isUiautomatorRuning();
+                ToastUtils.show("是否有ui任务运行：" + isUiautomatorRuning);
             }
         });
 

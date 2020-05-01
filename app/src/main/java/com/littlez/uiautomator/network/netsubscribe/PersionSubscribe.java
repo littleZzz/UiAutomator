@@ -125,6 +125,8 @@ public class PersionSubscribe {
         Random random = new Random();
         int id = random.nextInt();
 
+        final LoadingDialog dialog = LoadingDialog.getInstance(mContext);
+        dialog.show();
         HashMap<String, Object> map = new HashMap<>();
         map.put("id", id);//默認值: 10
         //这里对地址的格式有很多要求
@@ -136,15 +138,16 @@ public class PersionSubscribe {
                 if (response.body() == null) return;
                 try {
                     writeResponseBodyToDisk(response.body(), false);
-
+                    dialog.dismiss();
                 } catch (Exception e) {
                     e.printStackTrace();
+                    dialog.dismiss();
                 }
             }
 
             @Override
             public void onFailure(Call<ResponseBody> call, Throwable t) {
-
+                dialog.dismiss();
                 LogUtil.e(t.toString());
             }
         });
