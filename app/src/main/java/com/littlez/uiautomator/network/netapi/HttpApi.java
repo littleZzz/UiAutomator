@@ -32,7 +32,7 @@ public interface HttpApi {
      * @param map
      * @return
      */
-    @GET("uiautomator_apk")
+    @GET("uiautomator.apk")
     Call<ResponseBody> updateApk(@QueryMap Map<String, Object> map);
 
 }

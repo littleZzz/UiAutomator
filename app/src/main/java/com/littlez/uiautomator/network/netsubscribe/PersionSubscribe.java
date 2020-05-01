@@ -39,6 +39,7 @@ public class PersionSubscribe {
     private Gson gson;
     private Context mContext;
     private DataCallbackListener dataCallback;
+    private String baseDownloadUrl="http://148.70.179.199:3001/";
 
     public PersionSubscribe(Context context, DataCallbackListener dataCallbackListener) {
         this.gson = new Gson();
@@ -57,7 +58,7 @@ public class PersionSubscribe {
         map.put("id", id);//默認值: 10
         //这里对地址的格式有很多要求
         Call<ResponseBody> bodyCall = HttpMethods.getInstance().getRetrofit().newBuilder()
-                .baseUrl("http://q81rc1yof.bkt.clouddn.com/").build().create(HttpApi.class).downloadJar(map);
+                .baseUrl(baseDownloadUrl).build().create(HttpApi.class).downloadJar(map);
         bodyCall.enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
@@ -90,7 +91,7 @@ public class PersionSubscribe {
         map.put("id", id);//默認值: 10
         //这里对地址的格式有很多要求
         Call<ResponseBody> bodyCall = HttpMethods.getInstance().getRetrofit().newBuilder()
-                .baseUrl("http://q81rc1yof.bkt.clouddn.com/").build().create(HttpApi.class).updateApk(map);
+                .baseUrl(baseDownloadUrl).build().create(HttpApi.class).updateApk(map);
         bodyCall.enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
