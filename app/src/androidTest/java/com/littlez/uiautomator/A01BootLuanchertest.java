@@ -50,11 +50,11 @@ public class A01BootLuanchertest extends TestCase {
                     if (uiCheckAll.exists() && !uiCheckAll.isChecked()) uiCheckAll.click();
                     Thread.sleep(1000);
                     UiObject uiMakeUpTime = new UiObject(new UiSelector().resourceId("com.littlez.uiautomator:id/btnMakeUpTime"));
-                    if (uiMakeUpTime.exists()) uiMakeUpTime.exists();
+                    if (uiMakeUpTime.exists()) uiMakeUpTime.click();
                     Thread.sleep(1000);
                     UiObject uiStartService = new UiObject(new UiSelector().resourceId("com.littlez.uiautomator:id/btnStartServe"));
                     if (uiStartService.exists()) {
-                        uiStartService.exists();
+                        uiStartService.click();
                         appRun=false;
                         break;
                     }

@@ -36,10 +36,9 @@ public class A04YinLangtest extends TestCase {
             A00UtilTest.errorCount = 0;//重置错误次数
 
             while (appRun) {
-                UiObject uiHome = new UiObject(new UiSelector().resourceId("com.video.yl:id/action_bar_root"));//提现栏
+                UiObject uiHome = new UiObject(new UiSelector().resourceId("com.video.yl:id/action_bar_root"));//
                 UiObject uiGoWithdraw = new UiObject(new UiSelector().resourceId("com.video.yl:id/go_withdraw"));//我的 金钱界面
                 UiObject uiRewardButton = new UiObject(new UiSelector().resourceId("com.video.yl:id/tv_rewardButton"));//看广告获取更多金币
-
 
                 if (uiHome.exists()) {//是首页
                     Random r = new Random();
@@ -71,6 +70,8 @@ public class A04YinLangtest extends TestCase {
                         uiadv.click();
                     } else if (uiadv02.exists()) {//用户协议
                         uiadv02.click();
+                    } else if (uiUpdateCancel.exists()) {//更新暂时不更新
+                        uiUpdateCancel.click();
                     } else {//最终的强制搞一波
                         A00UtilTest.baseMethod(uiDevice, 1, appName, new A00UtilTest.MyCallBack() {
                             @Override

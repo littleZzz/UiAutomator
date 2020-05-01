@@ -43,32 +43,42 @@ public class A02ShuaBaotest extends TestCase {
                 UiObject uiName = new UiObject(new UiSelector().resourceId("com.jm.video:id/name"));
                 UiObject uiGold = new UiObject(new UiSelector().resourceId("com.jm.video:id/constraintLayout_gold"));
                 UiObject uiBalance = new UiObject(new UiSelector().resourceId("com.jm.video:id/constraintLayout_balance"));
+                //首页 任务 我的都有 但是首页用的其他方式首先判断  所以可以用他来判断在其他不想要的界面 好回到首页
+                UiObject uiViewpager = new UiObject(new UiSelector().resourceId("com.jm.video:id/mmViewPager"));
 
-                if (uiHeart.exists()||uiName.exists()) {//是首页
+                if (uiHeart.exists() || uiName.exists()) {//是首页
                     Random r = new Random();
                     int number = r.nextInt(100) + 1;
                     /*随机数 进行判断 点击心或者滑动到下一个视频*/
-                    if (number <= 10) {//上一条
+                    if (number <= 3) {//上一条
                         A00UtilTest.swipUp(uiDevice);
-                    } else if (number <= 85) {//下一条
+                    } else if (number <= 95) {//下一条
                         A00UtilTest.swipDown(uiDevice);
                         Thread.sleep(12000);//播放 时长
-                    } else if (number <= 90) {//点击我的
-                        UiObject uiMe =
-                                new UiObject(new UiSelector().resourceId("com.jm.video:id/tv_tab_title").text("我"));
-                        uiMe.click();
+                    } else
+                    if (number <= 98) {//点击任务 去做签到
+                        UiObject uiTask = new UiObject(new UiSelector().resourceId("com.jm.video:id/tv_tab_title").text("任务"));
+                        uiTask.click();//900  530
+                        Thread.sleep(5000);
+                        /*UiObject uiSign = new UiObject(new UiSelector().className("android.widget.Button").description("立即签到"));
+                        if (uiSign.exists()) {
+                            uiSign.click();//uiDevice.click(900, 530);
+                            Thread.sleep(5000);
+                            uiDevice.click(750, 1330);
+                        }*/
                     } else {//3点击心
                         if (uiHeart.exists()) uiHeart.click();
                     }
-                } else if (uiGold.exists() && uiBalance.exists()) {//是我的界面
-                    UiObject uiHome =
-                            new UiObject(new UiSelector().resourceId("com.jm.video:id/tv_tab_title").text("首页"));
+                }  else if (uiViewpager.exists()) {//是我的或者任务界面
+                    UiObject uiHome = new UiObject(new UiSelector().resourceId("com.jm.video:id/tv_tab_title").text("首页"));
                     uiHome.click();
                 } else {//处理异常情况  1.0 点击重播 2.0 广告滑动一下
                     UiObject uiPrivacy = new UiObject(new UiSelector().resourceId("com.jm.video:id/btn_privacy_action"));
                     UiObject uiNet = new UiObject(new UiSelector().resourceId("com.jm.video:id/empty_button"));//无网络
                     UiObject uiTimeAward = new UiObject(new UiSelector().resourceId("com.jm.video:id/tv_go"));//时段奖励
                     UiObject uinotifiCancle = new UiObject(new UiSelector().resourceId("com.jm.video:id/cancel"));//通知权限关闭
+                    UiObject uiInviteDiaClose = new UiObject(new UiSelector().resourceId("com.jm.video:id/imgClose"));//去邀请弹框
+
                     if (uiPrivacy.exists()) {//用户协议
                         uiPrivacy.click();
                     } else if (uiNet.exists()) {//用户协议
@@ -78,6 +88,8 @@ public class A02ShuaBaotest extends TestCase {
                         uiTimeAward.click();
                     } else if (uinotifiCancle.exists()) {//通知权限关闭
                         uinotifiCancle.click();
+                    } else if (uiInviteDiaClose.exists()) {//去邀请弹框
+                        uiInviteDiaClose.click();
                     } else {//最终的强制搞一波
                         A00UtilTest.baseMethod(uiDevice, 1, appName, new A00UtilTest.MyCallBack() {
                             @Override
