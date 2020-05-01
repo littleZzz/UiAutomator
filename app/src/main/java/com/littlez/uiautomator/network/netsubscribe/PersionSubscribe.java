@@ -9,6 +9,7 @@ import android.provider.Settings;
 
 
 import com.google.gson.Gson;
+import com.littlez.uiautomator.dialog.LoadingDialog;
 import com.littlez.uiautomator.network.netapi.HttpApi;
 import com.littlez.uiautomator.network.netutils.DataCallbackListener;
 import com.littlez.uiautomator.network.netutils.HttpMethods;
@@ -23,6 +24,7 @@ import java.util.HashMap;
 import java.util.Random;
 
 import androidx.core.content.FileProvider;
+
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -39,7 +41,7 @@ public class PersionSubscribe {
     private Gson gson;
     private Context mContext;
     private DataCallbackListener dataCallback;
-    private String baseDownloadUrl="http://148.70.179.199:3001/";
+    private String baseDownloadUrl = "http://148.70.179.199:3001/";
 
     public PersionSubscribe(Context context, DataCallbackListener dataCallbackListener) {
         this.gson = new Gson();
@@ -82,6 +84,42 @@ public class PersionSubscribe {
     /**
      * 跟新apk
      */
+    public void InstallApk(String appName) {
+
+        Random random = new Random();
+        int id = random.nextInt();
+
+        final LoadingDialog dialog = LoadingDialog.getInstance(mContext);
+        dialog.show();
+        HashMap<String, Object> map = new HashMap<>();
+        map.put("id", id);//默認值: 10
+        //这里对地址的格式有很多要求
+        Call<ResponseBody> bodyCall = HttpMethods.getInstance().getRetrofit().newBuilder()
+                .baseUrl(baseDownloadUrl).build().create(HttpApi.class).installApk(appName, map);
+        bodyCall.enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                if (response.body() == null) return;
+                try {
+                    boolean b = writeResponseBodyToDisk(response.body(), false);
+                    dialog.dismiss();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    dialog.dismiss();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+                dialog.dismiss();
+                LogUtil.e(t.toString());
+            }
+        });
+    }
+
+    /**
+     * 跟新apk
+     */
     public void updateApk() {
 
         Random random = new Random();
@@ -98,6 +136,7 @@ public class PersionSubscribe {
                 if (response.body() == null) return;
                 try {
                     writeResponseBodyToDisk(response.body(), false);
+
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -173,7 +212,7 @@ public class PersionSubscribe {
         Intent intent = new Intent(Intent.ACTION_VIEW);
         //7.0 以上需要FileProvider进行设置
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-            Uri apkUri = FileProvider.getUriForFile(mContext, mContext.getPackageName()+".fileprovider", file);
+            Uri apkUri = FileProvider.getUriForFile(mContext, mContext.getPackageName() + ".fileprovider", file);
             intent.setDataAndType(apkUri, mContext.getContentResolver().getType(apkUri));
             intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION | Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
         } else {

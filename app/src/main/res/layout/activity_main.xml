@@ -24,12 +24,6 @@
         android:background="@color/white"
         android:orientation="horizontal">
 
-        <TextView
-            android:id="@+id/tvVersion"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:textSize="12sp" />
 
         <Button
             android:id="@+id/btnUpgradeApk"
@@ -61,6 +55,16 @@
             android:paddingBottom="5dp"
             android:text="补足时间" />
 
+        <Button
+            android:id="@+id/btnInstallApp"
+            android:layout_width="0dp"
+            android:layout_height="35dp"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:paddingTop="5dp"
+            android:paddingBottom="5dp"
+            android:text="安装应用" />
+
     </LinearLayout>
 
     <!--日志打点-->
@@ -79,17 +83,26 @@
         android:orientation="horizontal">
 
         <TextView
+            android:id="@+id/tvVersion"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:textSize="12sp" />
+
+        <TextView
             android:id="@+id/tvError"
             android:layout_width="0dp"
             android:layout_height="20dp"
             android:layout_weight="1"
-            android:text="重启日志：" />
+            android:text="   重启日志：" />
 
         <TextView
             android:id="@+id/tvGetScreen"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:text="dump资源" />
+
+
 
     </LinearLayout>
 

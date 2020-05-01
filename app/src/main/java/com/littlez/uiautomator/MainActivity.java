@@ -14,6 +14,7 @@ import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.TextView;
 
+import com.littlez.uiautomator.activity.InstallAppActivity;
 import com.littlez.uiautomator.adapter.LogsAdapter;
 import com.littlez.uiautomator.adapter.VideosAdapter;
 import com.littlez.uiautomator.base.Constant;
@@ -65,6 +66,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         Button btnUpgradeApk = (Button) findViewById(R.id.btnUpgradeApk);
         Button btnUpgradeJar = (Button) findViewById(R.id.btnUpgradeJar);
         Button btnMakeUpTime = (Button) findViewById(R.id.btnMakeUpTime);
+        Button btnInstallApp = (Button) findViewById(R.id.btnInstallApp);
         RecyclerView recyclerView = (RecyclerView) findViewById(R.id.recycleView);
         rvLogs = (RecyclerView) findViewById(R.id.rvLogs);
         CheckBox cbCheckAll = (CheckBox) findViewById(R.id.cbCheckAll);
@@ -116,6 +118,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         btnUpgradeApk.setOnClickListener(this);
         btnUpgradeJar.setOnClickListener(this);
         btnMakeUpTime.setOnClickListener(this);
+        btnInstallApp.setOnClickListener(this);
         tvError.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -174,6 +177,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 break;
             case R.id.btnMakeUpTime://补足时间
                 makeUpTime();
+                break;
+            case R.id.btnInstallApp://安装应用
+                startActivity(new Intent(mContext, InstallAppActivity.class));
                 break;
             case R.id.tvGetScreen://截取dump  信息
                 LogUtil.e("8秒后执行dump任务");
