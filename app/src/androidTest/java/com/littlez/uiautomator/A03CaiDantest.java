@@ -45,11 +45,12 @@ public class A03CaiDantest extends TestCase {
                     Random r = new Random();
                     int number = r.nextInt(100) + 1;
                     /*随机数 进行判断 点击心或者滑动到下一个视频*/
-                    if (number <= 10) {//上一条
+                    if (number <= 5) {//上一条
                         A00UtilTest.swipUp(uiDevice);
-                    } else if (number <= 95) {//下一条
+                    } else if (number <= 97) {//下一条
                         A00UtilTest.swipDown(uiDevice);
-                        Thread.sleep(15000);//播放 时长
+                        Random rr = new Random();
+                        Thread.sleep((8 + rr.nextInt(10) + 1) * 1000);//播放 时长
                     } else {//3点击心
                         if (uiHeart.exists()) uiHeart.click();
                     }
