@@ -279,7 +279,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 //        videos.add(new VideosBean("快看点新闻", "A05KuaiKanDianNewstest", 30 * 60 * 1000));//收益低 而且提现165 171手机不通过
 //        videos.add(new VideosBean("闪电盒子极速版", "A07ShanDianHeZitest", 20 * 60 * 1000));//提现必须要支付宝
         //        videos.add(new VideosBean("搜狐资讯", "A12SouHuZiXuntest", 30 * 60 * 1000));//收益低到窒息
-
+        //        videos.add(new VideosBean("赚钱小视频", "A12ZhuanQianTvtest", 30 * 60 * 1000));//有图形验证码
         //淘新闻 注册第二天就异常
     }
 

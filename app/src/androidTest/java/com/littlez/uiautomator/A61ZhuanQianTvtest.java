@@ -19,7 +19,7 @@ import java.util.Random;
  * <p>赚钱小视频  测试用例
  * Date 2019/12/3
  */
-public class A12ZhuanQianTvtest extends TestCase {
+public class A61ZhuanQianTvtest extends TestCase {
 
     /*app 名字*/
     private String appName = "赚钱小视频";
