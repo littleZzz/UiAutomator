@@ -60,7 +60,7 @@ public class A04YinLangtest extends TestCase {
                     uiRewardButton.click();
                     UiObject uiAdvClose = new UiObject(new UiSelector().resourceId("com.video.yl:id/tt_video_ad_close_layout"));
                     UiObject uiAdvClose02 = new UiObject(new UiSelector().resourceId("com.video.yl:id/reward_ad_close"));
-                    A00UtilTest.backUntilObjOrTime(uiDevice, uiAdvClose, uiAdvClose02, 50);
+                    A00UtilTest.backUntilObjOrTime(uiDevice, uiAdvClose, uiAdvClose02, 60);
                 } else {//处理异常情况
                     UiObject uiUpdateCancel = new UiObject(new UiSelector().resourceId("com.video.yl:id/btn_left"));//跟新取消
                     UiObject uiUpdateDown = new UiObject(new UiSelector().resourceId("com.video.yl:id/btn_right"));//跟新下载

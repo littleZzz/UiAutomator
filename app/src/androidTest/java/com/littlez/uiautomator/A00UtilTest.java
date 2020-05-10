@@ -34,11 +34,15 @@ public class A00UtilTest {
                 case 1://Error_Base
                     UiObject uiCrash = new UiObject(new UiSelector().resourceId("android:id/le_bottomsheet_default_confirm"));
                     UiObject uiwandoujiaQingli = new UiObject(new UiSelector().resourceId("com.wandoujia.phoenix2:id/y8").text("忽略"));
+                    UiObject uicancelInstall = new UiObject(new UiSelector().resourceId("com.android.packageinstaller:id/cancel_button"));
 //                    UiObject uiwandoujiaQingli = new UiObject(new UiSelector().resourceId("com.wandoujia.phoenix2:id/y9"));//清理按钮
                     if (uiCrash.exists()) {
                         uiCrash.click();//应用奔溃了 的页面
                     } else if (uiwandoujiaQingli.exists()) {
                         uiwandoujiaQingli.click();
+                        return;
+                    } else if (uicancelInstall.exists()) {//取消安装
+                        uicancelInstall.click();
                         return;
                     }
 
@@ -195,13 +199,17 @@ public class A00UtilTest {
         }
     }
 
+    public static Random random;
+
     /**
      * 获取一个随机数
+     *
      * @param num
      * @return
      */
     public static int getRandom(int num) {
-        return new Random().nextInt(num + 1);
+        if (random == null) random = new Random();
+        return random.nextInt(num + 1);
     }
 
     /**

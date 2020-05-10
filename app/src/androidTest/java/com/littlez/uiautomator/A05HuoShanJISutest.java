@@ -31,19 +31,19 @@ public class A05HuoShanJISutest extends TestCase {
         Instrumentation instrumentation = InstrumentationRegistry.getInstrumentation();
         UiDevice uiDevice = UiDevice.getInstance(instrumentation);
 
+        UiObject uiBottomItem = new UiObject(new UiSelector().resourceId("com.ss.android.ugc.livelite:id/we"));//底部栏
+        UiObject uiHomeTxt = new UiObject(new UiSelector().resourceId("com.ss.android.ugc.livelite:id/wg").text("首页"));
+        UiObject uiRedPackTxt = new UiObject(new UiSelector().resourceId("com.ss.android.ugc.livelite:id/wl").text("红包"));
+        UiObject uiViewGroup = new UiObject(new UiSelector().resourceId("com.ss.android.ugc.livelite:id/gi"));//判断首页
+        UiObject uiHeart = new UiObject(new UiSelector().resourceId("com.ss.android.ugc.livelite:id/of"));
+        UiObject uiAdvGet = new UiObject(new UiSelector().resourceId("com.ss.android.ugc.livelite:id/a2q").text("领取"));
+
         try {
             A00UtilTest.baseMethod(uiDevice, 0, appName, null);//启动时  先关闭其他的
             A00UtilTest.errorCount = 0;//重置错误次数
             while (appRun) {
 
-                UiObject uiBottomItem = new UiObject(new UiSelector().resourceId("com.ss.android.ugc.livelite:id/we"));//底部栏
-                UiObject uiHomeTxt = new UiObject(new UiSelector().resourceId("com.ss.android.ugc.livelite:id/wg").text("首页"));
-                UiObject uiRedPackTxt = new UiObject(new UiSelector().resourceId("com.ss.android.ugc.livelite:id/wl").text("红包"));
-                UiObject uiViewGroup = new UiObject(new UiSelector().resourceId("com.ss.android.ugc.livelite:id/gi"));//判断首页
-                UiObject uiHeart = new UiObject(new UiSelector().resourceId("com.ss.android.ugc.livelite:id/of"));
-
                 if (uiViewGroup.exists()) {//外层Viewpager的下面两层的 Viewgroup 判断是首页
-                    UiObject uiAdvGet = new UiObject(new UiSelector().resourceId("com.ss.android.ugc.livelite:id/a2q").text("领取"));
                     if (uiAdvGet.exists()) uiAdvGet.click();//领取广告收益
                     Random r = new Random();
                     int number = r.nextInt(100) + 1;
@@ -53,7 +53,7 @@ public class A05HuoShanJISutest extends TestCase {
                     } else if (number <= 97) {//下一条
                         A00UtilTest.swipDown(uiDevice);
                         Random rr = new Random();
-                        Thread.sleep((2 + rr.nextInt(10) + 1) * 1000);//播放 时长
+                        Thread.sleep((2 + rr.nextInt(5) + 1) * 1000);//播放 时长
                     } else if (number <= 99) {//点击红包
                         if (uiRedPackTxt.exists()) uiRedPackTxt.click();
                     }  else {//3点击心

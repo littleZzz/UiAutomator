@@ -35,6 +35,7 @@ public class InstallAppActivity extends AppCompatActivity implements DataCallbac
 
         RecyclerView recyclerView = (RecyclerView) findViewById(R.id.recycleView);
         final ArrayList<InstallAppBean> strings = new ArrayList<>();
+        strings.add(new InstallAppBean("微信", "weixin", "7.0.13"));
         strings.add(new InstallAppBean("豌豆荚", "wandoujia", "6.17.31"));
         strings.add(new InstallAppBean("彩蛋视频", "caidan", "1.18.4.0426.1714"));
         strings.add(new InstallAppBean("火山极速", "huoshanjisu", "7.3.0"));

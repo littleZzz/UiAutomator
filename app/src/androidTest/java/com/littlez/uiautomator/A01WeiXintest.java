@@ -22,6 +22,7 @@ public class A01WeiXintest extends TestCase {
     /*app 名字*/
     private String appName = "微信";
     private boolean appRun = true;//appRun
+    private boolean isRunFinish = false;//是否运行完一轮了
 
     //    @Test
     public void test() throws UiObjectNotFoundException {
@@ -30,6 +31,7 @@ public class A01WeiXintest extends TestCase {
         UiDevice uiDevice = UiDevice.getInstance(instrumentation);
 
         A00UtilTest.baseMethod(uiDevice, 0, appName, null);//启动时  先关闭其他的
+        A00UtilTest.errorCount = 0;//重置错误次数
 
         //声明id  可以写在外面
         UiObject uiAppMainPage = new UiObject(new UiSelector().resourceId("com.tencent.mm:id/cwx"));//微信底部tab的id
@@ -56,7 +58,9 @@ public class A01WeiXintest extends TestCase {
         try {
             while (appRun) {
 
-                if (uiAppMainPage.exists()) {//在微信主页  随机去选择  微信页面做事  通讯录做事  发现做事  我做事
+                if (isRunFinish) {//完成运行任务了
+                    Thread.sleep(15000);
+                } else if (uiAppMainPage.exists()) {//在微信主页  随机去选择  微信页面做事  通讯录做事  发现做事  我做事
 
                     if (uiIsWeiXinPage.exists()) {//微信页面：消灭所有的红点聊天记录  下滑一下小程序  订阅号（查看公众号和订阅号文章）
                         if (uiChatNumIndex.exists()) {//有数字角标的聊天未读内容或者腾讯新闻
@@ -83,14 +87,15 @@ public class A01WeiXintest extends TestCase {
                         uiIsWoPage.click();
                         Thread.sleep(1000);
                         int count = 0;
-                        while (count <  A00UtilTest.getRandom(2)) {
+                        while (count < A00UtilTest.getRandom(2)) {
                             A00UtilTest.swipDown(uiDevice, 25);
                             Thread.sleep(2000);
                             count++;
                         }
                         uiDevice.pressBack();
                         Thread.sleep(1000);
-                        appRun = false;
+                        uiWeiXinPage.click();
+                        isRunFinish=true;
                     }
 
                 } else if (uiIsChatPage.exists()) {//是聊天页面
@@ -112,7 +117,7 @@ public class A01WeiXintest extends TestCase {
                     count = 0;
                     while (count < 3 + A00UtilTest.getRandom(4)) {
                         A00UtilTest.swipDown(uiDevice, 25);
-                        Thread.sleep(2000);
+                        Thread.sleep(10000);
                         count++;
                     }
                     uiDevice.pressBack();
