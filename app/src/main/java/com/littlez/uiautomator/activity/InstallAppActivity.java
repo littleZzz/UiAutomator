@@ -42,7 +42,8 @@ public class InstallAppActivity extends AppCompatActivity implements DataCallbac
         strings.add(new InstallAppBean("刷宝短视频", "shuabao", "2.200"));
         strings.add(new InstallAppBean("天天爱清理", "tiantianaiqingli", "1.1.1.1.0.0422.1406"));
         strings.add(new InstallAppBean("音浪短视频", "yinlang", "1.0.5.0"));
-        strings.add(new InstallAppBean("赚钱小视频", "zhuanqianxiaoshiping", "1.6.7.0.5.0"));
+
+//        strings.add(new InstallAppBean("赚钱小视频", "zhuanqianxiaoshiping", "1.6.7.0.5.0"));//取消了
         //设置安装应用列表
         LinearLayoutManager layoutManager = new LinearLayoutManager(mContext, RecyclerView.VERTICAL, false);
         recyclerView.setLayoutManager(layoutManager);

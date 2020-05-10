@@ -5,6 +5,8 @@ import androidx.test.uiautomator.UiObject;
 import androidx.test.uiautomator.UiObjectNotFoundException;
 import androidx.test.uiautomator.UiSelector;
 
+import java.util.Random;
+
 public class A00UtilTest {
 
     public static int errorCount;
@@ -194,10 +196,20 @@ public class A00UtilTest {
     }
 
     /**
+     * 获取一个随机数
+     * @param num
+     * @return
+     */
+    public static int getRandom(int num) {
+        return new Random().nextInt(num + 1);
+    }
+
+    /**
      * 回调
      */
     interface MyCallBack {
         void callback(boolean isStop);
     }
+
 
 }
