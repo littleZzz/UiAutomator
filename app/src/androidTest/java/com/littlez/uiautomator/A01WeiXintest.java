@@ -14,8 +14,16 @@ import java.util.Random;
 
 /**
  * created by xiaozhi
- * <p>微信的  测试用例
+ * <p>微信的  测试用例  //每天启动2-3次   2-3个卷群啊这些活跃群  2-3个订阅号查看新闻或者视频  可以看朋友圈不一定发朋友圈
  * Date 2019/12/3
+ * 第一天 添加2个好友  1个微信群  1个订阅号
+ * 第二天 添加2个好友  1个微信群  1个订阅号
+ * 第三天 添加2个好友  1个微信群  1个订阅号
+ * 第四天 添加2个好友  1个微信群  1个订阅号
+ * 第五天 添加2个好友  1个微信群  1个订阅号
+ * 第六天 添加2个好友  1个微信群  1个订阅号
+ * 第七天 添加2个好友  1个微信群  1个订阅号
+ * 日常操作  微信、通讯录、发现、我红点消除；聊天记录查看、假装聊天一手（文字、图片、语音）、
  */
 public class A01WeiXintest extends TestCase {
 
@@ -95,7 +103,7 @@ public class A01WeiXintest extends TestCase {
                         uiDevice.pressBack();
                         Thread.sleep(1000);
                         uiWeiXinPage.click();
-                        isRunFinish=true;
+                        isRunFinish = true;
                     }
 
                 } else if (uiIsChatPage.exists()) {//是聊天页面
