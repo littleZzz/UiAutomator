@@ -42,7 +42,7 @@ public class A01WeiXintest extends TestCase {
         A00UtilTest.errorCount = 0;//重置错误次数
 
         //声明id  可以写在外面
-        UiObject uiAppMainPage = new UiObject(new UiSelector().resourceId("com.tencent.mm:id/cwx"));//微信底部tab的id
+        UiObject uiAppMainPage = new UiObject(new UiSelector().resourceId("com.tencent.mm:id/cwx"));//微信底部tab relLayout的id
         UiObject uiWeiXinPage = new UiObject(new UiSelector().resourceId("com.tencent.mm:id/cl7").text("微信"));//tab 文字id
         UiObject uiContactsPage = new UiObject(new UiSelector().resourceId("com.tencent.mm:id/cl7").text("通讯录"));//tab 文字id
         UiObject uiFaXianPage = new UiObject(new UiSelector().resourceId("com.tencent.mm:id/cl7").text("发现"));//tab 文字id
