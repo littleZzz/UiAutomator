@@ -202,7 +202,7 @@ public class A00UtilTest {
     public static Random random;
 
     /**
-     * 获取一个随机数
+     * 获取一个随机数  返回的是从1开始的数
      *
      * @param num
      * @return
