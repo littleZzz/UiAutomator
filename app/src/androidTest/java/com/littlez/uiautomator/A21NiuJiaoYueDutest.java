@@ -70,6 +70,7 @@ public class A21NiuJiaoYueDutest extends TestCase {
                     UiObject uiClose = new UiObject(new UiSelector().resourceId("com.yincheng.njread:id/home_rad_submit"));
                     UiObject uiShare = new UiObject(new UiSelector().resourceId("com.yincheng.njread:id/sign_sueecss_close"));
                     UiObject uiGide = new UiObject(new UiSelector().resourceId("com.yincheng.njread:id/guide_invite_close"));
+                    UiObject uiUpdateCancle = new UiObject(new UiSelector().resourceId("com.yincheng.njread:id/app_up_close"));
 
                     if (uiClose.exists()) {
                         uiClose.click();
@@ -77,6 +78,8 @@ public class A21NiuJiaoYueDutest extends TestCase {
                         uiShare.click();
                     } else if (uiGide.exists()) {
                         uiGide.click();
+                    } else if (uiUpdateCancle.exists()) {
+                        uiUpdateCancle.click();
                     } else {//最终的强制搞一波
                         A00UtilTest.baseMethod(uiDevice, 1, appName, new A00UtilTest.MyCallBack() {
                             @Override

@@ -24,8 +24,9 @@ import java.util.Random;
  * 第六天 添加2个好友  1个微信群  1个订阅号
  * 第七天 添加2个好友  1个微信群  1个订阅号
  * 日常操作  微信、通讯录、发现、我红点消除；聊天记录查看、假装聊天一手（文字、图片、语音）、
+ * //当前脚本基于版本 7.0.14
  */
-public class A01WeiXintest extends TestCase {//当前脚本基于版本 7.0.14
+public class A01WeiXintest extends TestCase {
 
     /*app 名字*/
     private String appName = "微信";
@@ -48,21 +49,37 @@ public class A01WeiXintest extends TestCase {//当前脚本基于版本 7.0.14
         UiObject uiToContactsPage = new UiObject(new UiSelector().resourceId("com.tencent.mm:id/cns").text("通讯录"));//tab 文字id
         UiObject uiToFaXianPage = new UiObject(new UiSelector().resourceId("com.tencent.mm:id/cns").text("发现"));//tab 文字id
         UiObject uiToWoPage = new UiObject(new UiSelector().resourceId("com.tencent.mm:id/cns").text("我"));//tab 文字id
-        UiObject uiIsWeiXinPage = new UiObject(new UiSelector().resourceId("com.tencent.mm:id/dd6"));//微信页面 listView id
+        UiObject uiIsWeiXinPage = new UiObject(new UiSelector().resourceId("com.tencent.mm:id/dg2"));//微信页面 listView id
         UiObject uiIsContactsPage = new UiObject(new UiSelector().resourceId("com.tencent.mm:id/f4"));//通讯录页面 listView id
         UiObject uiIsFaXianPage = new UiObject(new UiSelector().resourceId("android:id/title").text("朋友圈"));//发现页面 朋友圈文字id
         UiObject uiIsWoPage = new UiObject(new UiSelector().resourceId("android:id/title").text("支付"));//我页面 支付文字id
 
-        UiObject uiIsChatPage = new UiObject(new UiSelector().resourceId("com.tencent.mm:id/amt"));//聊天页面 底部右边+号按钮linearlayout的id
-        UiObject uiChatNumIndex = new UiObject(new UiSelector().resourceId("com.tencent.mm:id/g6k"));//聊天数字角标
-        UiObject uiChatDotIndex = new UiObject(new UiSelector().resourceId("com.tencent.mm:id/tn"));//聊天点角标
+        UiObject uiChatNumIndex = new UiObject(new UiSelector().resourceId("com.tencent.mm:id/ga3"));//聊天数字角标
+        UiObject uiChatDotIndex = new UiObject(new UiSelector().resourceId("com.tencent.mm:id/tt"));//聊天点角标
+        UiObject uiTabNumIndex = new UiObject(new UiSelector().resourceId("com.tencent.mm:id/gik"));//tab数字角标
+
+        UiObject uiContactsQunLiao = new UiObject(new UiSelector().resourceId("com.tencent.mm:id/fx").text("群聊"));//文本 id
+        UiObject uiContactsGongZongHao = new UiObject(new UiSelector().resourceId("com.tencent.mm:id/a3c"));//文本上一层linearLayout id
+
+        UiObject uiIsChatPage = new UiObject(new UiSelector().resourceId("com.tencent.mm:id/anx"));//聊天页面 底部右边+号按钮linearlayout的id
+        UiObject uiChatTitle = new UiObject(new UiSelector().resourceId("com.tencent.mm:id/gas"));//聊天页面 聊天title文本的id
+        UiObject uiChatSwitchBtn = new UiObject(new UiSelector().resourceId("com.tencent.mm:id/anc"));//聊天页面 底部左边 切换按钮的id
+        UiObject uiChatEditChatBtn = new UiObject(new UiSelector().resourceId("com.tencent.mm:id/al_"));//聊天页面 编辑文本按钮的id
+        UiObject uiChatPushChatBtn = new UiObject(new UiSelector().resourceId("com.tencent.mm:id/grk"));//聊天页面 按钮说话按钮的id
+        UiObject uiChatUnReadDot = new UiObject(new UiSelector().resourceId("com.tencent.mm:id/ao1"));//聊天页面 语音未读红点id
+        UiObject uiUnreadNews = uiChatUnReadDot.getFromParent(new UiSelector().resourceId("com.tencent.mm:id/aop"));//同层级的framlayout id
+
+
+        UiObject uiWeiXinTuanDuiTitle = new UiObject(new UiSelector().resourceId("com.tencent.mm:id/gas").text("微信团队"));//微信团队 title文本的id
+        UiObject uiWeiXinZhiFuTitle = new UiObject(new UiSelector().resourceId("com.tencent.mm:id/gas").text("微信支付"));//微信支付 title文本的id
 
         UiObject uiIsTencentNewsMainPage = new UiObject(new UiSelector().resourceId("android:id/text1").text("腾讯新闻"));//腾讯新闻主页 顶部文字匹配
-        UiObject uiTencentNewsItem = new UiObject(new UiSelector().resourceId("com.tencent.mm:id/enl"));//腾讯新闻  新闻 linearlayout 外层id
+        UiObject uiTencentNewsItem = new UiObject(new UiSelector().resourceId("com.tencent.mm:id/b40"));//腾讯新闻  新闻 最里面的linearlayout 外层id
         UiObject uiIsDingYueNewsMainPage = new UiObject(new UiSelector().resourceId("android:id/text1").text("订阅号消息"));//订阅号消息主页 顶部文字匹配
-        UiObject uiDingYueNewsItem = new UiObject(new UiSelector().resourceId("com.tencent.mm:id/a23"));//订阅号消息主页 item  内容linearlayout 外层id
+        UiObject uiDingYueNewsItem = new UiObject(new UiSelector().resourceId("com.tencent.mm:id/a29"));//订阅号消息主页 item的最外层内容linearlayout 外层id
 
-        UiObject uiTabNumIndex = new UiObject(new UiSelector().resourceId("com.tencent.mm:id/gdy"));//tab数字角标
+        UiObject uiUpdateCancle = new UiObject(new UiSelector().resourceId("com.tencent.mm:id/dit"));//跟新取消  com.tencent.mm:id/dj6 安装
+
 
         try {
             while (appRun) {
@@ -80,9 +97,15 @@ public class A01WeiXintest extends TestCase {//当前脚本基于版本 7.0.14
                             else uiToContactsPage.click();
                         }
                     } else if (uiIsContactsPage.exists()) {//通讯录页面：公众号和群聊
-                        //TODO 通讯录界面  随机去点击一下 群聊、标签、公众号、直接的某一个人(几率一定要低)
-//                        if (A00UtilTest.getRandom(100) > 0) uiToFaXianPage.click();//10分之一的几率去点击
-                        uiToFaXianPage.click();
+                        // 通讯录界面  随机去点击一下 群聊、公众号、直接的某一个人(几率一定要低)
+                        int random = A00UtilTest.getRandom(100);
+                        if (random <= 10) {//10分之一的几率去点击
+                            uiContactsQunLiao.click();
+                        } else if (random <= 20) {
+                            uiContactsGongZongHao.click();
+                        } else {
+                            if (uiToFaXianPage.exists()) uiToFaXianPage.click();
+                        }
                     } else if (uiIsFaXianPage.exists()) {//发现页面：朋友圈、扫一扫、看一看、搜一搜、购物、游戏
                         //TODO 随机去点击 朋友圈、扫一扫、看一看、搜一搜、购物、游戏
                         uiIsFaXianPage.click();
@@ -93,36 +116,67 @@ public class A01WeiXintest extends TestCase {//当前脚本基于版本 7.0.14
                         uiToWoPage.click();//去到  我的界面
                     } else if (uiIsWoPage.exists()) {//我的页面：头像、支付、收藏、相册、表情、设置
                         //TODO 随机去点击 头像、支付、收藏、相册、表情、设置
-                        uiIsWoPage.click();
-                        Thread.sleep(1000);
-                        randomSwip(A00UtilTest.getRandom(2), false);
-                        uiDevice.pressBack();
+                        if (A00UtilTest.getRandom(100) <= 20) {
+                            uiIsWoPage.click();
+                            Thread.sleep(1000);
+                            randomSwip(A00UtilTest.getRandom(2), false);
+                            uiDevice.pressBack();
+                        }
                         Thread.sleep(1000);
                         uiToWeiXinPage.click();
                         isRunFinish = true;
                     }
                 } else if (uiIsChatPage.exists()) {//是聊天页面
-//                    if(){//如果是某个固定的群 和人  进行语音 或者 文字聊天
-//                    }
-                    randomSwip(2 + A00UtilTest.getRandom(4), true);
+                    //如果有语音未读消息  进行阅读
+                    if (uiChatUnReadDot.exists()) {//有未读语音消息
+                        while (true) {
+                            if (uiUnreadNews.exists()) {//本业还有未读内容
+                                uiUnreadNews.click();
+                                Thread.sleep(10000);
+                            } else {//本业没有未读内容
+                                randomSwip(1, true);//上翻聊天记录
+                                if (uiChatUnReadDot.exists()) {//如果有就开下下一个循环就行了
+                                } else {//如果也没有就说明聊天内容读完了
+                                    break;
+                                }
+                            }
+                        }
+                    }
+                    if (uiChatTitle.exists() && uiChatTitle.getText().contains("A同行")) {//指定的群 进行聊天操作
+                        //如果是某个固定的群 和人  进行语音、文字、表情的聊天
+                        if (uiChatEditChatBtn.exists()) {//是编辑模式
+                            uiChatSwitchBtn.click();
+                            Thread.sleep(3000);
+                        }
+                        if (uiChatPushChatBtn.exists()) {//按下说话按钮
+                            randomChat(3);
+                        }
+                    }
                     uiDevice.pressBack();
                 } else if (uiIsTencentNewsMainPage.exists()) {//腾讯新闻主页
-                    randomSwip(A00UtilTest.getRandom(1), true);
+                    randomSwip(A00UtilTest.getRandom(3), true);
                     uiTencentNewsItem.click();
+                    Thread.sleep(2000);
                     randomSwip(3 + A00UtilTest.getRandom(4), false);
                     uiDevice.pressBack();
-                    Thread.sleep(1000);
+                    Thread.sleep(2000);
                     uiDevice.pressBack();
                 } else if (uiIsDingYueNewsMainPage.exists()) {//订阅号（公众号）消息：查看阅读文章
                     uiDingYueNewsItem.click();
-                    Thread.sleep(1000);
+                    Thread.sleep(2000);
                     randomSwip(3 + A00UtilTest.getRandom(12), false);
                     uiDevice.pressBack();
-                    Thread.sleep(1000);
+                    Thread.sleep(2000);
                     uiDevice.pressBack();
-                } /*else if () {//朋友圈主页：滑动浏览朋友圈   点赞等  发布朋友圈
-                }*/ else {
-                    UiObject uiUpdateCancle = new UiObject(new UiSelector().resourceId("com.tencent.mm:id/dit"));//跟新取消  com.tencent.mm:id/dj6 安装
+                } else if (uiWeiXinTuanDuiTitle.exists() || uiWeiXinZhiFuTitle.exists()) {//微信团队 微信支付页面：
+                    Thread.sleep(10000);
+                    uiDevice.pressBack();
+                }
+                /*else if () {//朋友圈主页：滑动浏览朋友圈   点赞等  发布朋友圈
+                } else if () {//群聊主页：
+                } else if () {//公众号主页：
+                } */
+                else {
 
                     if (uiUpdateCancle.exists()) {//跟新取消
                         uiUpdateCancle.click();
@@ -142,6 +196,7 @@ public class A01WeiXintest extends TestCase {//当前脚本基于版本 7.0.14
         }
     }
 
+
     //随机向上滑动或者向下滑动的类
     public void randomSwip(int random, boolean upOrDown) {
         int count = 0;
@@ -150,6 +205,20 @@ public class A01WeiXintest extends TestCase {//当前脚本基于版本 7.0.14
                 if (upOrDown) A00UtilTest.swipUp(uiDevice, 25);
                 else A00UtilTest.swipDown(uiDevice, 25);
                 Thread.sleep(2000);
+                count++;
+            }
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+
+    //随机进行发送聊天的消息（目前只支持语音消息）
+    public void randomChat(int randomChatTimes) {
+        int count = 0;
+        try {
+            while (count < (A00UtilTest.getRandom(randomChatTimes))) {
+                uiDevice.swipe(530, 1840, 530, 1840, A00UtilTest.getRandom(10) * 50);//长按说话
+                Thread.sleep(3000);
                 count++;
             }
         } catch (InterruptedException e) {
