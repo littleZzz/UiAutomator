@@ -72,6 +72,7 @@ public class A08MeiRiAiQingLitest extends TestCase {
                     UiObject uiDialog02 = new UiObject(new UiSelector().resourceId("com.xiaoqiao.qclean:id/ib_close_btn"));
                     UiObject uiadv = new UiObject(new UiSelector().resourceId("com.xiaoqiao.qclean:id/tt_video_ad_close_layout"));
                     UiObject uiWebView = new UiObject(new UiSelector().className("android.webkit.WebView").descriptionContains("腾讯社交联盟广告"));
+                    UiObject uiupdateCancle = new UiObject(new UiSelector().resourceId("com.xiaoqiao.qclean:id/tv_upgrade_cancel"));//取消更新
                     if (uiDialog.exists()) {//暂不领取
                         uiDialog.click();
                     } else if (uiDialog02.exists()) {//获得金币dia
@@ -80,6 +81,8 @@ public class A08MeiRiAiQingLitest extends TestCase {
                         uiadv.click();
                     } else if (uiWebView.exists()) {//广告页面
                         uiDevice.pressBack();
+                    }else if (uiupdateCancle.exists()) {//取消跟新
+                        uiupdateCancle.click();
                     } else {//最终的强制搞一波
                         A00UtilTest.baseMethod(uiDevice, 1, appName, new A00UtilTest.MyCallBack() {
                             @Override

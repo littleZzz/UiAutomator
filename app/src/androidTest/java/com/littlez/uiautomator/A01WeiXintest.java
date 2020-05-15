@@ -96,9 +96,17 @@ public class A01WeiXintest extends TestCase {
                         // 通讯录界面  随机去点击一下 群聊、公众号、直接的某一个人(几率一定要低)
                         int random = A00UtilTest.getRandom(100);
                         if (random <= 10) {//10分之一的几率去点击
-                            if (uiContactsQunLiao.exists()) uiContactsQunLiao.click();
+                            if (uiContactsQunLiao.exists()) {
+                                uiContactsQunLiao.click();
+                                Thread.sleep(10000);
+                                uiDevice.pressBack();
+                            }
                         } else if (random <= 20) {//10分之一的几率去点击
-                            if (uiContactsGongZongHao.exists()) uiContactsGongZongHao.click();
+                            if (uiContactsGongZongHao.exists()) {
+                                uiContactsGongZongHao.click();
+                                Thread.sleep(10000);
+                                uiDevice.pressBack();
+                            }
                         } else {
                             if (uiToFaXianPage.exists()) uiToFaXianPage.click();
                         }
