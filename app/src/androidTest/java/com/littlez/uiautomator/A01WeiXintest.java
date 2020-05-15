@@ -10,11 +10,9 @@ import androidx.test.uiautomator.UiSelector;
 
 import junit.framework.TestCase;
 
-import java.util.Random;
-
 /**
  * created by xiaozhi
- * <p>微信的  测试用例  //每天启动2-3次   2-3个卷群啊这些活跃群  2-3个订阅号查看新闻或者视频  可以看朋友圈不一定发朋友圈
+ * <p>微信的  测试用例   //当前脚本基于版本 7.0.14
  * Date 2019/12/3
  * 第一天 添加2个好友  1个微信群  1个订阅号
  * 第二天 添加2个好友  1个微信群  1个订阅号
@@ -24,7 +22,6 @@ import java.util.Random;
  * 第六天 添加2个好友  1个微信群  1个订阅号
  * 第七天 添加2个好友  1个微信群  1个订阅号
  * 日常操作  微信、通讯录、发现、我红点消除；聊天记录查看、假装聊天一手（文字、图片、语音）、
- * //当前脚本基于版本 7.0.14
  */
 public class A01WeiXintest extends TestCase {
 
@@ -69,7 +66,6 @@ public class A01WeiXintest extends TestCase {
         UiObject uiChatUnReadDot = new UiObject(new UiSelector().resourceId("com.tencent.mm:id/ao1"));//聊天页面 语音未读红点id
         UiObject uiUnreadNews = uiChatUnReadDot.getFromParent(new UiSelector().resourceId("com.tencent.mm:id/aop"));//同层级的framlayout id
 
-
         UiObject uiWeiXinTuanDuiTitle = new UiObject(new UiSelector().resourceId("com.tencent.mm:id/gas").text("微信团队"));//微信团队 title文本的id
         UiObject uiWeiXinZhiFuTitle = new UiObject(new UiSelector().resourceId("com.tencent.mm:id/gas").text("微信支付"));//微信支付 title文本的id
 
@@ -100,9 +96,9 @@ public class A01WeiXintest extends TestCase {
                         // 通讯录界面  随机去点击一下 群聊、公众号、直接的某一个人(几率一定要低)
                         int random = A00UtilTest.getRandom(100);
                         if (random <= 10) {//10分之一的几率去点击
-                            uiContactsQunLiao.click();
-                        } else if (random <= 20) {
-                            uiContactsGongZongHao.click();
+                            if (uiContactsQunLiao.exists()) uiContactsQunLiao.click();
+                        } else if (random <= 20) {//10分之一的几率去点击
+                            if (uiContactsGongZongHao.exists()) uiContactsGongZongHao.click();
                         } else {
                             if (uiToFaXianPage.exists()) uiToFaXianPage.click();
                         }
@@ -127,29 +123,20 @@ public class A01WeiXintest extends TestCase {
                         isRunFinish = true;
                     }
                 } else if (uiIsChatPage.exists()) {//是聊天页面
-                    //如果有语音未读消息  进行阅读
+                    //进行消息阅读  如果有语音未读消息语音消息  进行阅读
                     if (uiChatUnReadDot.exists()) {//有未读语音消息
-                        while (true) {
-                            if (uiUnreadNews.exists()) {//本业还有未读内容
-                                uiUnreadNews.click();
-                                Thread.sleep(10000);
-                            } else {//本业没有未读内容
-                                randomSwip(1, true);//上翻聊天记录
-                                if (uiChatUnReadDot.exists()) {//如果有就开下下一个循环就行了
-                                } else {//如果也没有就说明聊天内容读完了
-                                    break;
-                                }
-                            }
-                        }
+                        readUnreadVioceMsg(uiChatUnReadDot, uiUnreadNews);
+                    } else {//没有未读语音消息  简单滑动几次 假装阅读消息
+                        randomSwip(A00UtilTest.getRandom(5), true);//上翻聊天记录
                     }
-                    if (uiChatTitle.exists() && uiChatTitle.getText().contains("A同行")) {//指定的群 进行聊天操作
-                        //如果是某个固定的群 和人  进行语音、文字、表情的聊天
-                        if (uiChatEditChatBtn.exists()) {//是编辑模式
+                    //如果是某个固定的群或者人  进行语音、文字、表情的聊天
+                    if (uiChatTitle.exists() && isAppointChatMan(uiChatTitle)) {//指定的群 进行聊天操作 &9527
+                        if (uiChatEditChatBtn.exists()) {//是编辑模式 切换到语音
                             uiChatSwitchBtn.click();
                             Thread.sleep(3000);
                         }
                         if (uiChatPushChatBtn.exists()) {//按下说话按钮
-                            randomChat(3);
+                            randomChat(3);//说话随机三次  每次最多十秒
                         }
                     }
                     uiDevice.pressBack();
@@ -173,11 +160,10 @@ public class A01WeiXintest extends TestCase {
                     uiDevice.pressBack();
                 }
                 /*else if () {//朋友圈主页：滑动浏览朋友圈   点赞等  发布朋友圈
-                } else if () {//群聊主页：
-                } else if () {//公众号主页：
+                } else if () {//群聊主页： //TODO 这个必须做
+                } else if () {//公众号主页： //TODO 这个必须做
                 } */
                 else {
-
                     if (uiUpdateCancle.exists()) {//跟新取消
                         uiUpdateCancle.click();
                     } else {//最终的强制搞一波
@@ -190,6 +176,37 @@ public class A01WeiXintest extends TestCase {
                     }
                 }
                 Thread.sleep(2000);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    //是否是指定的聊天人
+    private boolean isAppointChatMan(UiObject uiChatTitle) {
+        try {
+            return uiChatTitle.getText().contains("A同行") || uiChatTitle.getText().contains("旺财")
+                    || uiChatTitle.getText().contains("&9527");
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    //阅读微阅读的语音消息
+    private void readUnreadVioceMsg(UiObject uiChatUnReadDot, UiObject uiUnreadNews) {
+        try {
+            while (true) {
+                if (uiUnreadNews.exists()) {//本页还有未读内容
+                    uiUnreadNews.click();
+                    Thread.sleep(10000);
+                } else {//本业没有未读内容
+                    randomSwip(1, true);//上翻聊天记录
+                    if (uiChatUnReadDot.exists()) {//如果有就开下下一个循环就行了
+                    } else {//如果也没有就说明聊天内容读完了
+                        break;
+                    }
+                }
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -212,7 +229,7 @@ public class A01WeiXintest extends TestCase {
         }
     }
 
-    //随机进行发送聊天的消息（目前只支持语音消息）
+    //随机进行发送聊天的消息（目前只支持语音消息） 时长10秒以内
     public void randomChat(int randomChatTimes) {
         int count = 0;
         try {
