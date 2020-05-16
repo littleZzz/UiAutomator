@@ -137,6 +137,32 @@ public class A00UtilTest {
     }
 
     /**
+     * 这个是不去点击按钮  而是触发返回按钮
+     * @param uiDevice
+     * @param uiExitToClose 可以为空  为空就是不判断 等待固定时间
+     * @param time          时间 时间值是int
+     */
+    public static void backUntilObjOrTimeToBack(UiDevice uiDevice, UiObject uiExitToClose, int time) {
+        try {
+            boolean isRun = true;
+            long startTime = System.currentTimeMillis();//开始时间
+            while (isRun) {
+                long currentTimeMillis = System.currentTimeMillis();
+                if (currentTimeMillis - startTime >= time * 1000) {//超过某个时间
+                    uiDevice.pressBack();
+                    isRun = false;
+                    break;
+                } else if (uiExitToClose != null && uiExitToClose.exists()) {
+                    uiDevice.pressBack();
+                    isRun = false;
+                    break;
+                }
+                Thread.sleep(5000);
+            }
+        }  catch (Exception e) {
+            e.printStackTrace();
+        }
+    }   /**
      * @param uiDevice
      * @param uiExitToClose 可以为空  为空就是不判断 等待固定时间
      * @param time          时间 时间值是int
@@ -158,9 +184,7 @@ public class A00UtilTest {
                 }
                 Thread.sleep(5000);
             }
-        } catch (UiObjectNotFoundException e) {
-            e.printStackTrace();
-        } catch (InterruptedException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
@@ -192,9 +216,7 @@ public class A00UtilTest {
                 }
                 Thread.sleep(5000);
             }
-        } catch (UiObjectNotFoundException e) {
-            e.printStackTrace();
-        } catch (InterruptedException e) {
+        }  catch (Exception e) {
             e.printStackTrace();
         }
     }
