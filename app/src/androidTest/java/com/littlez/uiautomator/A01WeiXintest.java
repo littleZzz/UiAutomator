@@ -55,6 +55,8 @@ public class A01WeiXintest extends TestCase {
         UiObject uiChatDotIndex = new UiObject(new UiSelector().resourceId("com.tencent.mm:id/tt"));//聊天点角标
         UiObject uiTabNumIndex = new UiObject(new UiSelector().resourceId("com.tencent.mm:id/gik"));//tab数字角标
 
+        UiObject uiGongZongHaoMainPage = new UiObject(new UiSelector().resourceId("com.tencent.mm:id/alz"));////公众号主页 //键盘按钮 lienarlayout id
+
         UiObject uiContactsQunLiao = new UiObject(new UiSelector().resourceId("com.tencent.mm:id/fx").text("群聊"));//文本 id
         UiObject uiContactsGongZongHao = new UiObject(new UiSelector().resourceId("com.tencent.mm:id/a3c"));//文本上一层linearLayout id
 
@@ -166,11 +168,13 @@ public class A01WeiXintest extends TestCase {
                 } else if (uiWeiXinTuanDuiTitle.exists() || uiWeiXinZhiFuTitle.exists()) {//微信团队 微信支付页面：
                     Thread.sleep(10000);
                     uiDevice.pressBack();
+                } else if (uiGongZongHaoMainPage.exists()) {//公众号主页：
+                    Thread.sleep(5000);
+                    uiDevice.pressBack();
                 }
-                /*else if () {//朋友圈主页：滑动浏览朋友圈   点赞等  发布朋友圈
+               /* else if () {//朋友圈主页：滑动浏览朋友圈   点赞等  发布朋友圈
                 } else if () {//群聊主页： //TODO 这个必须做
-                } else if () {//公众号主页： //TODO 这个必须做
-                } */
+                }*/
                 else {
                     if (uiUpdateCancle.exists()) {//跟新取消
                         uiUpdateCancle.click();

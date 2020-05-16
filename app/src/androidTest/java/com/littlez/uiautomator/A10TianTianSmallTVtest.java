@@ -52,27 +52,29 @@ public class A10TianTianSmallTVtest extends TestCase {
                         A00UtilTest.swipDown(uiDevice);
                         Thread.sleep((15 + A00UtilTest.getRandom(15)) * 1000);//播放 时长
                     } else if (random <= 96) {//跳转赚钱
-                        uiToMissionPage.click();
+                      if(uiToMissionPage.exists())  uiToMissionPage.click();
                         Thread.sleep(3000);
                     } else if (random <= 98) {//跳转我
-                        uiToMePage.click();
+                        if(uiToMePage.exists())  uiToMePage.click();
                         Thread.sleep(3000);
                     } else {//3点击心
                         if (uiHeart.exists()) uiHeart.click();
                     }
-                }  else if (uiMissionPage.exists()) {//赚钱页面
+                } else if (uiMissionPage.exists()) {//赚钱页面
                     uiMissionPage.click();
-                    A00UtilTest.backUntilObjOrTimeToBack(uiDevice,uiAdvClose,60);
-                    uiToHomePage.click();
+                    Thread.sleep(5000);
+                    uiDevice.pressBack();
+                    Thread.sleep(5000);
+                    if (uiToHomePage.exists()) uiToHomePage.click();
                 } else if (uiMePage.exists()) {//我的页面
-                  Thread.sleep(5000);
-                  uiToHomePage.click();
+                    Thread.sleep(5000);
+                    if (uiToHomePage.exists()) uiToHomePage.click();
                 } else {//处理异常情况  1.0 点击重播 2.0 广告滑动一下
                     UiObject uiDia = new UiObject(new UiSelector().resourceId("com.tiantian.video:id/iv_signIn_close"));//签到 关闭
 
                     if (uiDia.exists()) {//签到 关闭
                         uiDia.click();
-                    }  else {//最终的强制搞一波
+                    } else {//最终的强制搞一波
                         A00UtilTest.baseMethod(uiDevice, 1, appName, new A00UtilTest.MyCallBack() {
                             @Override
                             public void callback(boolean isStop) {
