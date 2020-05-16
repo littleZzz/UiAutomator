@@ -264,13 +264,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         videos.add(new VideosBean("每日爱清理", "A08MeiRiAiQingLitest", 30 * 60 * 1000));
         videos.add(new VideosBean("趣铃声", "A09QuLingShengtest", 30 * 60 * 1000));
         videos.add(new VideosBean("天天短视频", "A10TianTianSmallTVtest", 30 * 60 * 1000));
+        videos.add(new VideosBean("想看", "A11XiangKantest", 30 * 60 * 1000));//
         videos.add(new VideosBean("微信", "A01WeiXintest", 10 * 60 * 1000));//测试中
         videos.add(new VideosBean("回首页待运行", "A001ToHometest", testGapTime));
 
         /*待确定的数据*/
 //        videos.add(new VideosBean("番茄免费小说", "A23FanQieXiaoshuotest", 30 * 60 * 1000));
 //        videos.add(new VideosBean("趣看点", "A13QuKanDiantest", 10 * 60 * 1000));//测试中  收益低
-//        videos.add(new VideosBean("想看", "A11XiangKantest", 30 * 60 * 1000));//165 手机号会异常 控件检查页面
 //        videos.add(new VideosBean("趣头条", "A06QuTouTiaotest", 30 * 60 * 1000));//好像经常变动id
 //        videos.add(new VideosBean("快手极速版", "A01KuaiSJiSutest", 25 * 60 * 1000));//需要验证
 //        vdeos.add(new VideosBean("趣看看", "A09QuKanKanNewstest", 0 * 60 * 1000));//165 暂时被封号了 和玩赚同数据
