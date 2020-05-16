@@ -14,7 +14,8 @@ import java.util.Random;
 
 /**
  * created by xiaozhi
- * <p>趣铃声 * Date 2019/12/3
+ * <p>趣铃声
+ * Date 2019/12/3
  */
 public class A09QuLingShengtest extends TestCase {
 
@@ -30,8 +31,8 @@ public class A09QuLingShengtest extends TestCase {
         UiDevice uiDevice = UiDevice.getInstance(instrumentation);
 
         try {
-//            A00UtilTest.baseMethod(uiDevice, 0, appName, null);//启动时  先关闭其他的
-//            A00UtilTest.errorCount = 0;//重置错误次数
+            A00UtilTest.baseMethod(uiDevice, 0, appName, null);//启动时  先关闭其他的
+            A00UtilTest.errorCount = 0;//重置错误次数
 
             UiObject uiRingPage = new UiObject(new UiSelector().resourceId("com.zheyun.bumblebee:id/tv_tab_name").text("铃声"));
             UiObject uiMusicPage = new UiObject(new UiSelector().resourceId("com.zheyun.bumblebee:id/tv_tab_name").text("音乐"));
