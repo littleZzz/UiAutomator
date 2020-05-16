@@ -242,7 +242,7 @@ public class A01WeiXintest extends TestCase {
         int count = 0;
         try {
             while (count < (A00UtilTest.getRandom(randomChatTimes))) {
-                uiDevice.swipe(530, 1840, 530, 1840, A00UtilTest.getRandom(10) * 50);//长按说话
+                uiDevice.swipe(530, 1840, 530, 1840, A00UtilTest.getRandom(10) * 60);//长按说话
                 Thread.sleep(3000);
                 count++;
             }

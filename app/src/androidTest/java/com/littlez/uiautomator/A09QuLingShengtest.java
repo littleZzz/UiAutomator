@@ -41,7 +41,7 @@ public class A09QuLingShengtest extends TestCase {
             UiObject uiMePage = new UiObject(new UiSelector().resourceId("com.zheyun.bumblebee:id/tv_tab_name").text("我的"));
             UiObject uiHeart = new UiObject(new UiSelector().resourceId("com.zheyun.bumblebee:id/tv_like"));//铃声和小视频id 是一样的
 
-            UiObject uiSeeTVGetMoney = new UiObject(new UiSelector().resourceId("com.zheyun.bumblebee:id/tv_confirm"));//看视频翻倍
+            UiObject uiSeeTVGetMoney = new UiObject(new UiSelector().resourceId("com.zheyun.bumblebee:id/tv_confirm").text("看视频，金币再翻1倍！"));//看视频翻倍
 
             UiObject uiAdvPage = new UiObject(new UiSelector().className("com.qukan.media.player.renderview.TextureRenderView"));//广告页面
             UiObject uiAdvClose = new UiObject(new UiSelector().className("android.widget.TextView").text("点击重播"));//广告结束后的 重新播放文案
