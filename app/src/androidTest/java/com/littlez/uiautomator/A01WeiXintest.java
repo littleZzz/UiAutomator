@@ -86,6 +86,7 @@ public class A01WeiXintest extends TestCase {
                     Thread.sleep(15000);
                 } else if (uiIsAppMainPage.exists()) {//在微信主页  随机去选择  微信页面做事  通讯录做事  发现做事  我做事
                     if (uiIsWeiXinPage.exists()) {//微信页面：消灭所有的红点聊天记录  下滑一下小程序  订阅号（查看公众号和订阅号文章）
+                        Thread.sleep(10000);
                         if (uiChatNumIndex.exists()) {//有数字角标的聊天未读内容或者腾讯新闻
                             uiChatNumIndex.click();
                         } else if (uiChatDotIndex.exists()) {//有点角标未读内容 如订阅号消息

@@ -70,19 +70,22 @@ public class A08MeiRiAiQingLitest extends TestCase {
                 } else {//处理异常情况
                     UiObject uiDialog = new UiObject(new UiSelector().resourceId("com.xiaoqiao.qclean:id/tv_close"));
                     UiObject uiDialog02 = new UiObject(new UiSelector().resourceId("com.xiaoqiao.qclean:id/ib_close_btn"));
+                    UiObject uiDialog03 = new UiObject(new UiSelector().resourceId("com.xiaoqiao.qclean:id/iv_close"));
                     UiObject uiadv = new UiObject(new UiSelector().resourceId("com.xiaoqiao.qclean:id/tt_video_ad_close_layout"));
                     UiObject uiWebView = new UiObject(new UiSelector().className("android.webkit.WebView").descriptionContains("腾讯社交联盟广告"));
                     UiObject uiupdateCancle = new UiObject(new UiSelector().resourceId("com.xiaoqiao.qclean:id/tv_upgrade_cancel"));//取消更新
                     if (uiDialog.exists()) {//暂不领取
                         uiDialog.click();
-                    } else if (uiDialog02.exists()) {//获得金币dia
+                    } else if (uiupdateCancle.exists()) {//取消跟新
+                        uiupdateCancle.click();
+                    }else if (uiDialog02.exists()) {//获得金币dia
                         uiDialog02.click();
+                    } else if (uiDialog03.exists()) {//邀请dia 关闭
+                        uiDialog03.click();
                     } else if (uiadv.exists()) {//广告关闭按钮
                         uiadv.click();
                     } else if (uiWebView.exists()) {//广告页面
                         uiDevice.pressBack();
-                    }else if (uiupdateCancle.exists()) {//取消跟新
-                        uiupdateCancle.click();
                     } else {//最终的强制搞一波
                         A00UtilTest.baseMethod(uiDevice, 1, appName, new A00UtilTest.MyCallBack() {
                             @Override
