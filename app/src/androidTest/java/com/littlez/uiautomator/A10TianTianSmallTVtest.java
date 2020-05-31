@@ -20,6 +20,7 @@ public class A10TianTianSmallTVtest extends TestCase {
     /*app 名字*/
     private String appName = "天天短视频";
     private boolean appRun = true;//appRun
+    private boolean isToEarn = true;//是否去执行签到人物
 
     //    @Test
     public void test() throws UiObjectNotFoundException {
@@ -41,10 +42,17 @@ public class A10TianTianSmallTVtest extends TestCase {
             UiObject uiHeart = new UiObject(new UiSelector().resourceId("com.tiantian.video:id/good_count_layout"));//
 
             UiObject uiAdvClose = new UiObject(new UiSelector().className("android.webkit.WebView").text("腾讯社交联盟广告"));//广告结束后的 重新播放文案
+            UiObject uiAdvClose02 = new UiObject(new UiSelector().resourceId("com.tiantian.video:id/tt_video_ad_close_layout"));//广告结束后的 重新播放文案
 
             while (appRun) {
 
                 if (uiHomePage.exists()) {//首页
+                    if (isToEarn) {//是否去执行签到任务
+                        Thread.sleep(5000);
+                        if (uiToMissionPage.exists()) uiToMissionPage.click();
+                        isToEarn = false;
+                        return;
+                    }
                     int random = A00UtilTest.getRandom(100);
                     if (random <= 3) {//上一条
                         A00UtilTest.swipUp(uiDevice);
@@ -52,18 +60,18 @@ public class A10TianTianSmallTVtest extends TestCase {
                         A00UtilTest.swipDown(uiDevice);
                         Thread.sleep((15 + A00UtilTest.getRandom(15)) * 1000);//播放 时长
                     } else if (random <= 96) {//跳转赚钱
-                      if(uiToMissionPage.exists())  uiToMissionPage.click();
+                        if (uiToMissionPage.exists()) uiToMissionPage.click();
                         Thread.sleep(3000);
                     } else if (random <= 98) {//跳转我
-                        if(uiToMePage.exists())  uiToMePage.click();
+                        if (uiToMePage.exists()) uiToMePage.click();
                         Thread.sleep(3000);
                     } else {//3点击心
                         if (uiHeart.exists()) uiHeart.click();
                     }
-                } else if (uiMissionPage.exists()) {//赚钱页面
-                    uiMissionPage.click();
+                } else if (uiMissionPage.exists()) {//赚钱页面  执行签到任务
+                    uiMissionPage.click();//点击签到
                     Thread.sleep(5000);
-                    uiDevice.pressBack();
+                    A00UtilTest.backUntilObjOrTime(uiDevice, uiAdvClose02, 60);
                     Thread.sleep(5000);
                     if (uiToHomePage.exists()) uiToHomePage.click();
                 } else if (uiMePage.exists()) {//我的页面
@@ -74,6 +82,8 @@ public class A10TianTianSmallTVtest extends TestCase {
 
                     if (uiDia.exists()) {//签到 关闭
                         uiDia.click();
+                    } else if (uiAdvClose02.exists()) {//签到 关闭
+                        uiAdvClose02.click();
                     } else {//最终的强制搞一波
                         A00UtilTest.baseMethod(uiDevice, 1, appName, new A00UtilTest.MyCallBack() {
                             @Override
