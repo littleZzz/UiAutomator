@@ -220,7 +220,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             if (eventbusBean.isErrorStr()) {
                 String errorStr = eventbusBean.getErrorStr();
                 if (!errorStr.contains("A001ToHometest"))
-                    tvError.setText(tvError.getText().toString().concat(errorStr));
+                    tvError.setText(tvError.getText().toString().concat("\n" + errorStr));
             } else {
                 /*添加 日志 记录 更新adapter*/
                 String log = eventbusBean.getLog();
