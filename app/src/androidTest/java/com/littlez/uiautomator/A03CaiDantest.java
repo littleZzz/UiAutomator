@@ -33,24 +33,21 @@ public class A03CaiDantest extends TestCase {
         try {
             A00UtilTest.baseMethod(uiDevice, 0, appName, null);//启动时  先关闭其他的
             A00UtilTest.errorCount = 0;//重置
+
+            UiObject uiHome = new UiObject(new UiSelector().resourceId("com.jifen.dandan:id/view_home_top_shadow"));//首页
+            UiObject uiHeart = new UiObject(new UiSelector().resourceId("com.jifen.dandan:id/iv_like_icon"));//心
+            UiObject uiDoubleMoney = new UiObject(new UiSelector().resourceId("com.jifen.dandan:id/positive_button").text("立即翻倍"));
+            UiObject uiAdvGiveUp = new UiObject(new UiSelector().className("android.widget.TextView").text("放弃金币"));
+
             while (appRun) {
 
-                //首页
-                UiObject uiHome = new UiObject(new UiSelector().resourceId("com.jifen.dandan:id/view_home_top_shadow"));
-                //心
-                UiObject uiHeart = new UiObject(new UiSelector().resourceId("com.jifen.dandan:id/iv_like_icon"));
-                UiObject uiDoubleMoney = new UiObject(new UiSelector().resourceId("com.jifen.dandan:id/positive_button").text("立即翻倍"));
-                UiObject uiAdvGiveUp = new UiObject(new UiSelector().className("android.widget.TextView").text("放弃金币"));
                 if (uiHome.exists()) {//是首页
-                    Random r = new Random();
-                    int number = r.nextInt(100) + 1;
-                    /*随机数 进行判断 点击心或者滑动到下一个视频*/
-                    if (number <= 5) {//上一条
+                    int number = A00UtilTest.getRandom(100);
+                    if (number <= 3) {//上一条
                         A00UtilTest.swipUp(uiDevice);
                     } else if (number <= 97) {//下一条
                         A00UtilTest.swipDown(uiDevice);
-                        Random rr = new Random();
-                        Thread.sleep((8 + rr.nextInt(10) + 1) * 1000);//播放 时长
+                        Thread.sleep((8 + A00UtilTest.getRandom(15)) * 1000);//播放 时长
                     } else {//3点击心
                         if (uiHeart.exists()) uiHeart.click();
                     }
@@ -63,15 +60,15 @@ public class A03CaiDantest extends TestCase {
                 } else {//处理异常情况  1.0 点击重播 2.0 广告滑动一下
                     UiObject uiDialogClose = new UiObject(new UiSelector().resourceId("com.jifen.dandan:id/iv_close"));
                     UiObject uiDialogClose02 = new UiObject(new UiSelector().resourceId("com.jifen.dandan:id/close_bottom_button"));
-                    UiObject uiCloseBtn = new UiObject(new UiSelector().resourceId(""));
+                    UiObject uiCancelUpdate = new UiObject(new UiSelector().resourceId("com.jifen.dandan:id/tv_upgrade_cancel"));
                     UiObject uiWebView = new UiObject(new UiSelector().resourceId("com.jifen.dandan:id/q_web_view"));
 
                     if (uiDialogClose.exists()) {//弹框（邀请好友）
                         uiDialogClose.click();
                     } else if (uiDialogClose02.exists()) {
                         uiDialogClose02.click();
-                    } else if (uiCloseBtn.exists()) {//青少年保护弹框
-                        uiCloseBtn.click();
+                    } else if (uiCancelUpdate.exists()) {//取消跟新
+                        uiCancelUpdate.click();
                     } else if (uiWebView.exists()) {//个人中心 webView 控件
                         uiDevice.pressBack();
                     } else {//最终的强制搞一波

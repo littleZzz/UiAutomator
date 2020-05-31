@@ -2,6 +2,7 @@ package com.littlez.uiautomator;
 
 import android.app.Instrumentation;
 import android.content.Context;
+import android.util.Log;
 
 import com.littlez.uiautomator.util.LogUtil;
 
@@ -43,6 +44,11 @@ public class A02ShuaBaotest extends TestCase {
                 UiObject uiName = new UiObject(new UiSelector().resourceId("com.jm.video:id/name"));
                 UiObject uiGold = new UiObject(new UiSelector().resourceId("com.jm.video:id/constraintLayout_gold"));
                 UiObject uiBalance = new UiObject(new UiSelector().resourceId("com.jm.video:id/constraintLayout_balance"));
+                UiObject uiHome = new UiObject(new UiSelector().resourceId("com.jm.video:id/tv_tab_title").text("首页"));
+                UiObject uiTask = new UiObject(new UiSelector().resourceId("com.jm.video:id/tv_tab_title").text("任务"));
+                UiObject uiSign = new UiObject(new UiSelector().className("android.widget.Button").description("立即签到").index(10));
+                UiObject uiSeeTVToSign = new UiObject(new UiSelector().className("android.view.View").description("看视频签到"));
+                
                 //首页 任务 我的都有 但是首页用的其他方式首先判断  所以可以用他来判断在其他不想要的界面 好回到首页
                 UiObject uiViewpager = new UiObject(new UiSelector().resourceId("com.jm.video:id/mmViewPager"));
 
@@ -55,23 +61,21 @@ public class A02ShuaBaotest extends TestCase {
                     } else if (number <= 95) {//下一条
                         A00UtilTest.swipDown(uiDevice);
                         Thread.sleep(12000);//播放 时长
-                    } else
-                    if (number <= 98) {//点击任务 去做签到
-                        UiObject uiTask = new UiObject(new UiSelector().resourceId("com.jm.video:id/tv_tab_title").text("任务"));
+                    } else if (number <= 98) {//点击任务 去做签到
                         uiTask.click();//900  530
                         Thread.sleep(5000);
-                        /*UiObject uiSign = new UiObject(new UiSelector().className("android.widget.Button").description("立即签到"));
-                        if (uiSign.exists()) {
-                            uiSign.click();//uiDevice.click(900, 530);
-                            Thread.sleep(5000);
-                            uiDevice.click(750, 1330);
-                        }*/
                     } else {//3点击心
                         if (uiHeart.exists()) uiHeart.click();
                     }
-                }  else if (uiViewpager.exists()) {//是我的或者任务界面
-                    UiObject uiHome = new UiObject(new UiSelector().resourceId("com.jm.video:id/tv_tab_title").text("首页"));
-                    uiHome.click();
+                } else if (uiSign.exists()) {//是任务界面且有立即签到字样  执行签到任务
+                    uiSign.click();
+                    Thread.sleep(5000);
+                    A00UtilTest.backUntilObjOrTime(uiDevice, uiSeeTVToSign, 30);
+                    UiObject uiAdcClose = new UiObject(new UiSelector().resourceId("com.jm.video:id/tt_video_ad_close_layout"));
+                    A00UtilTest.backUntilObjOrTime(uiDevice, uiAdcClose, 60);
+                    if (uiHome.exists()) uiHome.click();
+                } else if (uiViewpager.exists()) {//是我的或者任务界面
+                    if (uiHome.exists()) uiHome.click();
                 } else {//处理异常情况  1.0 点击重播 2.0 广告滑动一下
                     UiObject uiPrivacy = new UiObject(new UiSelector().resourceId("com.jm.video:id/btn_privacy_action"));
                     UiObject uiNet = new UiObject(new UiSelector().resourceId("com.jm.video:id/empty_button"));//无网络
@@ -88,8 +92,12 @@ public class A02ShuaBaotest extends TestCase {
                         uiTimeAward.click();
                     } else if (uinotifiCancle.exists()) {//通知权限关闭
                         uinotifiCancle.click();
+                        Thread.sleep(3000);
+                        uiTask.click();//前往任务进行签到
+                        Thread.sleep(5000);
                     } else if (uiInviteDiaClose.exists()) {//去邀请弹框
                         uiInviteDiaClose.click();
+                        Thread.sleep(5000);
                     } else {//最终的强制搞一波
                         A00UtilTest.baseMethod(uiDevice, 1, appName, new A00UtilTest.MyCallBack() {
                             @Override

@@ -31,16 +31,17 @@ public class A05HuoShanJISutest extends TestCase {
         Instrumentation instrumentation = InstrumentationRegistry.getInstrumentation();
         UiDevice uiDevice = UiDevice.getInstance(instrumentation);
 
-        UiObject uiBottomItem = new UiObject(new UiSelector().resourceId("com.ss.android.ugc.livelite:id/we"));//底部栏
-        UiObject uiHomeTxt = new UiObject(new UiSelector().resourceId("com.ss.android.ugc.livelite:id/wg").text("首页"));
-        UiObject uiRedPackTxt = new UiObject(new UiSelector().resourceId("com.ss.android.ugc.livelite:id/wl").text("红包"));
-        UiObject uiViewGroup = new UiObject(new UiSelector().resourceId("com.ss.android.ugc.livelite:id/gi"));//判断首页
-        UiObject uiHeart = new UiObject(new UiSelector().resourceId("com.ss.android.ugc.livelite:id/of"));
-        UiObject uiAdvGet = new UiObject(new UiSelector().resourceId("com.ss.android.ugc.livelite:id/a2q").text("领取"));
-
         try {
             A00UtilTest.baseMethod(uiDevice, 0, appName, null);//启动时  先关闭其他的
             A00UtilTest.errorCount = 0;//重置错误次数
+
+            UiObject uiBottomItem = new UiObject(new UiSelector().resourceId("com.ss.android.ugc.livelite:id/we"));//底部栏
+            UiObject uiHomeTxt = new UiObject(new UiSelector().resourceId("com.ss.android.ugc.livelite:id/wg").text("首页"));
+            UiObject uiRedPackTxt = new UiObject(new UiSelector().resourceId("com.ss.android.ugc.livelite:id/wl").text("红包"));
+            UiObject uiViewGroup = new UiObject(new UiSelector().resourceId("com.ss.android.ugc.livelite:id/gi"));//判断首页
+            UiObject uiHeart = new UiObject(new UiSelector().resourceId("com.ss.android.ugc.livelite:id/of"));
+            UiObject uiAdvGet = new UiObject(new UiSelector().resourceId("com.ss.android.ugc.livelite:id/a2q").text("领取"));
+
             while (appRun) {
 
                 if (uiViewGroup.exists()) {//外层Viewpager的下面两层的 Viewgroup 判断是首页
@@ -56,22 +57,25 @@ public class A05HuoShanJISutest extends TestCase {
                         Thread.sleep((2 + rr.nextInt(5) + 1) * 1000);//播放 时长
                     } else if (number <= 99) {//点击红包
                         if (uiRedPackTxt.exists()) uiRedPackTxt.click();
-                    }  else {//3点击心
+                    } else {//3点击心
                         if (uiHeart.exists()) uiHeart.click();
                     }
                 } else if (uiBottomItem.exists()) {//不在首页  点击首页就是了
                     uiHomeTxt.click();
-                }  else {//处理异常情况  1.0 点击重播 2.0 广告滑动一下
+                } else {//处理异常情况  1.0 点击重播 2.0 广告滑动一下
                     UiObject uiInviteDia = new UiObject(new UiSelector().resourceId("com.ss.android.ugc.livelite:id/a5v"));
                     UiObject uiShaoNianBaohu = new UiObject(new UiSelector().resourceId("com.ss.android.ugc.livelite:id/qt"));
                     UiObject uiUpdateLate = new UiObject(new UiSelector().resourceId("com.ss.android.ugc.livelite:id/aih"));//跟新 取消
+                    UiObject uiUpdateLate02 = new UiObject(new UiSelector().resourceId("com.ss.android.ugc.livelite:id/aim"));//跟新 取消
 
                     if (uiInviteDia.exists()) {//邀请码弹框关闭按钮  邀请好友弹框
                         uiInviteDia.click();
                     } else if (uiShaoNianBaohu.exists()) {//青少年保护弹框
                         uiShaoNianBaohu.click();
-                    }else if (uiUpdateLate.exists()) {//跟新升级 暂不跟新
+                    } else if (uiUpdateLate.exists()) {//跟新升级 暂不跟新
                         uiUpdateLate.click();
+                    } else if (uiUpdateLate02.exists()) {//跟新升级 暂不跟新
+                        uiUpdateLate02.click();
                     } else {//最终的强制搞一波
                         A00UtilTest.baseMethod(uiDevice, 1, appName, new A00UtilTest.MyCallBack() {
                             @Override

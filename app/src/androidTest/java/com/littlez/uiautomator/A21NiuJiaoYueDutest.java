@@ -24,32 +24,36 @@ public class A21NiuJiaoYueDutest extends TestCase {
     /*app 名字*/
     private String appName = "牛角免费小说";
     private boolean appRun = true;//appRun
+
     //    @Test
     public void test() throws UiObjectNotFoundException {
         // 获取设备对象
         Instrumentation instrumentation = InstrumentationRegistry.getInstrumentation();
         UiDevice uiDevice = UiDevice.getInstance(instrumentation);
 
-        A00UtilTest.baseMethod(uiDevice, 0, appName,null);;//启动时  先关闭其他的
+        A00UtilTest.baseMethod(uiDevice, 0, appName, null);
+        ;//启动时  先关闭其他的
         A00UtilTest.errorCount = 0;//重置次数
         long startTime = System.currentTimeMillis();//开始时间
         try {
+
+            UiObject uiBookName = new UiObject(new UiSelector().resourceId("com.yincheng.njread:id/book_store_name"));//书名
+            UiObject uiReadPage = new UiObject(new UiSelector().resourceId("com.yincheng.njread:id/read_pv_page_layout"));
+            UiObject uiReadBook = new UiObject(new UiSelector().resourceId("com.yincheng.njread:id/btn_read_book"));//
+            UiObject uiTabText = new UiObject(new UiSelector().resourceId("com.yincheng.njread:id/welfare_tab_text"));//日程任务和累计任务文本的id
             while (appRun) {
-                //主页
-                UiObject uiHome = new UiObject(new UiSelector().resourceId("com.yincheng.njread:id/bottom_tab_layout"));
-                UiObject uiReadPage = new UiObject(new UiSelector().resourceId("com.yincheng.njread:id/read_pv_page_layout"));
-                UiObject uiHomeSearch = new UiObject(new UiSelector().resourceId("com.yincheng.njread:id/home_search_but"));
 
-                if (uiHome.exists() && uiHomeSearch.exists()) {//是主页
-                    UiObject uiHistory = new UiObject(new UiSelector().resourceId("com.yincheng.njread:id/home_history_but"));
-                    if (uiHistory.exists()) uiHistory.click();//点击阅读历史阅读
-
+                if (uiBookName.exists()) {//书架页面 根据书名存在判断是书架页面
+                    uiBookName.click();//点击进行阅读
+                    A00UtilTest.backUntilObjOrTime(uiDevice, uiReadBook, 20);
                 } else if (uiReadPage.exists()) {//是阅读界面
                     long currentTimeMillis = System.currentTimeMillis();
                     if (currentTimeMillis - startTime >= 30 * 60 * 1000) {//回到主页 获取奖励
                         uiDevice.pressBack();
                         Thread.sleep(2000);
-                        UiObject uiGiift = new UiObject(new UiSelector().resourceId("com.yincheng.njread:id/home_gift"));
+                        A00UtilTest.backUntilObjOrTimeToBack(uiDevice, uiReadBook, 20);
+                        Thread.sleep(2000);
+                        UiObject uiGiift = new UiObject(new UiSelector().resourceId("com.yincheng.njread:id/tv_tab_title").text("福利"));
                         if (uiGiift.exists()) {
                             uiGiift.click();
                             startTime = currentTimeMillis;
@@ -60,12 +64,9 @@ public class A21NiuJiaoYueDutest extends TestCase {
                         int number = r.nextInt(5) + 1;
                         Thread.sleep((15 + number) * 1000);
                     }
-                } else if (new UiObject(new UiSelector().resourceId("com.yincheng.njread:id/welfare_tab_text")).exists()) {
-                    //福利页面
+                } else if (uiTabText.exists()) {//福利页面
                     welare(uiDevice);
-
                 } else {//处理异常情况
-
                     //com.yincheng.njread:id/app_up_progress升级按钮   com.yincheng.njread:id/app_up_close//升级取消
                     UiObject uiClose = new UiObject(new UiSelector().resourceId("com.yincheng.njread:id/home_rad_submit"));
                     UiObject uiShare = new UiObject(new UiSelector().resourceId("com.yincheng.njread:id/sign_sueecss_close"));
@@ -95,7 +96,6 @@ public class A21NiuJiaoYueDutest extends TestCase {
             e.printStackTrace();
         }
     }
-
 
 
     //福利页面处理
@@ -143,7 +143,7 @@ public class A21NiuJiaoYueDutest extends TestCase {
                 Thread.sleep(2000);
             }
             UiObject uiBooks =
-                    new UiObject(new UiSelector().resourceId("com.yincheng.njread:id/tv_tab_title").text("书库"));
+                    new UiObject(new UiSelector().resourceId("com.yincheng.njread:id/tv_tab_title").text("书架"));
             uiBooks.click();
             Thread.sleep(1000);
         }
