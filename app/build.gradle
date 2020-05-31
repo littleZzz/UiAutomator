@@ -6,8 +6,8 @@ android {
         applicationId "com.littlez.uiautomator"
         minSdkVersion 19
         targetSdkVersion 29
-        versionCode 47
-        versionName "2.04.07"
+        versionCode 48
+        versionName "2.04.08"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 //    buildTypes {

@@ -19,7 +19,7 @@ import java.util.Random;
  * <p>
  * Date 2019/12/3
  */
-public class A04YinLangtest extends TestCase {
+public class A62YinLangtest extends TestCase {
 
     /*app 名字*/
     private String appName = "音浪短视频";

@@ -17,7 +17,7 @@ import java.util.Random;
  * <p>火牛视频的  测试用例
  * Date 2019/12/3
  */
-public class A07HuoNiutest extends TestCase {
+public class A63HuoNiutest extends TestCase {
 
     /*app 名字*/
     private String appName = "火牛视频";

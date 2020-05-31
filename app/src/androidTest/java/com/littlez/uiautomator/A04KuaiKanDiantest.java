@@ -8,23 +8,22 @@ import androidx.test.uiautomator.UiObject;
 import androidx.test.uiautomator.UiObjectNotFoundException;
 import androidx.test.uiautomator.UiSelector;
 
-import com.littlez.uiautomator.util.LogUtil;
-
 import junit.framework.TestCase;
 
 import java.util.Random;
 
 /**
  * created by xiaozhi
- * <p>想看  测试用例
+ * <p>快看点
  * Date 2019/12/3
  */
-public class A11XiangKantest extends TestCase {
+public class A04KuaiKanDiantest extends TestCase {
 
     /*app 名字*/
-    private String appName = "想看";
+    private String appName = "快看点";
     private boolean appRun = true;//appRun
     private boolean isToEarn = true;//是否去执行签到人物
+
 
     //    @Test
     public void test() throws UiObjectNotFoundException {
@@ -32,19 +31,15 @@ public class A11XiangKantest extends TestCase {
         Instrumentation instrumentation = InstrumentationRegistry.getInstrumentation();
         UiDevice uiDevice = UiDevice.getInstance(instrumentation);
 
-        A00UtilTest.baseMethod(uiDevice, 0, appName,null);;//启动时  先关闭其他的
+        A00UtilTest.baseMethod(uiDevice, 0, appName, null);
+        ;//启动时  先关闭其他的
         A00UtilTest.errorCount = 0;//重置次数
         try {
-            UiObject uiMainPage = new UiObject(new UiSelector().resourceId("com.xiangkan.android:id/bottom_tab_layout"));//底部tab栏的id
-            UiObject uiIsHomePage = new UiObject(new UiSelector().resourceId("com.xiangkan.android:id/iv_home_search"));//搜索按钮id
-            UiObject uiIsTVPage = new UiObject(new UiSelector().resourceId("com.xiangkan.android:id/iv_video_search"));//搜索按钮id
-            UiObject uiIsEarnPage = new UiObject(new UiSelector().resourceId("com.xiangkan.android:id/title").text("任务中心"));//文本id
-            UiObject uiIsMePage = new UiObject(new UiSelector().resourceId("com.xiangkan.android:id/inviteCodeTv"));//邀请文本的id
-            UiObject uiToHomePage = new UiObject(new UiSelector().resourceId("com.xiangkan.android:id/tv_tab_title").text("首页"));//文本id
-            UiObject uiToTVPage = new UiObject(new UiSelector().resourceId("com.xiangkan.android:id/tv_tab_title").text("视频"));//文本id
-            UiObject uiToEarnPage = new UiObject(new UiSelector().resourceId("com.xiangkan.android:id/tab_title_text").text("赚金币"));//文本id
-            UiObject uiToMePage = new UiObject(new UiSelector().resourceId("com.xiangkan.android:id/tv_tab_title").text("我的"));//文本id
-            UiObject uiHomePageItem = new UiObject(new UiSelector().resourceId("com.xiangkan.android:id/tvInfo"));//作者文字id
+            UiObject uiIsHomePage = new UiObject(new UiSelector().resourceId("com.yuncheapp.android.pearl:id/channel_manage_btn"));//+号按钮id
+            UiObject uiIsMissionPage = new UiObject(new UiSelector().resourceId("com.yuncheapp.android.pearl:id/avatar"));//头像id
+            UiObject uiToHomePage = new UiObject(new UiSelector().resourceId("com.yuncheapp.android.pearl:id/tab_tv").text("首页"));//文本id
+            UiObject uiToMissionPage = new UiObject(new UiSelector().resourceId("com.yuncheapp.android.pearl:id/tab_tv").text("任务"));//文本id
+            UiObject uiHomePageItem = new UiObject(new UiSelector().resourceId("com.yuncheapp.android.pearl:id/name"));//作者名字文字id
 
             UiObject uiIsTVPlayPage = new UiObject(new UiSelector().resourceId("com.xiangkan.android:id/layout_video_container"));//viewgroup 下frament id
             UiObject uiFuDai = new UiObject(new UiSelector().resourceId("com.xiangkan.android:id/fudai_icon"));//福袋
@@ -57,24 +52,11 @@ public class A11XiangKantest extends TestCase {
 
             while (appRun) {
                 //主页
-                if (uiMainPage.exists()) {//是主页  滑动选择条目
-                    if (uiIsHomePage.exists()) {//是首页
-                        if (isToEarn) {//跳转到tv这些执行签到任务
-                            if (uiToTVPage.exists()) uiToTVPage.click();
-                            isToEarn = false;
-                            continue;
-                        } else {
-                            A00UtilTest.swipDown(uiDevice, 25);//下滑一下
-                            if (uiHomePageItem.exists()) uiHomePageItem.click();
-                        }
-                    } else if (uiIsTVPage.exists()) {//是视频页面
-                        if (uiToEarnPage.exists()) uiToEarnPage.click();
-                    } else if (uiIsEarnPage.exists()) {//是赚金币页面
-                        if (uiToMePage.exists()) uiToMePage.click();
-                    } else if (uiIsMePage.exists()) {//是我的页面
-                        if (uiToHomePage.exists()) uiToHomePage.click();
-                    }
-                    Thread.sleep(3000);
+                if (uiIsHomePage.exists()) {//是首页
+                    A00UtilTest.swipDown(uiDevice, 25);//下滑一下
+                    if (uiHomePageItem.exists()) uiHomePageItem.click();
+                } else if (uiIsMissionPage.exists()) {//是我的页面
+                    if (uiToHomePage.exists()) uiToHomePage.click();
                 } else if (uiIsTVPlayPage.exists()) {//是视频
                     boolean isRun = true;
                     long startTime = System.currentTimeMillis();//开始时间
@@ -96,8 +78,8 @@ public class A11XiangKantest extends TestCase {
                         uiDevice.swipe(400, 1200, 534, 602, 20);
                         Thread.sleep(3000);
                         if (uiNewsOver.exists()) {
-                           isRun=false;
-                           uiDevice.pressBack();
+                            isRun = false;
+                            uiDevice.pressBack();
                         }
                     }
                 } else {
@@ -128,5 +110,6 @@ public class A11XiangKantest extends TestCase {
             e.printStackTrace();
         }
     }
+
 
 }

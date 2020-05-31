@@ -259,16 +259,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         videos.add(new VideosBean("刷宝短视频", "A02ShuaBaotest", 30 * 60 * 1000));
         videos.add(new VideosBean("彩蛋视频", "A03CaiDantest", 30 * 60 * 1000));
         videos.add(new VideosBean("牛角免费小说", "A21NiuJiaoYueDutest", 35 * 60 * 1000));
-        videos.add(new VideosBean("音浪短视频", "A04YinLangtest", 30 * 60 * 1000));
         videos.add(new VideosBean("火山极速版", "A05HuoShanJISutest", 30 * 60 * 1000));
         videos.add(new VideosBean("每日爱清理", "A08MeiRiAiQingLitest", 30 * 60 * 1000));
         videos.add(new VideosBean("趣铃声", "A09QuLingShengtest", 30 * 60 * 1000));
         videos.add(new VideosBean("天天短视频", "A10TianTianSmallTVtest", 30 * 60 * 1000));
-        videos.add(new VideosBean("想看", "A11XiangKantest", 30 * 60 * 1000));//
-        videos.add(new VideosBean("微信", "A01WeiXintest", 10 * 60 * 1000));//测试中
+        videos.add(new VideosBean("想看", "A11XiangKantest", 30 * 60 * 1000));
+        videos.add(new VideosBean("微信", "A01WeiXintest", 10 * 60 * 1000));
         videos.add(new VideosBean("回首页待运行", "A001ToHometest", testGapTime));
 
         /*待确定的数据*/
+        //videos.add(new VideosBean("音浪短视频", "A04YinLangtest", 30 * 60 * 1000));//提现有问题
 //        videos.add(new VideosBean("番茄免费小说", "A23FanQieXiaoshuotest", 30 * 60 * 1000));
 //        videos.add(new VideosBean("趣看点", "A13QuKanDiantest", 10 * 60 * 1000));//测试中  收益低
 //        videos.add(new VideosBean("趣头条", "A06QuTouTiaotest", 30 * 60 * 1000));//好像经常变动id
