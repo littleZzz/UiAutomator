@@ -45,7 +45,7 @@ public class A11XiangKantest extends TestCase {
             UiObject uiToTVPage = new UiObject(new UiSelector().resourceId("com.xiangkan.android:id/tv_tab_title").text("视频"));//文本id
             UiObject uiToEarnPage = new UiObject(new UiSelector().resourceId("com.xiangkan.android:id/tab_title_text").text("赚金币"));//文本id
             UiObject uiToMePage = new UiObject(new UiSelector().resourceId("com.xiangkan.android:id/tv_tab_title").text("我的"));//文本id
-            UiObject uiHomePageItem = new UiObject(new UiSelector().resourceId("com.xiangkan.android:id/tvTitle"));//标题文本id
+            UiObject uiHomePageItem = new UiObject(new UiSelector().resourceId("com.xiangkan.android:id/tvInfo"));//作者文字id
 
             UiObject uiIsTVPlayPage = new UiObject(new UiSelector().resourceId("com.xiangkan.android:id/vo_video_detail_source"));//作者名字
             UiObject uiFuDai = new UiObject(new UiSelector().resourceId("com.xiangkan.android:id/fudai_icon"));//福袋
