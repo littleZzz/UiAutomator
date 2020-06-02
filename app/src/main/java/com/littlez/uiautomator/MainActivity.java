@@ -264,6 +264,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         videos.add(new VideosBean("趣铃声", "A09QuLingShengtest", 30 * 60 * 1000));
         videos.add(new VideosBean("天天短视频", "A10TianTianSmallTVtest", 30 * 60 * 1000));
         videos.add(new VideosBean("想看", "A11XiangKantest", 30 * 60 * 1000));
+        videos.add(new VideosBean("红包短视频", "A07HongBaoTVtest", 30 * 60 * 1000));
         videos.add(new VideosBean("微信", "A01WeiXintest", 10 * 60 * 1000));
         videos.add(new VideosBean("回首页待运行", "A001ToHometest", testGapTime));
 

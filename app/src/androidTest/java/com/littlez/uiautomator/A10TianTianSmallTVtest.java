@@ -51,7 +51,7 @@ public class A10TianTianSmallTVtest extends TestCase {
                         Thread.sleep(5000);
                         if (uiToMissionPage.exists()) uiToMissionPage.click();
                         isToEarn = false;
-                        return;
+                        continue;
                     }
                     int random = A00UtilTest.getRandom(100);
                     if (random <= 3) {//上一条
@@ -72,7 +72,6 @@ public class A10TianTianSmallTVtest extends TestCase {
                     uiMissionPage.click();//点击签到
                     Thread.sleep(5000);
                     A00UtilTest.backUntilObjOrTime(uiDevice, uiAdvClose02, 60);
-                    Thread.sleep(5000);
                     if (uiToHomePage.exists()) uiToHomePage.click();
                 } else if (uiMePage.exists()) {//我的页面
                     Thread.sleep(5000);

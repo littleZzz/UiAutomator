@@ -45,6 +45,7 @@ public class InstallAppActivity extends AppCompatActivity implements DataCallbac
         strings.add(new InstallAppBean("天天爱清理", "tiantianaiqingli", "1.1.1.1.0.0422.1406"));
         strings.add(new InstallAppBean("趣铃声", "qulingsheng", "2.0.9.100.0515.1054"));
         strings.add(new InstallAppBean("天天短视频", "tiantianduanshiping", " 1.1.2"));
+        strings.add(new InstallAppBean("红包短视频", "hongbaoduanshiping", " 1.0.7"));
         strings.add(new InstallAppBean("想看", "xiangkan", " 4.9.51"));
 
 //        strings.add(new InstallAppBean("音浪短视频", "yinlang", "1.0.5.0"));//提现不了
