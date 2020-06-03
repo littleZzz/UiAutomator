@@ -16,6 +16,6 @@
         android:layout_width="match_parent"
         android:layout_weight="1"
         android:layout_height="0dp"
-        android:background="@color/white" />
+        android:background="@color/textGray04" />
 
 </LinearLayout>

@@ -9,4 +9,5 @@
     <color name="textGray03">#acacac</color>
     <color name="black">#000000</color> <!-- 黑色 -->
     <color name="white">#ffffff</color> <!-- 白色 -->
+    <color name="textGray04">#f6f6f6</color><!--左右页面的底色 背景-->
 </resources>

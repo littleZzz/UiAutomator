@@ -1,7 +1,5 @@
 package com.littlez.uiautomator.adapter;
 
-import android.view.View;
-import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.annotation.Nullable;
@@ -27,8 +25,10 @@ public class InstallAppListAdapter extends BaseQuickAdapter<InstallAppBean, Base
     @Override
     protected void convert(final BaseViewHolder helper, final InstallAppBean item) {
         TextView tvName = (TextView) helper.getView(R.id.tvName);
+        TextView tvVersion = (TextView) helper.getView(R.id.tvVersion);
 
-        tvName.setText(item.getAppName().concat("_" + item.getVersionName()));
+        tvName.setText(item.getAppName());
+        tvVersion.setText(item.getVersionName());
 
     }
 }

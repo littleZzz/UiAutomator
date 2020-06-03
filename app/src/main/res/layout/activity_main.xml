@@ -67,19 +67,11 @@
 
     </LinearLayout>
 
-    <!--日志打点-->
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rvLogs"
-        android:layout_width="match_parent"
-        android:layout_height="150dp"
-        android:layout_marginTop="5dp"
-        android:background="@color/black"
-        android:paddingTop="5dp"
-        android:paddingBottom="5dp" />
-
+    <!--重启日志栏-->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="20dp"
+        android:layout_marginTop="5dp"
         android:orientation="horizontal">
 
         <TextView
@@ -103,9 +95,17 @@
             android:text="dump资源" />
 
 
-
     </LinearLayout>
 
+    <!--日志打点-->
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rvLogs"
+        android:layout_width="match_parent"
+        android:layout_height="150dp"
+        android:layout_marginTop="5dp"
+        android:background="@color/black"
+        android:paddingTop="5dp"
+        android:paddingBottom="5dp" />
 
     <!--功能栏-->
     <LinearLayout
@@ -142,7 +142,7 @@
                 android:layout_height="match_parent"
                 android:layout_gravity="center_horizontal"
                 android:layout_weight="1"
-                android:text="停止" />
+                android:text="暂停" />
 
 
             <Button

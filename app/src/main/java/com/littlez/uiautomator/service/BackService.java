@@ -40,8 +40,8 @@ public class BackService extends Service {
     private long notifyTime = 0L;//唤醒uiautomator的时间值标记
     private long gapTime = 30 * 60 * 1000;//间隔的时间 默认半小时
 
-    boolean isReStartUiTask = true;//是否重启ui任务
-    boolean isStartToHomeUiTask = true;//是否重启ui任务
+    boolean isReStartUiTask = true;//是否重启ui任务 目的是UI任务只重启一次 重启一次后就设置不在重启了
+    boolean isStartToHomeUiTask = true;//是否可以启动ToHomeUi任务
 
     @Nullable
     @Override
@@ -64,15 +64,24 @@ public class BackService extends Service {
         LogUtil.e("BackService  onStartCommand");
         datas = Constant.videosBeans;
         LogUtil.e("datas----->" + datas.toString());
-        if (thread == null || !thread.isAlive()) {
-            thread = new MyThread();//启动线程  播放无声音乐和  做任务
+        //初次启动UI任务 如果startTime=0 就是重新开始   否则就是启动暂停之前的任务
+        CommonUtil.stopUiautomator();//停止当前任务
+        if (startTime <= 0) {//初次启动
+            startTime = System.currentTimeMillis();//重新设置开始时间
+            String testClass = datas.get(Constant.startFlag % datas.size()).getTestClass();
+            gapTime = datas.get(Constant.startFlag % datas.size()).getGapTime();
+            CommonUtil.startUiautomator(testClass);//开始一个任务
+            Constant.startFlag++;
+        } else {//暂停后 的启动 启动之前的任务
+            String testClass = datas.get((Constant.startFlag - 1) % datas.size()).getTestClass();
+            CommonUtil.startUiautomator(testClass);//开始一个任务
+        }
+        if (thread == null || !thread.isAlive()) {//线程死掉了 就重启线程
+            thread = new MyThread();
             thread.start();
-            LogUtil.e("调用了 therad.start; startTime=" + startTime);
-        } else {//否则就重置现在最新的数据
-            //重置标记  重新开始任务
-            startTime = 0;
-            Constant.startFlag = 0;
-            LogUtil.e("没有没有调用了 therad.start; startTime=" + startTime);
+            LogUtil.e("新建了线程  音乐是否播放中：" + mMediaPlayer.isPlaying());
+        } else {//thread 没有死掉  就继续
+            LogUtil.e("没有新建线程  音乐是否播放中：" + mMediaPlayer.isPlaying());
         }
         notifyTime = System.currentTimeMillis();//设置唤醒ui任务的时间值
         return START_STICKY/*super.onStartCommand(intent, flags, startId)*/;
@@ -202,14 +211,14 @@ public class BackService extends Service {
     private void startPlayMusic() {
         if (mMediaPlayer != null) {
             LogUtil.e("启动后台播放音乐");
-            mMediaPlayer.start();
+            if (!mMediaPlayer.isPlaying()) mMediaPlayer.start();
         }
     }
 
     private void stopPlayMusic() {
         if (mMediaPlayer != null) {
             LogUtil.e("关闭后台播放音乐");
-            mMediaPlayer.stop();
+            if (mMediaPlayer.isPlaying()) mMediaPlayer.stop();
         }
     }
 }

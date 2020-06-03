@@ -57,7 +57,7 @@ public class InstallAppActivity extends AppCompatActivity implements DataCallbac
         adapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-                ToastUtils.show("下载apk中  请耐心等候一下");
+                ToastUtils.show(strings.get(position).getAppName() + "下载中,请耐心等候一下");
                 persionSubscribe.InstallApk(strings.get(position).getDownUrl());//跟新apk
             }
         });

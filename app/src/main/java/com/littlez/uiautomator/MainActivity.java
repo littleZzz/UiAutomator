@@ -46,12 +46,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     /*各个平台对应的信息*/
     final ArrayList<VideosBean> videos = new ArrayList<>();
     ArrayList<String> logDatas = new ArrayList<>();
-
+    private boolean isPause = false;//是否暂停中  默认是 不是
     private VideosAdapter adapter;
     private LogsAdapter logsAdapter;
     private RecyclerView rvLogs;
     private PersionSubscribe persionSubscribe;
     private TextView tvError;
+    private Button btnStop;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,7 +73,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         CheckBox cbCheckAll = (CheckBox) findViewById(R.id.cbCheckAll);
         tvError = (TextView) findViewById(R.id.tvError);
         TextView tvGetScreen = (TextView) findViewById(R.id.tvGetScreen);
-        Button btnStop = (Button) findViewById(R.id.btnStop);
+        btnStop = (Button) findViewById(R.id.btnStop);
         Button btnStopServe = (Button) findViewById(R.id.btnStopServe);
         Button btnStartServe = (Button) findViewById(R.id.btnStartServe);
 
@@ -128,6 +129,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         tvGetScreen.setOnClickListener(this);
     }
 
+
     /**
      * 点击事件
      *
@@ -136,11 +138,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     public void onClick(View v) {
 
-        Constant.isCloseService = false;
+        Constant.isCloseService = false;//只有停止服务的时候才关闭服务 其他都设置为 false
         switch (v.getId()) {
-            case R.id.btnStop://停止按钮
+            case R.id.btnStop://暂停按钮
                 Constant.isrun = false;//重置启动的数据
-                CommonUtil.stopUiautomator();//停止调用
+                CommonUtil.stopUiautomator();//暂停调用
+                isPause = true;//设置是暂停状态
+                LogUtil.e("任务暂停中。。。");
                 break;
             case R.id.btnStartServe://启动服务
                 ArrayList<VideosBean> videosBeans = new ArrayList<>();
@@ -153,7 +157,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     return;
                 }
                 Constant.isrun = true;//开启运行
-                Constant.videosBeans = CommonUtil.shuffleList(videosBeans);//打乱顺序
+                if (isPause) {//是暂停状态就不打乱顺序  沿用以前的数据
+                    isPause = false;
+                } else Constant.videosBeans = CommonUtil.shuffleList(videosBeans);//打乱顺序
                 Intent intent = new Intent(mContext, BackService.class);
                 startService(intent);
                 break;
@@ -258,14 +264,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         /*稳定数据*/
         videos.add(new VideosBean("刷宝短视频", "A02ShuaBaotest", 30 * 60 * 1000));
         videos.add(new VideosBean("彩蛋视频", "A03CaiDantest", 30 * 60 * 1000));
-        videos.add(new VideosBean("牛角免费小说", "A21NiuJiaoYueDutest", 35 * 60 * 1000));
+        videos.add(new VideosBean("牛角免费小说", "A21NiuJiaoYueDutest", 33 * 60 * 1000));
         videos.add(new VideosBean("火山极速版", "A05HuoShanJISutest", 30 * 60 * 1000));
         videos.add(new VideosBean("每日爱清理", "A08MeiRiAiQingLitest", 30 * 60 * 1000));
         videos.add(new VideosBean("趣铃声", "A09QuLingShengtest", 30 * 60 * 1000));
         videos.add(new VideosBean("天天短视频", "A10TianTianSmallTVtest", 30 * 60 * 1000));
         videos.add(new VideosBean("想看", "A11XiangKantest", 30 * 60 * 1000));
         videos.add(new VideosBean("红包短视频", "A07HongBaoTVtest", 30 * 60 * 1000));
-        videos.add(new VideosBean("微信", "A01WeiXintest", 10 * 60 * 1000));
+        videos.add(new VideosBean("微信", "A01WeiXintest", 7 * 60 * 1000));
         videos.add(new VideosBean("回首页待运行", "A001ToHometest", testGapTime));
 
         /*待确定的数据*/
